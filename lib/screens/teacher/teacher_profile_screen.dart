@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:schoolapp/repositories/core/colors.dart';
+
+class ScreenTeacherProfile extends StatelessWidget {
+  const ScreenTeacherProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Teacher Profile',
+          style: TextStyle(color: headingColor),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
+          ),
+        ],
+        backgroundColor: appbarColor,
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 130,
+            decoration: BoxDecoration(color: appbarColor),
+            child: Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: headingColor,
+                    radius: 60,
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundImage:
+                          AssetImage('lib/assets/images/teacher.jpg'),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: Text('SUNDARDAS',
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.teko(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: headingColor)),
+                )
+              ],
+            ),
+          ),
+          Column(
+            children: [
+              Text('Class Teacher of : 5',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tiltNeon(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: headingColor)),
+              Text('Email : techer@gmail.com',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tiltNeon(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: headingColor)),
+              Text('Mobile No : 9856742340',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.tiltNeon(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: headingColor)),
+            ],
+          ),
+          Expanded(
+            child: SizedBox(
+              child: ListView.separated( 
+                  itemBuilder: (context, index) =>
+                      Text('${index + 1} leave asked'),
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: 10),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
