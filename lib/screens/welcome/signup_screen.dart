@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,24 +12,11 @@ final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
 
-class ScreenSignUp extends StatefulWidget {
-  const ScreenSignUp({super.key});
 
-  @override
-  State<ScreenSignUp> createState() => _ScreenSignUpState();
-}
+class ScreenSignUp extends StatelessWidget {
+  const ScreenSignUp({super.key}); 
 
-class _ScreenSignUpState extends State<ScreenSignUp> {
-  @override
-  void dispose() {
-    super.dispose();
-    nameController.text = "";
-    classController.text = "";
-    emailController.text = "";
-    contactController.text = "";
-    passwordController.text = "";
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,14 +215,18 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
 
 onSignUp(BuildContext context) {
   final teacherObject = TeacherModel(
- 
+    
       name: nameController.text,
       className: int.parse(classController.text),
       email: emailController.text,
       contact: int.parse(contactController.text),
       password: passwordController.text.toString());
-
   context.read<WelcomeBloc>().add(
         SignUpButtonEvent(teacherData: teacherObject),
       );
+       nameController.text = "";  
+    classController.text = "";
+    emailController.text = "";
+    contactController.text = "";
+    passwordController.text = "";
 }

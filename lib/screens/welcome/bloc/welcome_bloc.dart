@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/screens/models/teacher_model.dart';
-import 'package:schoolapp/screens/welcome/widgets/firestore_services.dart';
+import 'package:schoolapp/repositories/firebase/admin/signup_request.dart';
 
 part 'welcome_event.dart';
 part 'welcome_state.dart';
 
-FireStoreServices fireStoreService = FireStoreServices();
+SignUpRequest signUpRequest = SignUpRequest(); 
 
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc() : super(WelcomeInitial()) {
@@ -26,7 +26,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
 
   FutureOr<void> signUpButtonEvent(
       SignUpButtonEvent event, Emitter<WelcomeState> emit) {
-    fireStoreService.addData (event.teacherData); 
+    signUpRequest.addData (event.teacherData);  
     emit(SignInSuccessState());
   }
 }
