@@ -4,11 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/admin/admin_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
-import 'package:schoolapp/screens/welcome/signup_screen.dart';  
+import 'package:schoolapp/screens/welcome/signup_screen.dart';
 
 final emailController = TextEditingController();
 final classController = TextEditingController();
 final passwordController = TextEditingController();
+
 
 class ScreenLogin extends StatelessWidget {
   const ScreenLogin({super.key});
@@ -25,12 +26,11 @@ class ScreenLogin extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const ScreenSignUp(),
                 ));
-          }
-          else if(state is SignInSuccessState){
+          } else if (state is SignInSuccessState) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenAdmin(),  
+                  builder: (context) => const ScreenAdmin(),
                 ));
           }
         },
@@ -138,7 +138,7 @@ class ScreenLogin extends StatelessWidget {
                             height: 20,
                           ),
                           ElevatedButton(
-                            onPressed: () =>onSignIn(context),  
+                            onPressed: () => onSignIn(context),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: buttonColor,
                                 shape: const ContinuousRectangleBorder(
@@ -187,9 +187,8 @@ class ScreenLogin extends StatelessWidget {
       ),
     );
   }
-
 }
-void onSignIn(BuildContext context){
+
+void onSignIn(BuildContext context) {
   context.read<WelcomeBloc>().add(SignInButtonEvent());
-  
 }

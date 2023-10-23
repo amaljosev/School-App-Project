@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/screens/models/teacher_model.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
 
@@ -11,8 +13,23 @@ final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
 
-class ScreenSignUp extends StatelessWidget {
+class ScreenSignUp extends StatefulWidget {
   const ScreenSignUp({super.key});
+
+  @override
+  State<ScreenSignUp> createState() => _ScreenSignUpState();
+}
+
+class _ScreenSignUpState extends State<ScreenSignUp> {
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.text = "";
+    classController.text = "";
+    emailController.text = "";
+    contactController.text = "";
+    passwordController.text = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +44,10 @@ class ScreenSignUp extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const ScreenLogin(),
                 ));
+          } else if (state is SignInSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar( 
+                content: Text(
+                    'Successfully Registered wait for resposnce from pricipal')));
           }
         },
         builder: (context, state) {
@@ -83,8 +104,7 @@ class ScreenSignUp extends StatelessWidget {
                     labelText: 'Teacher Name',
                   ),
                   controller: nameController,
-                  keyboardType: TextInputType.name, 
-
+                  keyboardType: TextInputType.name,
                 ),
                 const SizedBox(
                   height: 20,
@@ -149,7 +169,7 @@ class ScreenSignUp extends StatelessWidget {
                       filled: true,
                       fillColor: loginTextfieldColor,
                       suffixIcon: IconButton(
-                          onPressed: () {}, 
+                          onPressed: () {},
                           icon: const Icon(Icons.remove_red_eye)),
                       hintText: 'Password',
                       labelText: 'Password'),
@@ -160,7 +180,7 @@ class ScreenSignUp extends StatelessWidget {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => onSignUp(context),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: buttonColor,
                       shape: const ContinuousRectangleBorder(
@@ -185,9 +205,8 @@ class ScreenSignUp extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.black)),
                     TextButton(
-                      onPressed: () => context
-                          .read<WelcomeBloc>()
-                          .add(NavigateEvent()),
+                      onPressed: () =>
+                          context.read<WelcomeBloc>().add(NavigateEvent()),
                       child: Text('Sign In',
                           style: GoogleFonts.farro(
                               fontSize: 13,
@@ -206,4 +225,18 @@ class ScreenSignUp extends StatelessWidget {
       ),
     );
   }
+}
+
+onSignUp(BuildContext context) {
+  final teacherObject = TeacherModel(
+ 
+      name: nameController.text,
+      className: int.parse(classController.text),
+      email: emailController.text,
+      contact: int.parse(contactController.text),
+      password: passwordController.text.toString());
+
+  context.read<WelcomeBloc>().add(
+        SignUpButtonEvent(teacherData: teacherObject),
+      );
 }

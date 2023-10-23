@@ -8,6 +8,10 @@ final class WelcomeInitial extends WelcomeState {}
 
 final class NavigateToSignUpState extends WelcomeActionState {}
 
+final class SignUpSuccessState extends WelcomeActionState {}
+
+final class SignUpErrorState extends WelcomeActionState {}
+
 final class SignInSuccessState extends WelcomeActionState {}
 
 final class SignInErrorState extends WelcomeActionState {}

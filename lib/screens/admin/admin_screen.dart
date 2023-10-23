@@ -47,7 +47,8 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenAdminResquest(),
+                  builder: (context) => const ScreenStudentList(), 
+                  
                 ));
           }
         },
