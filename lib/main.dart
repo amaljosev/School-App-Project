@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
+import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
+import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
 
@@ -14,13 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider( 
-      providers: [ 
+    return MultiBlocProvider(
+      providers: [
         BlocProvider(
           create: (context) => WelcomeBloc(),
         ),
         BlocProvider(
-          create: (context) => AdminBloc(),  
+          create: (context) => AdminBloc(),
+        ),
+        BlocProvider(
+          create: (context) => StudentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AdminRequestBloc(),
         ),
       ],
       child: MaterialApp(
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ScreenLogin(), 
+        home: const ScreenLogin(),
       ),
     );
   }

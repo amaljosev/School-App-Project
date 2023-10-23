@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
+import 'package:schoolapp/screens/requests/admin_requests.dart';
 import 'package:schoolapp/screens/student/studentlist_screen.dart';
 import 'package:schoolapp/screens/teacher/teacher_profile_screen.dart';
 
@@ -13,13 +15,13 @@ class ScreenAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Principal',
-          style: TextStyle(color: headingColor),
+          style: appbarTextStyle,
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.read<AdminBloc>().add(RequestTapEvent()),
             icon: const Icon(Icons.notifications_none),
           ),
         ],
@@ -40,6 +42,12 @@ class ScreenAdmin extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ScreenTeacherProfile(),
+                ));
+          } else if (state is RequestTapState) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScreenAdminResquest(),
                 ));
           }
         },
@@ -166,22 +174,13 @@ class ScreenAdmin extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Class : ${index + 1}',
-                                        style: GoogleFonts.tiltNeon(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor)),
+                                        style: contentTextStyle),
                                     Text('Total Students : 28',
-                                        style: GoogleFonts.tiltNeon(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor)),
+                                        style: contentTextStyle),
                                     Flexible(
                                       child: Text('Class Teacher: Amal ',
                                           overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.tiltNeon(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: headingColor)),
+                                          style: contentTextStyle),
                                     ),
                                   ],
                                 ),
@@ -201,3 +200,23 @@ class ScreenAdmin extends StatelessWidget {
     );
   }
 }
+// if (state is StudentCardTapState) {
+//             Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => const ScreenStudentList(),
+//                 ));
+//           } else if (state is TeacherCardTapState) {
+//             Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => const ScreenTeacherProfile(),
+//                 ));
+//           }
+//           else if (state is RequestTapState) {
+//             Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => const ScreenAdminResquest(),
+//                 ));
+//           }

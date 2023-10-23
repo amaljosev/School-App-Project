@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class ScreenTeacherProfile extends StatelessWidget {
   const ScreenTeacherProfile({super.key});
@@ -9,16 +10,11 @@ class ScreenTeacherProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'Teacher Profile',
-          style: TextStyle(color: headingColor),
+          style: appbarTextStyle,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none),
-          ),
-        ],
+        
         backgroundColor: appbarColor,
       ),
       body: Column(
@@ -55,24 +51,16 @@ class ScreenTeacherProfile extends StatelessWidget {
             children: [
               Text('Class Teacher of : 5',
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.tiltNeon(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: headingColor)),
+                  style: contentTextStyle), 
               Text('Email : techer@gmail.com',
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.tiltNeon(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: headingColor)),
+                  style: contentTextStyle),
               Text('Mobile No : 9856742340',
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.tiltNeon(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: headingColor)),
+                  style: contentTextStyle), 
             ],
           ),
+          
           Expanded(
             child: SizedBox(
               child: ListView.separated( 

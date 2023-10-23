@@ -8,6 +8,8 @@ final class AdminInitial extends AdminState {}
 
 final class StudentCardTapState extends AdminActionState{} 
 
-final class TeacherCardTapState extends AdminActionState{} 
+final class TeacherCardTapState extends AdminActionState{}
+
+final class RequestTapState extends AdminActionState{}  
 
 
