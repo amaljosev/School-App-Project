@@ -4,7 +4,10 @@ abstract class AdminRequestEvent {}
 
 abstract class AdminRequestActionEvent extends AdminRequestEvent {}
 
-final class ViewTeacherEvent extends AdminRequestActionEvent{} 
+final class ViewTeacherEvent extends AdminRequestActionEvent{
+  final Map<String, dynamic> teacherData;
+  ViewTeacherEvent({required this.teacherData});  
+} 
 
 final class AcceptButtonEvent extends AdminRequestActionEvent{
   final String id;

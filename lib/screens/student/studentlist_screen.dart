@@ -39,7 +39,8 @@ class ScreenStudentList extends StatelessWidget {
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ExpansionTile(
-                  shape: RoundedRectangleBorder(
+                  collapsedBackgroundColor: appbarColor,
+                  shape: const RoundedRectangleBorder(
                       side: BorderSide(width: 2, color: headingColor),
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   tilePadding: const EdgeInsets.all(10),

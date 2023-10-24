@@ -8,10 +8,9 @@ final class StudentCardTapEvent extends AdminActionEvent {}
 
 final class TeacherCardTapEvent extends AdminActionEvent {
   final Map<String, dynamic> teacherData;
-  TeacherCardTapEvent({required this.teacherData}); 
+  TeacherCardTapEvent({required this.teacherData});
 }
 
 final class RequestTapEvent extends AdminActionEvent {}
-
 
 

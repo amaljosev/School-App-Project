@@ -14,7 +14,9 @@ class AdminRequestBloc extends Bloc<AdminRequestEvent, AdminRequestState> {
   }
 
   FutureOr<void> viewTeacherEvent(ViewTeacherEvent event, Emitter<AdminRequestState> emit) {
-    emit(ViewTeacherState());
+    emit(ViewTeacherState(
+      teacherData: event.teacherData 
+    ));
   }
    FutureOr<void> acceptButtonEvent(AcceptButtonEvent event, Emitter<AdminRequestState> emit) {
     AdminActions().acceptRequest(event.id);

@@ -33,7 +33,7 @@ class ScreenAdmin extends StatelessWidget {
         listenWhen: (previous, current) => current is AdminActionState,
         buildWhen: (previous, current) => current is! AdminActionState,
         listener: (context, state) {
-          if (state is StudentCardTapState) { 
+          if (state is StudentCardTapState) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -43,17 +43,15 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  ScreenTeacherProfile(
-                    teacherData: state.teacherData, 
+                  builder: (context) => ScreenTeacherProfile(
+                    teacherData: state.teacherData,
                   ),
                 ));
           } else if (state is RequestTapState) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  const ScreenAdminResquest(
-                    
-                  ),
+                  builder: (context) => const ScreenAdminResquest(),
                 ));
           }
         },
@@ -87,9 +85,7 @@ class ScreenAdmin extends StatelessWidget {
                           return GestureDetector(
                             onTap: () => context
                                 .read<AdminBloc>()
-                                .add(TeacherCardTapEvent(
-                                  teacherData: data
-                                )),
+                                .add(TeacherCardTapEvent(teacherData: data)),
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Stack(
@@ -149,7 +145,7 @@ class ScreenAdmin extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return SizedBox(
+                    return const SizedBox(
                       child: Text('Empty'),
                     );
                   }
@@ -163,63 +159,75 @@ class ScreenAdmin extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: headingColor)),
               ),
-              Expanded(
-                child: SizedBox(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: GestureDetector(
-                        onTap: () => context
-                            .read<AdminBloc>()
-                            .add(StudentCardTapEvent()),
-                        child: Container(
-                          width: double.infinity,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: scaffoldColor,
-                              border: Border.all(color: headingColor, width: 2),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
-                                  '${index + 1}',
-                                  style: GoogleFonts.teko(
-                                      fontSize: 45,
-                                      letterSpacing: 3,
-                                      fontWeight: FontWeight.bold,
-                                      color: headingColor),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+              StreamBuilder(
+                  stream: AdminActions().getTeacherDatas(),
+                  builder: (context, snapshot) {
+                    List teachersList = snapshot.data!.docs;
+                    return Expanded(
+                      child: SizedBox(
+                        child: ListView.builder(
+                          itemCount: teachersList.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot document = teachersList[index];
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                            return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: GestureDetector(
+                              onTap: () => context
+                                  .read<AdminBloc>()
+                                  .add(StudentCardTapEvent()),
+                              child: Container(
+                                width: double.infinity,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                    color: scaffoldColor,
+                                    border: Border.all(
+                                        color: headingColor, width: 2),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: Row(
                                   children: [
-                                    Text('Class : ${index + 1}',
-                                        style: contentTextStyle),
-                                    Text('Total Students : 28',
-                                        style: contentTextStyle),
-                                    Flexible(
-                                      child: Text('Class Teacher: Amal ',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: contentTextStyle),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: GoogleFonts.teko(
+                                            fontSize: 45,
+                                            letterSpacing: 3,
+                                            fontWeight: FontWeight.bold,
+                                            color: headingColor),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Class : ${data['class']}',  
+                                              style: contentTextStyle),
+                                          Text('Total Students : 0',
+                                              style: contentTextStyle),
+                                          Flexible(
+                                            child: Text('Class Teacher: ${data['name']} ',  
+                                                overflow: TextOverflow.ellipsis,
+                                                style: contentTextStyle),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          );
+                          }
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              )
+                    );
+                  })
             ],
           );
         },

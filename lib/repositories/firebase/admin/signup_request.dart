@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:schoolapp/screens/models/teacher_model.dart';
+import 'package:schoolapp/models/teacher_model.dart';
 
 class SignUpRequest {
   final CollectionReference teacherDatas =

@@ -38,7 +38,7 @@ final Map<String, dynamic> teacherData;
                 ),
                 Flexible(
                   child: Text(teacherData['name'].toString().toUpperCase(),  
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis, 
                       style: GoogleFonts.teko(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

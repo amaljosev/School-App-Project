@@ -5,10 +5,11 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
+import 'package:schoolapp/screens/teacher/teacher_profile_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 
 class ScreenAdminResquest extends StatelessWidget {
-  const ScreenAdminResquest({super.key}); 
+  const ScreenAdminResquest({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +26,19 @@ class ScreenAdminResquest extends StatelessWidget {
         buildWhen: (previous, current) => current is! AdminRequestActionState,
         listener: (context, state) {
           if (state is ViewTeacherState) {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => const ScreenTeacherProfile(),
-            //     ));
-          }else if(state is AcceptRequestState){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScreenTeacherProfile(
+                    teacherData: state.teacherData,
+                  ),
+                ));
+          } else if (state is AcceptRequestState) {
             AlertMessages().alertMessageSnakebar(
-                context,
-                'Successfully Registered Teacher', 
-                Colors.green);
-          }else if(state is RejectRequestState){
-            
-                    AlertMessages().alertMessageSnakebar(
-                context,
-                'Rejected and deleted data', 
-                Colors.red); 
+                context, 'Successfully Registered Teacher', Colors.green);
+          } else if (state is RejectRequestState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Rejected and deleted data', Colors.red);
           }
         },
         builder: (context, state) {
@@ -52,6 +50,7 @@ class ScreenAdminResquest extends StatelessWidget {
 
                 return SizedBox(
                   child: ListView.separated(
+                      padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
                         DocumentSnapshot document = teachersList[index];
                         String docId = document.id;
@@ -59,6 +58,10 @@ class ScreenAdminResquest extends StatelessWidget {
                             document.data() as Map<String, dynamic>;
                         String teacherName = data['name'];
                         return ExpansionTile(
+                          collapsedBackgroundColor: appbarColor,
+                          backgroundColor: appbarColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
                           title: Text(teacherName),
                           children: [
                             Row(
@@ -67,14 +70,14 @@ class ScreenAdminResquest extends StatelessWidget {
                                 OutlinedButton(
                                   onPressed: () => context
                                       .read<AdminRequestBloc>()
-                                      .add(ViewTeacherEvent()),
+                                      .add(ViewTeacherEvent(teacherData: data)),
                                   style: ButtonStyle(
                                     side: MaterialStateProperty.all<BorderSide>(
                                       BorderSide(
                                           width: 2.0, color: appbarColor),
                                     ),
                                   ),
-                                  child: const Text( 
+                                  child: const Text(
                                     'View Profile',
                                     style: TextStyle(color: titleColor),
                                   ),
@@ -110,7 +113,9 @@ class ScreenAdminResquest extends StatelessWidget {
                           ],
                         );
                       },
-                      separatorBuilder: (context, index) => const Divider(),
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
                       itemCount: teachersList.length),
                 );
               } else {
