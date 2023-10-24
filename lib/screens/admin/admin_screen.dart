@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart'; 
 import 'package:schoolapp/repositories/firebase/admin/signup_admin_functions.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
@@ -23,7 +23,7 @@ class ScreenAdmin extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => context.read<AdminBloc>().add(RequestTapEvent()),
+            onPressed: () => context.read<AdminBloc>().add(RequestTapEvent()), 
             icon: const Icon(Icons.notifications_none),
           ),
         ],
@@ -70,9 +70,14 @@ class ScreenAdmin extends StatelessWidget {
               StreamBuilder(
                 stream: AdminActions().getTeacherDatas(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox(
+                        height: 250,
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasData) {
                     List teachersList = snapshot.data!.docs;
-                    return SizedBox(
+                    if (teachersList.isNotEmpty) {
+                      return SizedBox(
                       height: 250,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -144,8 +149,15 @@ class ScreenAdmin extends StatelessWidget {
                         },
                       ),
                     );
+                    } else {
+                      return const SizedBox(
+                      height: 250,
+                      child: Center(child: Text('No Teachers has Registered yet')),  
+                    );
+                    }
                   } else {
                     return const SizedBox(
+                      height: 250,
                       child: Text('Empty'),
                     );
                   }
@@ -154,7 +166,7 @@ class ScreenAdmin extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text('Students',
-                    style: GoogleFonts.tiltNeon(
+                    style: GoogleFonts.tiltNeon( 
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: headingColor)),
@@ -162,71 +174,90 @@ class ScreenAdmin extends StatelessWidget {
               StreamBuilder(
                   stream: AdminActions().getTeacherDatas(),
                   builder: (context, snapshot) {
-                    List teachersList = snapshot.data!.docs;
-                    return Expanded(
-                      child: SizedBox(
-                        child: ListView.builder(
-                          itemCount: teachersList.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot document = teachersList[index];
-                          Map<String, dynamic> data =
-                              document.data() as Map<String, dynamic>;
-                            return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: GestureDetector(
-                              onTap: () => context
-                                  .read<AdminBloc>()
-                                  .add(StudentCardTapEvent()),
-                              child: Container(
-                                width: double.infinity,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    color: scaffoldColor,
-                                    border: Border.all(
-                                        color: headingColor, width: 2),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5))),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Text(
-                                        '${index + 1}',
-                                        style: GoogleFonts.teko(
-                                            fontSize: 45,
-                                            letterSpacing: 3,
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox(
+                          height: 250,
+                          child: Center(child: CircularProgressIndicator()));
+                    } else if (snapshot.hasData) {
+                      List teachersList = snapshot.data!.docs;
+                      if (teachersList.isNotEmpty) {
+                        return Expanded(
+                        child: SizedBox(
+                          child: ListView.builder(
+                              itemCount: teachersList.length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot document = teachersList[index];
+                                Map<String, dynamic> data =
+                                    document.data() as Map<String, dynamic>;
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: GestureDetector(
+                                    onTap: () => context
+                                        .read<AdminBloc>()
+                                        .add(StudentCardTapEvent()),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          color: scaffoldColor,
+                                          border: Border.all(
+                                              color: headingColor, width: 2),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(5))),
+                                      child: Row(
                                         children: [
-                                          Text('Class : ${data['class']}',  
-                                              style: contentTextStyle),
-                                          Text('Total Students : 0',
-                                              style: contentTextStyle),
-                                          Flexible(
-                                            child: Text('Class Teacher: ${data['name']} ',  
-                                                overflow: TextOverflow.ellipsis,
-                                                style: contentTextStyle),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: Text(
+                                              '${index + 1}',
+                                              style: GoogleFonts.teko(
+                                                  fontSize: 45,
+                                                  letterSpacing: 3,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: headingColor),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Class : ${data['class']}',
+                                                    style: contentTextStyle),
+                                                Text('Total Students : 1', 
+                                                    style: contentTextStyle),
+                                                Flexible(
+                                                  child: Text(
+                                                      'Class Teacher: ${data['name']} ',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: contentTextStyle),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                          }
+                                  ),
+                                );
+                              }),
                         ),
-                      ),
-                    );
+                      );
+                      } else {
+                        return const SizedBox(
+                        height: 250,
+                        child: Center(child: Text('Classes not added')), 
+                      );
+                      }
+                    } else {
+                      return const SizedBox(
+                        height: 250,
+                        child: Center(child: Text('error')),
+                      );
+                    }
                   })
             ],
           );

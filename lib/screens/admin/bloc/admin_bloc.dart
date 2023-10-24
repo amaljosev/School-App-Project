@@ -8,8 +8,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   AdminBloc() : super(AdminInitial()) {
     on<StudentCardTapEvent>(studentCardTapEvent);
     on<TeacherCardTapEvent>(teacherCardTapEvent);
-    on<RequestTapEvent>(requestTapEvent);
-
+    on<RequestTapEvent>(requestTapEvent); 
   }
 
   FutureOr<void> studentCardTapEvent(
@@ -26,5 +25,4 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       RequestTapEvent event, Emitter<AdminState> emit) {
     emit(RequestTapState());
   }
-
 }

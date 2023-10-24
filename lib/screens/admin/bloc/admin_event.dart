@@ -12,5 +12,3 @@ final class TeacherCardTapEvent extends AdminActionEvent {
 }
 
 final class RequestTapEvent extends AdminActionEvent {}
-
-

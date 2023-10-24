@@ -14,5 +14,3 @@ final class TeacherCardTapState extends AdminActionState {
 }
 
 final class RequestTapState extends AdminActionState {}
-
-

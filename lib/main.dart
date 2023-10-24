@@ -1,15 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/screens/admin/admin_screen.dart'; 
+import 'package:schoolapp/repositories/core/colors.dart'; 
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
 
-Future<void> main() async{
+Future<void> main() async{ 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => WelcomeBloc(),
+          create: (context) => WelcomeBloc(), 
         ),
         BlocProvider(
           create: (context) => AdminBloc(), 
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ScreenAdmin(),
+        home: const ScreenLogin(), 
       ),
     );
   }

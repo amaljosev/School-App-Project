@@ -7,11 +7,13 @@ class SignUpRequest {
 
   addData(TeacherModel teacherObject) async {
     Map<String, dynamic> teacherMap = {
+
       'name': teacherObject.name,
       'class': teacherObject.className,
       'email': teacherObject.email,
       'contact': teacherObject.contact, 
       'password': teacherObject.password,
+      'students':'0', 
     };
     await addteacherDetails(teacherMap);
     

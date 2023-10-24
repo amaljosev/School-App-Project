@@ -47,7 +47,6 @@ class ScreenAdminResquest extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List teachersList = snapshot.data!.docs;
-
                 return SizedBox(
                   child: ListView.separated(
                       padding: const EdgeInsets.all(8),
@@ -63,6 +62,7 @@ class ScreenAdminResquest extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16)),
                           title: Text(teacherName),
+                          childrenPadding: const EdgeInsets.all(8),
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -73,8 +73,8 @@ class ScreenAdminResquest extends StatelessWidget {
                                       .add(ViewTeacherEvent(teacherData: data)),
                                   style: ButtonStyle(
                                     side: MaterialStateProperty.all<BorderSide>(
-                                      BorderSide(
-                                          width: 2.0, color: appbarColor),
+                                      const BorderSide(
+                                          width: 2.0, color: titleColor),
                                     ),
                                   ),
                                   child: const Text(
@@ -119,7 +119,7 @@ class ScreenAdminResquest extends StatelessWidget {
                       itemCount: teachersList.length),
                 );
               } else {
-                return Center(child: const Text('teachers not found'));
+                return const Center(child: Text('teachers not found'));
               }
             },
           );
