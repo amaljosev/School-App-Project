@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/models/teacher_model.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
@@ -12,11 +13,9 @@ final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
 
-
 class ScreenSignUp extends StatelessWidget {
-  const ScreenSignUp({super.key}); 
+  const ScreenSignUp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,9 +30,10 @@ class ScreenSignUp extends StatelessWidget {
                   builder: (context) => const ScreenLogin(),
                 ));
           } else if (state is SignInSuccessState) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar( 
-                content: Text(
-                    'Successfully Registered wait for resposnce from pricipal')));
+            AlertMessages().alertMessageSnakebar(
+                context,
+                'Successfully Registered \nwait for resposnce from pricipal', 
+                Colors.green);
           }
         },
         builder: (context, state) {
@@ -215,7 +215,6 @@ class ScreenSignUp extends StatelessWidget {
 
 onSignUp(BuildContext context) {
   final teacherObject = TeacherModel(
-    
       name: nameController.text,
       className: int.parse(classController.text),
       email: emailController.text,
@@ -224,9 +223,9 @@ onSignUp(BuildContext context) {
   context.read<WelcomeBloc>().add(
         SignUpButtonEvent(teacherData: teacherObject),
       );
-       nameController.text = "";  
-    classController.text = "";
-    emailController.text = "";
-    contactController.text = "";
-    passwordController.text = "";
+  nameController.text = "";
+  classController.text = "";
+  emailController.text = "";
+  contactController.text = "";
+  passwordController.text = "";
 }

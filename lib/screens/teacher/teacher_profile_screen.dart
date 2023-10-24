@@ -4,8 +4,8 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class ScreenTeacherProfile extends StatelessWidget {
-  const ScreenTeacherProfile({super.key});
-
+  const ScreenTeacherProfile({super.key, required this.teacherData});
+final Map<String, dynamic> teacherData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +37,7 @@ class ScreenTeacherProfile extends StatelessWidget {
                   ),
                 ),
                 Flexible(
-                  child: Text('SUNDARDAS',
+                  child: Text(teacherData['name'].toString().toUpperCase(),  
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.teko(
                           fontSize: 30,
@@ -49,13 +49,13 @@ class ScreenTeacherProfile extends StatelessWidget {
           ),
           Column(
             children: [
-              Text('Class Teacher of : 5',
+              Text("Class Teacher of : ${teacherData['class']}", 
                   overflow: TextOverflow.ellipsis,
                   style: contentTextStyle), 
-              Text('Email : techer@gmail.com',
+              Text('Email : ${teacherData['email']}',  
                   overflow: TextOverflow.ellipsis,
                   style: contentTextStyle),
-              Text('Mobile No : 9856742340',
+              Text('Mobile No : ${teacherData['contact']}', 
                   overflow: TextOverflow.ellipsis,
                   style: contentTextStyle), 
             ],

@@ -7,3 +7,7 @@ abstract class AdminRequestActionState extends AdminRequestState {}
 final class AdminRequestInitial extends AdminRequestState {}
 
 final class ViewTeacherState extends AdminRequestActionState{}
+
+final class AcceptRequestState extends AdminRequestActionState{}
+
+final class RejectRequestState extends AdminRequestActionState{} 

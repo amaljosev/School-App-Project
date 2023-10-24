@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/colors.dart'; 
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AdminRequestBloc(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp( 
         title: 'School App',
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,

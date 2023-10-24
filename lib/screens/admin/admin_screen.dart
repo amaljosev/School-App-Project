@@ -9,7 +9,6 @@ import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
 import 'package:schoolapp/screens/student/studentlist_screen.dart';
 import 'package:schoolapp/screens/teacher/teacher_profile_screen.dart';
-import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 
 class ScreenAdmin extends StatelessWidget {
   const ScreenAdmin({super.key});
@@ -34,7 +33,7 @@ class ScreenAdmin extends StatelessWidget {
         listenWhen: (previous, current) => current is AdminActionState,
         buildWhen: (previous, current) => current is! AdminActionState,
         listener: (context, state) {
-          if (state is StudentCardTapState) {
+          if (state is StudentCardTapState) { 
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -44,13 +43,17 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenTeacherProfile(),
+                  builder: (context) =>  ScreenTeacherProfile(
+                    teacherData: state.teacherData, 
+                  ),
                 ));
           } else if (state is RequestTapState) {
             Navigator.push(
-                context, 
+                context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenAdminResquest(),
+                  builder: (context) =>  const ScreenAdminResquest(
+                    
+                  ),
                 ));
           }
         },
@@ -66,85 +69,92 @@ class ScreenAdmin extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: headingColor)),
               ),
-              StreamBuilder(stream: AdminActions().getTeacherDatas(), builder: (context, snapshot) { 
-                if (snapshot.hasData) {
-                   List teachersList = snapshot.data!.docs;
-                   return SizedBox(
-              height: 250,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: teachersList.length, 
-                itemBuilder: (context, index) {
-                  DocumentSnapshot document = teachersList[index]; 
-                        String docId = document.id;
-                        Map<String, dynamic> data =
-                            document.data() as Map<String, dynamic>;
-                        String teacherName = data['name'];       
-                  return GestureDetector(
-                    onTap: () =>
-                        context.read<AdminBloc>().add(TeacherCardTapEvent()),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 200,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: teacherListColor,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(5))),
-                          ),
-                          Positioned(
-                            top: 10,
-                            left: 0,
-                            right: 0,
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundColor: scaffoldColor,
-                              backgroundImage: const AssetImage(
-                                  'lib/assets/images/teacher.jpg'),
-                            ),
-                          ),
-                          Positioned(
-                              bottom: 55,
-                              left: 0,
-                              right: 0,
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 65,
-                                  width: 130,
-                                  decoration: BoxDecoration(
-                                      color: scaffoldColor,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child:  Column(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          'Name : $teacherName',
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Text("Class : ${data['class']}"), 
-                                    ],
+              StreamBuilder(
+                stream: AdminActions().getTeacherDatas(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List teachersList = snapshot.data!.docs;
+                    return SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: teachersList.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot document = teachersList[index];
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          String teacherName = data['name'];
+                          return GestureDetector(
+                            onTap: () => context
+                                .read<AdminBloc>()
+                                .add(TeacherCardTapEvent(
+                                  teacherData: data
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 200,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        color: teacherListColor,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5))),
                                   ),
-                                ),
-                              )),
-                        ],
+                                  Positioned(
+                                    top: 10,
+                                    left: 0,
+                                    right: 0,
+                                    child: CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: scaffoldColor,
+                                      backgroundImage: const AssetImage(
+                                          'lib/assets/images/teacher.jpg'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      bottom: 55,
+                                      left: 0,
+                                      right: 0,
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Container(
+                                          height: 65,
+                                          width: 130,
+                                          decoration: BoxDecoration(
+                                              color: scaffoldColor,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5))),
+                                          child: Column(
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  'Name : $teacherName',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Text("Class : ${data['class']}"),
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    return SizedBox(
+                      child: Text('Empty'),
+                    );
+                  }
                 },
               ),
-              );
-                } else {
-                  return SizedBox(
-                    child: Text('Empty'), 
-                  );
-                }
-              },),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text('Students',
