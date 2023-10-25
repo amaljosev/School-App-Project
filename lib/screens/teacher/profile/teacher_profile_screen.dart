@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenTeacherProfile extends StatelessWidget {
   const ScreenTeacherProfile({super.key, required this.teacherData});
@@ -9,14 +10,7 @@ final Map<String, dynamic> teacherData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:  Text(
-          'Teacher Profile',
-          style: appbarTextStyle,
-        ),
-        
-        backgroundColor: appbarColor,
-      ),
+      appBar: myAppbar('Teacher Profile'), 
       body: Column(
         children: [
           Container(
@@ -27,7 +21,7 @@ final Map<String, dynamic> teacherData;
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundColor: headingColor,
+                    backgroundColor: headingColor, 
                     radius: 60,
                     child: CircleAvatar(
                       radius: 55,
@@ -54,7 +48,7 @@ final Map<String, dynamic> teacherData;
                   style: contentTextStyle), 
               Text('Email : ${teacherData['email']}',  
                   overflow: TextOverflow.ellipsis,
-                  style: contentTextStyle),
+                  style: contentTextStyle), 
               Text('Mobile No : ${teacherData['contact']}', 
                   overflow: TextOverflow.ellipsis,
                   style: contentTextStyle), 

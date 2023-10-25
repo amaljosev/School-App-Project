@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/widgets/my_appbar.dart';
 
-class ScreenStudentList extends StatelessWidget {
-  const ScreenStudentList({super.key});
+class ScreenStudentList extends StatelessWidget { 
+  const ScreenStudentList({super.key,}); 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appbarColor,
-        title: Text('Class 1', style: appbarTextStyle),
-        leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.arrow_back,
-              color: headingColor,
-            )),
-      ),
+      appBar: myAppbar('class 1'),  
       body: SafeArea(
         child: SizedBox.expand(
           child: ListView.builder(
             padding: const EdgeInsets.all(10),
-            itemCount: 10,
+            itemCount: 20, 
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ExpansionTile(

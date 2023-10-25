@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
-import 'package:schoolapp/screens/teacher/teacher_profile_screen.dart';
+import 'package:schoolapp/screens/teacher/profile/teacher_profile_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
+import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenAdminResquest extends StatelessWidget {
   const ScreenAdminResquest({super.key});
@@ -14,13 +14,7 @@ class ScreenAdminResquest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Requests',
-          style: appbarTextStyle,
-        ),
-        backgroundColor: appbarColor,
-      ),
+      appBar: myAppbar('Requests'),  
       body: BlocConsumer<AdminRequestBloc, AdminRequestState>(
         listenWhen: (previous, current) => current is AdminRequestActionState,
         buildWhen: (previous, current) => current is! AdminRequestActionState,
