@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/teacher_model.dart';
+import 'package:schoolapp/repositories/firebase/database_functions.dart';
 
 class SignUpRequest {
   final CollectionReference teacherDatas =
@@ -7,25 +8,15 @@ class SignUpRequest {
 
   addData(TeacherModel teacherObject) async {
     Map<String, dynamic> teacherMap = {
-
       'name': teacherObject.name,
       'class': teacherObject.className,
       'email': teacherObject.email,
-      'contact': teacherObject.contact, 
+      'contact': teacherObject.contact,
       'password': teacherObject.password,
-      'students':'0', 
+      'students': '0',
     };
-    await addteacherDetails(teacherMap);
-    
+    await DbFunctions().addrDetails(teacherMap, 'teacher_requests');
   }
-
-  Future<void> addteacherDetails(Map<String, dynamic> teacherMap) async {
-    return await FirebaseFirestore.instance
-        .collection("teacher_requests")
-        .doc()
-        .set(teacherMap);
-  }
-  
 
   Stream<QuerySnapshot> getTeacherDatas() {
     final teachersStream = teacherDatas.snapshots();

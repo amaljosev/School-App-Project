@@ -8,7 +8,7 @@ import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/admin/widgets/classcard_widget.dart';
 import 'package:schoolapp/screens/admin/widgets/teachercard_widget.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
-import 'package:schoolapp/screens/student/studentlist_screen.dart';
+import 'package:schoolapp/screens/admin/widgets/studentlist_screen.dart';
 import 'package:schoolapp/screens/teacher/profile/teacher_profile_screen.dart';
 
 class ScreenAdmin extends StatelessWidget {

@@ -1,85 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:schoolapp/models/teacher_model.dart';
+import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
-import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
-import 'package:schoolapp/screens/welcome/login_screen.dart';
+import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 
 final nameController = TextEditingController();
+final guardianNameController = TextEditingController();
+final ageController = TextEditingController();
 final classController = TextEditingController();
+final registrationNumberController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
-final formKey = GlobalKey<FormState>();
+final studentFormKey = GlobalKey<FormState>();
 
-class ScreenSignUp extends StatelessWidget {
-  const ScreenSignUp({super.key});
+class ScreenStudentForm extends StatelessWidget {
+  const ScreenStudentForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<WelcomeBloc, WelcomeState>(
-        listenWhen: (previous, current) => current is WelcomeActionState,
-        buildWhen: (previous, current) => current is! WelcomeActionState,
+      body: BlocConsumer<TeacherBloc, TeacherState>(
         listener: (context, state) {
-          if (state is NavigateToSignUpState) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScreenLogin(),
-                ));
-          } else if (state is SignInSuccessState) {
+          if (state is AddStudentState) {
             AlertMessages().alertMessageSnakebar(
-                context,
-                'Successfully Registered \nwait for resposnce from pricipal',
-                Colors.green);
+                context, 'Student Created Successfully', Colors.green);
+            Navigator.pop(context);
           }
         },
         builder: (context, state) {
           return SafeArea(
             child: Form(
-              key: formKey,
+              key: studentFormKey,
               child: ListView(
-                padding: const EdgeInsets.all(18),
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.all(18),
                 children: [
                   const SizedBox(
-                    height: 40,
-                  ),
-                  Center(
-                      child: Text(
-                    'Welcome To ',
-                    style: GoogleFonts.macondo(
-                        fontSize: 20,
-                        letterSpacing: 3,
-                        fontWeight: FontWeight.bold,
-                        color: headingColor),
-                  )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Text(
-                      'STUDENTS SIGHT',
-                      style: GoogleFonts.macondo(
-                          fontSize: 35,
-                          letterSpacing: 3,
-                          fontWeight: FontWeight.bold,
-                          color: titleColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   const Center(
-                      child: Text('Sign Up for continue',
+                      child: Text('Add Student to Class',
                           style: TextStyle(
                               color: headingColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w300))),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      Stack(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: headingColor,
+                            radius: 60,
+                            child: CircleAvatar(
+                              radius: 55,
+                              backgroundImage: AssetImage(
+                                  'lib/assets/images/student female.png'),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: CircleAvatar(
+                              backgroundColor: headingColor,
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: appbarColor,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -92,13 +92,33 @@ class ScreenSignUp extends StatelessWidget {
                       filled: true,
                       fillColor: loginTextfieldColor,
                       suffixIcon: const Icon(Icons.person),
-                      hintText: 'Teacher Name',
-                      labelText: 'Teacher Name',
+                      hintText: 'Student Name',
+                      labelText: 'Student Name',
                     ),
                     controller: nameController,
                     keyboardType: TextInputType.name,
                     validator: (value) => nameController.text.isEmpty
-                        ? 'Please enter your name'
+                        ? "Please enter Student's name"
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        filled: true,
+                        fillColor: loginTextfieldColor,
+                        suffixIcon: const Icon(Icons.av_timer),
+                        hintText: 'Age',
+                        labelText: 'Age'),
+                    controller: ageController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) => classController.text.isEmpty
+                        ? "Please enter Student's age"
                         : null,
                   ),
                   const SizedBox(
@@ -118,7 +138,28 @@ class ScreenSignUp extends StatelessWidget {
                     controller: classController,
                     keyboardType: TextInputType.number,
                     validator: (value) => classController.text.isEmpty
-                        ? 'Please enter your class'
+                        ? "Please enter Student's class"
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        filled: true,
+                        fillColor: loginTextfieldColor,
+                        suffixIcon:
+                            const Icon(Icons.format_list_numbered_sharp),
+                        hintText: 'Register No',
+                        labelText: 'Register No'),
+                    controller: registrationNumberController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) => classController.text.isEmpty
+                        ? "Please enter Student's Register No"
                         : null,
                   ),
                   const SizedBox(
@@ -138,7 +179,7 @@ class ScreenSignUp extends StatelessWidget {
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) => emailController.text.isEmpty
-                        ? 'Please enter your email'
+                        ? "Please enter Student's or guardian's email"
                         : null,
                   ),
                   const SizedBox(
@@ -159,7 +200,28 @@ class ScreenSignUp extends StatelessWidget {
                     keyboardType: TextInputType.phone,
                     maxLength: 10,
                     validator: (value) => contactController.text.isEmpty
-                        ? 'Please enter your mobile number'
+                        ? "Please enter Student's or guardian's contact no"
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      filled: true,
+                      fillColor: loginTextfieldColor,
+                      suffixIcon: const Icon(Icons.people),
+                      hintText: "Guardian's Name",
+                      labelText: "Guardian's Name",
+                    ),
+                    controller: guardianNameController,
+                    keyboardType: TextInputType.name,
+                    validator: (value) => nameController.text.isEmpty
+                        ? "Please enter Guardian's Name"
                         : null,
                   ),
                   const SizedBox(
@@ -174,8 +236,7 @@ class ScreenSignUp extends StatelessWidget {
                         filled: true,
                         fillColor: loginTextfieldColor,
                         suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.remove_red_eye)),
+                            onPressed: () {}, icon: const Icon(Icons.lock)),
                         hintText: 'Password',
                         labelText: 'Password'),
                     controller: passwordController,
@@ -189,8 +250,8 @@ class ScreenSignUp extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        onSignUp(context);
+                      if (studentFormKey.currentState!.validate()) {
+                        onCreate(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -201,34 +262,12 @@ class ScreenSignUp extends StatelessWidget {
                         fixedSize: const Size(150, 50),
                         elevation: 10),
                     child: const Text(
-                      'Sign Up',
+                      'Submit',
                       style: TextStyle(color: whiteTextColor),
                     ),
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Already have an account',
-                          style: GoogleFonts.aBeeZee(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                      TextButton(
-                        onPressed: () =>
-                            context.read<WelcomeBloc>().add(NavigateEvent()),
-                        child: Text('Sign In',
-                            style: GoogleFonts.farro(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
                   ),
                 ],
               ),
@@ -240,21 +279,24 @@ class ScreenSignUp extends StatelessWidget {
   }
 }
 
-onSignUp(BuildContext context) {
-  final teacherObject = TeacherModel(
-    name: nameController.text,
-    className: int.parse(classController.text),
-    email: emailController.text,
-    contact: int.parse(contactController.text),
-    password: passwordController.text.toString(),
-    students: '0',
-  );
-  context.read<WelcomeBloc>().add(
-        SignUpButtonEvent(teacherData: teacherObject),
-      );
-  
+void onCreate(BuildContext context) {
+  final studentObject = StudentModel(
+      id: DateTime.now().toString(),
+      name: nameController.text,
+      age: int.parse(ageController.text),
+      className: int.parse(classController.text),
+      registerNo: int.parse(registrationNumberController.text),
+      email: emailController.text,
+      contactNo: int.parse(contactController.text),
+      guardianName: guardianNameController.text,
+      password: passwordController.text);
+  context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
+
   nameController.text = "";
+  guardianNameController.text = "";
+  ageController.text = "";
   classController.text = "";
+  registrationNumberController.text = "";
   emailController.text = "";
   contactController.text = "";
   passwordController.text = "";

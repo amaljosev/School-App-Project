@@ -20,8 +20,8 @@ final Map<String, dynamic> teacherData;
               children: [
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundColor: headingColor, 
+                  child: CircleAvatar( 
+                    backgroundColor: headingColor,
                     radius: 60,
                     child: CircleAvatar(
                       radius: 55,
