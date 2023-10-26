@@ -11,7 +11,8 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<FormStudentEvent>(formStudentEvent);
     on<AddStudentEvent>(addStudentEvent);
     on<AttendenceEvent>(attendenceEvent);
-    on<StudentProfileEvent>(studentProfileEvent); 
+    on<StudentProfileEvent>(studentProfileEvent);
+    on<BottomNavigationEvent>(bottomNavigationEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -25,11 +26,18 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     emit(AddStudentState());
   }
 
-  FutureOr<void> attendenceEvent(AttendenceEvent event, Emitter<TeacherState> emit) {
-    emit(AttendenceState()); 
+  FutureOr<void> attendenceEvent(
+      AttendenceEvent event, Emitter<TeacherState> emit) {
+    emit(AttendenceState());
   }
 
-  FutureOr<void> studentProfileEvent(StudentProfileEvent event, Emitter<TeacherState> emit) {
-    emit(StudentProfileState()); 
+  FutureOr<void> studentProfileEvent(
+      StudentProfileEvent event, Emitter<TeacherState> emit) {
+    emit(StudentProfileState());
+  }
+
+  FutureOr<void> bottomNavigationEvent(
+      BottomNavigationEvent event, Emitter<TeacherState> emit) {
+    emit(BottomNavigationState(currentPageIndex: event.currentPageIndex));
   }
 }

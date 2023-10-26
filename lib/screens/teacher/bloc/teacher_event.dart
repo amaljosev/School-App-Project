@@ -10,6 +10,12 @@ final class AddStudentEvent extends TeacherActionEvent {
   StudentModel studentData;
   AddStudentEvent({required this.studentData});
 }
+
 final class AttendenceEvent extends TeacherActionEvent {}
 
-final class StudentProfileEvent extends  TeacherActionEvent {}
+final class StudentProfileEvent extends TeacherActionEvent {}
+
+final class BottomNavigationEvent extends TeacherActionEvent {
+  int currentPageIndex;
+  BottomNavigationEvent({required this.currentPageIndex});
+}

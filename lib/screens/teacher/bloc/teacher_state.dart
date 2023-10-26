@@ -13,3 +13,8 @@ final class AddStudentState extends TeacherActionState {}
 final class AttendenceState extends TeacherActionState {}   
 
 final class StudentProfileState extends TeacherActionState {}   
+
+final class BottomNavigationState extends TeacherActionState {
+  int currentPageIndex;
+  BottomNavigationState({required this.currentPageIndex});
+}  
