@@ -15,13 +15,12 @@ final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
 
-
 class ScreenStudentForm extends StatelessWidget {
   const ScreenStudentForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final  studentFormKey = GlobalKey<FormState>();
+    final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: BlocConsumer<TeacherBloc, TeacherState>(
         listener: (context, state) {
@@ -43,12 +42,22 @@ class ScreenStudentForm extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Center(
-                      child: Text('Add Student to Class',
-                          style: TextStyle(
-                              color: headingColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w300))),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.arrow_back)),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 50.0),
+                        child: Center(
+                            child: Text('Add Student to Class',
+                                style: TextStyle(
+                                    color: headingColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300))), 
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -106,7 +115,7 @@ class ScreenStudentForm extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField( 
+                  TextFormField(
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
@@ -118,7 +127,7 @@ class ScreenStudentForm extends StatelessWidget {
                             const Icon(Icons.format_list_numbered_sharp),
                         hintText: 'Roll No',
                         labelText: 'Roll No'),
-                    controller: rollNoController, 
+                    controller: rollNoController,
                     keyboardType: TextInputType.number,
                     validator: (value) => classController.text.isEmpty
                         ? "Please enter Student's Roll No"
@@ -273,7 +282,7 @@ class ScreenStudentForm extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (studentFormKey.currentState!.validate()) {  
+                      if (studentFormKey.currentState!.validate()) {
                         onCreate(context);
                       }
                     },
@@ -304,7 +313,7 @@ class ScreenStudentForm extends StatelessWidget {
 
 void onCreate(BuildContext context) {
   final studentObject = StudentModel(
-      rollNo:  int.parse(rollNoController.text),
+      rollNo: int.parse(rollNoController.text),
       name: nameController.text,
       age: int.parse(ageController.text),
       className: int.parse(classController.text),

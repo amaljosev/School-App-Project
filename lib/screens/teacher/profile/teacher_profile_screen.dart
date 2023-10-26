@@ -6,11 +6,11 @@ import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenTeacherProfile extends StatelessWidget {
   const ScreenTeacherProfile({super.key, required this.teacherData});
-final Map<String, dynamic> teacherData;
+  final Map<String, dynamic> teacherData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Teacher Profile'), 
+      appBar: myAppbar('Teacher Profile'),
       body: Column(
         children: [
           Container(
@@ -20,7 +20,7 @@ final Map<String, dynamic> teacherData;
               children: [
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: CircleAvatar( 
+                  child: CircleAvatar(
                     backgroundColor: headingColor,
                     radius: 60,
                     child: CircleAvatar(
@@ -31,8 +31,8 @@ final Map<String, dynamic> teacherData;
                   ),
                 ),
                 Flexible(
-                  child: Text(teacherData['name'].toString().toUpperCase(),  
-                      overflow: TextOverflow.ellipsis, 
+                  child: Text(teacherData['name'].toString().toUpperCase(),
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.teko(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -43,21 +43,17 @@ final Map<String, dynamic> teacherData;
           ),
           Column(
             children: [
-              Text("Class Teacher of : ${teacherData['class']}", 
-                  overflow: TextOverflow.ellipsis,
-                  style: contentTextStyle), 
-              Text('Email : ${teacherData['email']}',  
-                  overflow: TextOverflow.ellipsis,
-                  style: contentTextStyle), 
-              Text('Mobile No : ${teacherData['contact']}', 
-                  overflow: TextOverflow.ellipsis,
-                  style: contentTextStyle), 
+              Text("Class Teacher of : ${teacherData['class']}",
+                  overflow: TextOverflow.ellipsis, style: contentTextStyle),
+              Text('Email : ${teacherData['email']}',
+                  overflow: TextOverflow.ellipsis, style: contentTextStyle),
+              Text('Mobile No : ${teacherData['contact']}',
+                  overflow: TextOverflow.ellipsis, style: contentTextStyle),
             ],
           ),
-          
           Expanded(
             child: SizedBox(
-              child: ListView.separated( 
+              child: ListView.separated(
                   itemBuilder: (context, index) =>
                       Text('${index + 1} leave asked'),
                   separatorBuilder: (context, index) => const Divider(),

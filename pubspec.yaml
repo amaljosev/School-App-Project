@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: 4.9.3
   fluttertoast: ^8.2.2
   table_calendar: ^3.0.9
+  percent_indicator: ^4.2.3 
 
 
 

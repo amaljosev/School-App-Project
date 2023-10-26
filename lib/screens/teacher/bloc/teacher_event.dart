@@ -11,3 +11,5 @@ final class AddStudentEvent extends TeacherActionEvent {
   AddStudentEvent({required this.studentData});
 }
 final class AttendenceEvent extends TeacherActionEvent {}
+
+final class StudentProfileEvent extends  TeacherActionEvent {}

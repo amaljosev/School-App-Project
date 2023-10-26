@@ -11,3 +11,5 @@ final class FormStudentState extends TeacherActionState {}
 final class AddStudentState extends TeacherActionState {}  
 
 final class AttendenceState extends TeacherActionState {}   
+
+final class StudentProfileState extends TeacherActionState {}   
