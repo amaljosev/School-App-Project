@@ -10,6 +10,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   TeacherBloc() : super(TeacherInitial()) {
     on<FormStudentEvent>(formStudentEvent);
     on<AddStudentEvent>(addStudentEvent);
+    on<AttendenceEvent>(attendenceEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -21,5 +22,9 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
       AddStudentEvent event, Emitter<TeacherState> emit) {
     StudentDbFunctions().addStudent(event.studentData);
     emit(AddStudentState());
+  }
+
+  FutureOr<void> attendenceEvent(AttendenceEvent event, Emitter<TeacherState> emit) {
+    emit(AttendenceState()); 
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; 
 import 'package:schoolapp/repositories/firebase/admin/signup_admin_functions.dart';
 
 part 'admin_request_event.dart';

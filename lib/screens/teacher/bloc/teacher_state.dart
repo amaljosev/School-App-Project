@@ -9,3 +9,5 @@ final class TeacherInitial extends TeacherState {}
 final class FormStudentState extends TeacherActionState {} 
 
 final class AddStudentState extends TeacherActionState {}  
+
+final class AttendenceState extends TeacherActionState {}   

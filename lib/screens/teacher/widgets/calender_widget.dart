@@ -3,7 +3,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalenderWidget extends StatelessWidget {
+class CalenderWidget extends StatelessWidget { 
   const CalenderWidget({
     super.key,
   });
@@ -23,7 +23,7 @@ class CalenderWidget extends StatelessWidget {
         ),
         daysOfWeekStyle: const DaysOfWeekStyle(
           weekdayStyle: TextStyle(color: headingColor),
-          weekendStyle: TextStyle(color: Colors.red),
+          // weekendStyle: TextStyle(color: Colors.red),
         ),
         headerStyle: HeaderStyle(
             rightChevronVisible: false,

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           create: (context) => WelcomeBloc(),
         ),
         BlocProvider(
-          create: (context) => AdminBloc(),
+          create: (context) => AdminBloc(), 
         ),
         BlocProvider(
           create: (context) => AdminRequestBloc(),
@@ -41,8 +41,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          
           useMaterial3: true,
         ),
+        debugShowCheckedModeBanner: false ,
         home: const ScreenTeacher(),
       ),
     );

@@ -1,5 +1,5 @@
 class StudentModel {
-  final String id;
+  final int rollNo; 
   final String name;
   final int age;
   final int className;
@@ -10,7 +10,7 @@ class StudentModel {
   final String password;
 
   StudentModel(
-      {required this.id,
+      {required this.rollNo,
       required this.name,
       required this.age,
       required this.className,

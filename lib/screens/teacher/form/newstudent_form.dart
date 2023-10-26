@@ -6,6 +6,7 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 
 final nameController = TextEditingController();
+final rollNoController = TextEditingController();
 final guardianNameController = TextEditingController();
 final ageController = TextEditingController();
 final classController = TextEditingController();
@@ -13,13 +14,14 @@ final registrationNumberController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
-final studentFormKey = GlobalKey<FormState>();
+
 
 class ScreenStudentForm extends StatelessWidget {
   const ScreenStudentForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final  studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: BlocConsumer<TeacherBloc, TeacherState>(
         listener: (context, state) {
@@ -99,6 +101,27 @@ class ScreenStudentForm extends StatelessWidget {
                     keyboardType: TextInputType.name,
                     validator: (value) => nameController.text.isEmpty
                         ? "Please enter Student's name"
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField( 
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        filled: true,
+                        fillColor: loginTextfieldColor,
+                        suffixIcon:
+                            const Icon(Icons.format_list_numbered_sharp),
+                        hintText: 'Roll No',
+                        labelText: 'Roll No'),
+                    controller: rollNoController, 
+                    keyboardType: TextInputType.number,
+                    validator: (value) => classController.text.isEmpty
+                        ? "Please enter Student's Roll No"
                         : null,
                   ),
                   const SizedBox(
@@ -250,7 +273,7 @@ class ScreenStudentForm extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (studentFormKey.currentState!.validate()) {
+                      if (studentFormKey.currentState!.validate()) {  
                         onCreate(context);
                       }
                     },
@@ -281,7 +304,7 @@ class ScreenStudentForm extends StatelessWidget {
 
 void onCreate(BuildContext context) {
   final studentObject = StudentModel(
-      id: DateTime.now().toString(),
+      rollNo:  int.parse(rollNoController.text),
       name: nameController.text,
       age: int.parse(ageController.text),
       className: int.parse(classController.text),

@@ -12,13 +12,14 @@ final classController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
-final formKey = GlobalKey<FormState>();
+
 
 class ScreenSignUp extends StatelessWidget {
   const ScreenSignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final formKey= GlobalKey<FormState>(); 
     return Scaffold(
       body: BlocConsumer<WelcomeBloc, WelcomeState>(
         listenWhen: (previous, current) => current is WelcomeActionState,
@@ -189,7 +190,7 @@ class ScreenSignUp extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) { 
                         onSignUp(context);
                       }
                     },

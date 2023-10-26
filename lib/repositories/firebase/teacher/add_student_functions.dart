@@ -8,6 +8,7 @@ class StudentDbFunctions {
 
   Future<void> addStudent(StudentModel studentData) async {
     Map<String, dynamic> studentMap = {
+      'roll_no':studentData.rollNo,
       'name': studentData.name,
       'age': studentData.age,
       'class': studentData.className,
