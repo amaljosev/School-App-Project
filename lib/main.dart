@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'School App',
+        title: 'School App', 
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -4,13 +4,13 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
-class ScreenTeacherProfile extends StatelessWidget {
-  const ScreenTeacherProfile({super.key, required this.teacherData});
+class ScreenTeacherProfileAdmin extends StatelessWidget {
+  const ScreenTeacherProfileAdmin({super.key, required this.teacherData});
   final Map<String, dynamic> teacherData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Teacher Profile'),
+      appBar: myAppbar('Teacher Profile'), 
       body: Column(
         children: [
           Container(

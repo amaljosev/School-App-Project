@@ -72,7 +72,7 @@ class ClassDetailsWidget extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30), 
+                  padding: const EdgeInsets.only(bottom: 30),
                   child: ElevatedButton(
                       onPressed: () =>
                           context.read<TeacherBloc>().add(AttendenceEvent()),

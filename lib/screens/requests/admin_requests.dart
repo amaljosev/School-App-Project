@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
-import 'package:schoolapp/screens/teacher/profile/teacher_profile_screen.dart';
+import 'package:schoolapp/screens/admin/widgets/teacher_profile_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
@@ -23,7 +23,7 @@ class ScreenAdminResquest extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ScreenTeacherProfile(
+                  builder: (context) => ScreenTeacherProfileAdmin(
                     teacherData: state.teacherData,
                   ),
                 ));

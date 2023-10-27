@@ -9,7 +9,7 @@ import 'package:schoolapp/screens/admin/widgets/classcard_widget.dart';
 import 'package:schoolapp/screens/admin/widgets/teachercard_widget.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
 import 'package:schoolapp/screens/admin/widgets/studentlist_screen.dart';
-import 'package:schoolapp/screens/teacher/profile/teacher_profile_screen.dart';
+import 'package:schoolapp/screens/admin/widgets/teacher_profile_screen.dart';
 
 class ScreenAdmin extends StatelessWidget {
   const ScreenAdmin({super.key});
@@ -44,7 +44,7 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ScreenTeacherProfile(
+                  builder: (context) => ScreenTeacherProfileAdmin(
                     teacherData: state.teacherData,
                   ),
                 ));

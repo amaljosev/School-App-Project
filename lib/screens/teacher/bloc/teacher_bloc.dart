@@ -8,11 +8,13 @@ part 'teacher_state.dart';
 
 class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   TeacherBloc() : super(TeacherInitial()) {
+    on<TeacherEvent>(teacherEvent);
     on<FormStudentEvent>(formStudentEvent);
     on<AddStudentEvent>(addStudentEvent);
     on<AttendenceEvent>(attendenceEvent);
     on<StudentProfileEvent>(studentProfileEvent);
     on<BottomNavigationEvent>(bottomNavigationEvent);
+    on<SchoolEventsEvent>(schoolEventsEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -39,5 +41,13 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> bottomNavigationEvent(
       BottomNavigationEvent event, Emitter<TeacherState> emit) {
     emit(BottomNavigationState(currentPageIndex: event.currentPageIndex));
+  }
+
+  FutureOr<void> teacherEvent(TeacherEvent event, Emitter<TeacherState> emit) {
+    emit(HomeState());
+  }
+
+  FutureOr<void> schoolEventsEvent(SchoolEventsEvent event, Emitter<TeacherState> emit) { 
+    emit(SchoolEventsState()); 
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/widgets/calender_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_bottom.dart';
@@ -31,11 +30,7 @@ class HomePageWidget extends StatelessWidget {
             ),
             child: Text(
               'Students',
-              style: GoogleFonts.tiltNeon(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: headingColor,
-              ),
+              style: contentTextStyle 
             ),
           ),
           const TeacherStudentsList(),

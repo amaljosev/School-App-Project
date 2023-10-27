@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
 
 class TeacherActions extends StatelessWidget {
   const TeacherActions({
@@ -12,142 +15,101 @@ class TeacherActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: ListView(
-        padding: const EdgeInsets.all(8.0),
-        scrollDirection: Axis.horizontal,
-        children: [
-          Column(
+    return BlocConsumer<TeacherBloc, TeacherState>(
+      listener: (context, state) {
+        if (state is SchoolEventsState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScreenSchoolEvents(),
+              ));
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Time Table',
-                    style: appbarTextStyle,
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () =>
+                        context.read<TeacherBloc>().add(SchoolEventsEvent()),
+                    child: Card(
+                      elevation: 8,
+                      child: Container(
+                        width: size.width * 0.45,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: appbarColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Events', 
+                            style: appbarTextStyle,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Container(
+                    width: size.width * 0.45,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: appbarColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Leave Applications ',
+                        style: appbarTextStyle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Leave Applications ',
-                    style: appbarTextStyle,
+              const SizedBox(width: 10),
+              Column(
+                children: [
+                  Container(
+                    width: size.width * 0.45,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: appbarColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Assignments',
+                        style: appbarTextStyle,
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Container(
+                    width: size.width * 0.45,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: appbarColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'HomeWorks',
+                        style: appbarTextStyle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(width: 10),
-          Column(
-            children: [
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Give an Assignment ',
-                    style: appbarTextStyle,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Give a HomeWork ',
-                    style: appbarTextStyle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 10),
-          Column(
-            children: [
-              Container(
-                width: size.width * 0.50,
-                height: 210,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Teacher\n Profile', 
-                    style: appbarTextStyle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 10),
-          Column(
-            children: [
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Apply leave', 
-                    style: appbarTextStyle,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: size.width * 0.50,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: appbarColor,
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text(
-                    'Release a Notice', 
-                    style: appbarTextStyle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          
-        ],
-      ),
+        );
+      },
     );
   }
 }
