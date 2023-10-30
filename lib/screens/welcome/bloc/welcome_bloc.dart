@@ -6,13 +6,13 @@ import 'package:schoolapp/repositories/firebase/admin/signup_request.dart';
 part 'welcome_event.dart';
 part 'welcome_state.dart';
 
-SignUpRequest signUpRequest = SignUpRequest(); 
+SignUpRequest signUpRequest = SignUpRequest();
 
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc() : super(WelcomeInitial()) {
     on<NavigateEvent>(navigate);
     on<SignUpButtonEvent>(signUpButtonEvent);
-    on<SignInButtonEvent>(signInButtonEvent);
+    on<DropdownMenuTapEvent>(dropdownMenuTapEvent);
   }
 
   FutureOr<void> navigate(WelcomeEvent event, Emitter<WelcomeState> emit) {
@@ -26,7 +26,13 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
 
   FutureOr<void> signUpButtonEvent(
       SignUpButtonEvent event, Emitter<WelcomeState> emit) {
-    signUpRequest.addData (event.teacherData);  
+    signUpRequest.addData(event.teacherData);
     emit(SignInSuccessState());
+  }
+
+  FutureOr<void> dropdownMenuTapEvent(
+      DropdownMenuTapEvent event, Emitter<WelcomeState> emit) {
+    emit(DropdownMenuTapState(
+        dropdownValue: event.dropdownValue, index: event.onSelected));
   }
 }

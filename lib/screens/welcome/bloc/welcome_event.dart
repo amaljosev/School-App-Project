@@ -11,4 +11,14 @@ final class SignInButtonEvent extends WelcomeActionEvent {}
 final class SignUpButtonEvent extends WelcomeActionEvent {
   final TeacherModel teacherData;
   SignUpButtonEvent({required this.teacherData});
-} 
+}
+
+final class DropdownMenuTapEvent extends WelcomeActionEvent {
+  final String? dropdownValue;
+  final int onSelected;
+
+  DropdownMenuTapEvent(
+      {required this.dropdownValue,
+      required this.onSelected,
+  });
+}

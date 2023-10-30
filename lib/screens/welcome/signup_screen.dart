@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/firebase/signup/signup_functions.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
@@ -14,6 +16,9 @@ final classController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
+String? value;
+int index = 0;
+String docId = '';
 
 class ScreenSignUp extends StatelessWidget {
   const ScreenSignUp({super.key});
@@ -37,114 +42,157 @@ class ScreenSignUp extends StatelessWidget {
                 context,
                 'Successfully Registered \nwait for resposnce from pricipal',
                 Colors.green);
+          } else if (state is DropdownMenuTapState) {
+            value = state.dropdownValue;
+            index = state.index;
           }
         },
         builder: (context, state) {
           return SafeArea(
-            child: Form(
-              key: formKey,
-              child: ListView(
-                padding: const EdgeInsets.all(18),
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                children: [
-                  const TitleCardWidget(),
-                  SignUpTextFieldWidget(
-                      icon: const Icon(Icons.person),
-                      fillColor: loginTextfieldColor,
-                      hintText: 'Teacher Name',
-                      labelText: 'Teacher Name',
-                      controller: nameController,
-                      keyboardType: TextInputType.name),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SignUpTextFieldWidget(
-                      icon: const Icon(Icons.class_),
-                      fillColor: loginTextfieldColor,
-                      hintText: 'Class',
-                      labelText: 'Class',
-                      controller: classController,
-                      keyboardType: TextInputType.phone),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SignUpTextFieldWidget(
-                      icon: const Icon(Icons.email),
-                      fillColor: loginTextfieldColor,
-                      hintText: 'Email',
-                      labelText: 'Email',
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SignUpTextFieldWidget(
-                      icon: const Icon(Icons.phone),
-                      fillColor: loginTextfieldColor,
-                      hintText: 'Contact Number',
-                      labelText: 'Contact Number',
-                      controller: contactController,
-                      keyboardType: TextInputType.phone),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SignUpTextFieldWidget(
-                      icon: const Icon(Icons.remove_red_eye),
-                      fillColor: loginTextfieldColor,
-                      hintText: 'Password',
-                      labelText: 'Password',
-                      controller: passwordController,
-                      keyboardType: TextInputType.emailAddress),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        onSignUp(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: buttonColor,
-                        shape: const ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        fixedSize: const Size(150, 50),
-                        elevation: 10),
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(color: whiteTextColor),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Already have an account',
-                          style: GoogleFonts.aBeeZee(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                      TextButton(
-                        onPressed: () =>
-                            context.read<WelcomeBloc>().add(NavigateEvent()),
-                        child: Text('Sign In',
-                            style: GoogleFonts.farro(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black)),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: SignUpDbFunctions().getClasses(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final documents = snapshot.data!.docs;
+                    DocumentSnapshot document = documents[index];
+                    docId = document.id;
+                    final classNames = documents
+                        .map((doc) => doc['class_no'] as String)
+                        .toList();
+
+                    return Form(
+                      key: formKey,
+                      child: ListView(
+                        padding: const EdgeInsets.all(18),
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior.onDrag,
+                        children: [
+                          const TitleCardWidget(),
+                          SignUpTextFieldWidget(
+                              icon: const Icon(Icons.person),
+                              fillColor: loginTextfieldColor,
+                              hintText: 'Teacher Name',
+                              labelText: 'Teacher Name',
+                              controller: nameController,
+                              keyboardType: TextInputType.name),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          DropdownMenu<String>(
+                            hintText: 'Class',
+                            width: MediaQuery.of(context).size.width * 0.91,
+                            inputDecorationTheme: InputDecorationTheme(
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              filled: true,
+                              fillColor: loginTextfieldColor,
+                            ),
+                            onSelected: (value) {
+                              index = classNames
+                                  .indexWhere((item) => item == value);
+
+                              return context.read<WelcomeBloc>().add(
+                                  DropdownMenuTapEvent(
+                                      dropdownValue: value, onSelected: index));
+                            },
+                            dropdownMenuEntries: classNames
+                                .map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SignUpTextFieldWidget(
+                              icon: const Icon(Icons.email),
+                              fillColor: loginTextfieldColor,
+                              hintText: 'Email',
+                              labelText: 'Email',
+                              controller: emailController,
+                              keyboardType: TextInputType.emailAddress),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SignUpTextFieldWidget(
+                              icon: const Icon(Icons.phone),
+                              fillColor: loginTextfieldColor,
+                              hintText: 'Contact Number',
+                              labelText: 'Contact Number',
+                              controller: contactController,
+                              keyboardType: TextInputType.phone),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SignUpTextFieldWidget(
+                              icon: const Icon(Icons.remove_red_eye),
+                              fillColor: loginTextfieldColor,
+                              hintText: 'Password',
+                              labelText: 'Password',
+                              controller: passwordController,
+                              keyboardType: TextInputType.emailAddress),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                onSignUp(context);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: buttonColor,
+                                shape: const ContinuousRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                ),
+                                fixedSize: const Size(150, 50),
+                                elevation: 10),
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(color: whiteTextColor),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Already have an account',
+                                  style: GoogleFonts.aBeeZee(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                              TextButton(
+                                onPressed: () => context
+                                    .read<WelcomeBloc>()
+                                    .add(NavigateEvent()),
+                                child: Text('Sign In',
+                                    style: GoogleFonts.farro(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black)),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                ],
-              ),
-            ),
+                    );
+                  } else {
+                    return const Center(
+                        child: SizedBox(
+                      child: CircularProgressIndicator(
+                        color: headingColor,
+                      ),
+                    ));
+                  }
+                }),
           );
         },
       ),
@@ -155,7 +203,8 @@ class ScreenSignUp extends StatelessWidget {
 onSignUp(BuildContext context) {
   final teacherObject = TeacherModel(
     name: nameController.text,
-    className: int.parse(classController.text),
+    className: value as String,
+    classId: docId,
     email: emailController.text,
     contact: int.parse(contactController.text),
     password: passwordController.text.toString(),
