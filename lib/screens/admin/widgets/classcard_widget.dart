@@ -17,7 +17,7 @@ class ClassCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
+      child: SizedBox( 
         child: ListView.builder(
             itemCount: teachersList.length,
             itemBuilder: (context, index) {
