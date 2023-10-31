@@ -16,11 +16,11 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton( 
-            onPressed: () {
+            onPressed: () { 
               Navigator.of(context).pop();
               context
                   .read<TeacherBloc>()
-                  .add(BottomNavigationEvent(currentPageIndex: 0));
+                  .add(BottomNavigationEvent(currentPageIndex: 0)); 
             },
             icon: const Icon(Icons.arrow_back)),
             title: const Text('Student Profile'),

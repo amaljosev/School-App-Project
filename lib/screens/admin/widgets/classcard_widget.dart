@@ -39,10 +39,8 @@ class ClassCardWidget extends StatelessWidget {
                   ),
                   title:
                       Text('Class : ${data["class"]}', style: contentTextStyle),
-                  subtitle: Flexible(
-                    child: Text('Class Teacher: ${data['name']} ',
-                        overflow: TextOverflow.ellipsis, style: contentTextStyle),
-                  ),
+                  subtitle: Text('Class Teacher: ${data['name']} ',
+                      overflow: TextOverflow.ellipsis, style: contentTextStyle), 
                   onTap: () =>
                       context.read<AdminBloc>().add(StudentCardTapEvent()),
                 ),

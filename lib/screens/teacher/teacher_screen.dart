@@ -18,7 +18,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
   @override
   void initState() {
     super.initState();
-    context.read<TeacherBloc>().add(BottomNavigationEvent(currentPageIndex: 0));
+    context.read<TeacherBloc>().add(BottomNavigationEvent(currentPageIndex: 0)); 
   }
 
   @override

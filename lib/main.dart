@@ -5,7 +5,10 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/admin/admin_screen.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
+import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
+import 'package:schoolapp/screens/student/student_screen.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
@@ -35,6 +38,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TeacherBloc(),
         ),
+        BlocProvider(
+          create: (context) => StudentBloc(), 
+        ),
       ],
       child: MaterialApp(
         title: 'School App',
@@ -43,8 +49,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        debugShowCheckedModeBanner: false,
-        home: const ScreenLogin(),
+        debugShowCheckedModeBanner: false, 
+        home: const ScreenStudent(),        
       ),
     );
   }

@@ -9,5 +9,6 @@ AppBar myAppbar(String title) {
       style: appbarTextStyle,
     ),
     backgroundColor: appbarColor,
+    
   );
 }
