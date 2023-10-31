@@ -14,7 +14,7 @@ class ScreenAdminResquest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Requests'),  
+      appBar: myAppbar('Requests'),
       body: BlocConsumer<AdminRequestBloc, AdminRequestState>(
         listenWhen: (previous, current) => current is AdminRequestActionState,
         buildWhen: (previous, current) => current is! AdminRequestActionState,
@@ -41,79 +41,86 @@ class ScreenAdminResquest extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List teachersList = snapshot.data!.docs;
-                return SizedBox(
-                  child: ListView.separated(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot document = teachersList[index];
-                        String docId = document.id;
-                        Map<String, dynamic> data =
-                            document.data() as Map<String, dynamic>;
-                        String teacherName = data['name'];
-                        return ExpansionTile(
-                          collapsedBackgroundColor: appbarColor,
-                          backgroundColor: appbarColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          title: Text(teacherName),
-                          childrenPadding: const EdgeInsets.all(8),
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                OutlinedButton(
-                                  onPressed: () => context
-                                      .read<AdminRequestBloc>()
-                                      .add(ViewTeacherEvent(teacherData: data)),
-                                  style: ButtonStyle(
-                                    side: MaterialStateProperty.all<BorderSide>(
-                                      const BorderSide(
-                                          width: 2.0, color: titleColor),
+                if (teachersList.isNotEmpty) {
+                  return SizedBox(
+                    child: ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot document = teachersList[index];
+                          String docId = document.id;
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          String teacherName = data['name'];
+                          return ExpansionTile(
+                            collapsedBackgroundColor: appbarColor,
+                            backgroundColor: appbarColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            title: Text(teacherName),
+                            childrenPadding: const EdgeInsets.all(8),
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  OutlinedButton(
+                                    onPressed: () => context
+                                        .read<AdminRequestBloc>()
+                                        .add(ViewTeacherEvent(
+                                            teacherData: data)),
+                                    style: ButtonStyle(
+                                      side:
+                                          MaterialStateProperty.all<BorderSide>(
+                                        const BorderSide(
+                                            width: 2.0, color: titleColor),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'View Profile',
+                                      style: TextStyle(color: titleColor),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'View Profile',
-                                    style: TextStyle(color: titleColor),
+                                  ElevatedButton(
+                                    onPressed: () => context
+                                        .read<AdminRequestBloc>()
+                                        .add(AcceptButtonEvent(id: docId)),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.green)),
+                                    child: const Text(
+                                      'Accept',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => context
-                                      .read<AdminRequestBloc>()
-                                      .add(AcceptButtonEvent(id: docId)),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.green)),
-                                  child: const Text(
-                                    'Accept',
-                                    style: TextStyle(color: Colors.white),
+                                  ElevatedButton(
+                                    onPressed: () => context
+                                        .read<AdminRequestBloc>()
+                                        .add(RejectButtonEvent(id: docId)),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.red)),
+                                    child: const Text(
+                                      'Reject',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => context
-                                      .read<AdminRequestBloc>()
-                                      .add(RejectButtonEvent(id: docId)),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.red)),
-                                  child: const Text(
-                                    'Reject',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 10,
-                          ),
-                      itemCount: teachersList.length),
-                );
+                                ],
+                              )
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 10,
+                            ),
+                        itemCount: teachersList.length),
+                  );
+                } else {
+                  return const Center(child: Text('no request exist'));
+                }
               } else {
-                return const Center(child: Text('teachers not found'));
+                return const Center(child: Text('no request exist'));
               }
             },
           );

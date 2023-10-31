@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +21,7 @@ class TeacherCardWidget extends StatelessWidget {
         itemCount: teachersList.length,
         itemBuilder: (context, index) {
           DocumentSnapshot document = teachersList[index];
-          Map<String, dynamic> data =
-              document.data() as Map<String, dynamic>;
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
           String teacherName = data['name'];
           return GestureDetector(
             onTap: () => context
@@ -38,8 +36,8 @@ class TeacherCardWidget extends StatelessWidget {
                     width: 150,
                     decoration: BoxDecoration(
                         color: teacherListColor,
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(5))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
                   ),
                   Positioned(
                     top: 10,
@@ -48,8 +46,8 @@ class TeacherCardWidget extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 50,
                       backgroundColor: scaffoldColor,
-                      backgroundImage: const AssetImage(
-                          'lib/assets/images/teacher.jpg'),
+                      backgroundImage:
+                          const AssetImage('lib/assets/images/teacher.jpg'),
                     ),
                   ),
                   Positioned(
@@ -64,19 +62,25 @@ class TeacherCardWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: scaffoldColor,
                               borderRadius:
-                                  const BorderRadius.all(
-                                      Radius.circular(5))),
+                                  const BorderRadius.all(Radius.circular(5))),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Flexible(
                                 child: Text(
                                   'Name : $teacherName',
-                                  overflow:
-                                      TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: headingColor,
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Text(
-                                  "Class : ${data['class']}"),
+                                "Class : ${data['class']}",
+                                style: const TextStyle(
+                                    color: headingColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),

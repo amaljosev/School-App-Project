@@ -22,7 +22,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
   final bool obscureText;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextFormField( 
       decoration: InputDecoration(
         border: const OutlineInputBorder(
             borderSide: BorderSide.none,

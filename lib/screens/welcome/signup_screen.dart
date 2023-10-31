@@ -8,6 +8,7 @@ import 'package:schoolapp/repositories/firebase/signup/signup_functions.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
+import 'package:schoolapp/screens/welcome/widgets/dropdown_widget.dart';
 import 'package:schoolapp/screens/welcome/widgets/title_widget.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
 
@@ -79,45 +80,11 @@ class ScreenSignUp extends StatelessWidget {
                             obscureText: false,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
-                          DropdownMenu<String>(
-                            hintText: 'Class',
-                            menuHeight: 200,
-                            width: MediaQuery.of(context).size.width * 0.91,
-                            menuStyle: MenuStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(appbarColor),
-                              elevation: const MaterialStatePropertyAll(10),
-                              shape: MaterialStatePropertyAll(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                            ),
-                            inputDecorationTheme: InputDecorationTheme(
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              filled: true,
-                              fillColor: loginTextfieldColor,
-                            ),
-                            onSelected: (value) {
-                              index = classNames
-                                  .indexWhere((item) => item == value);
-
-                              return context.read<WelcomeBloc>().add(
-                                  DropdownMenuTapEvent(
-                                      dropdownValue: value, onSelected: index));
-                            },
-                            dropdownMenuEntries: classNames
-                                .map<DropdownMenuEntry<String>>((String value) {
-                              return DropdownMenuEntry<String>(
-                                  value: value, label: value);
-                            }).toList(),
-                          ),
+                          DropDownWidget(classNames: classNames,index: index),
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           SignUpTextFieldWidget(
                             icon: const Icon(Icons.email),
@@ -130,7 +97,7 @@ class ScreenSignUp extends StatelessWidget {
                             obscureText: false,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           SignUpTextFieldWidget(
                             icon: const Icon(Icons.phone),
@@ -139,11 +106,8 @@ class ScreenSignUp extends StatelessWidget {
                             labelText: 'Contact Number',
                             controller: contactController,
                             keyboardType: TextInputType.phone,
-                            length: 10,
+                            length: 15,
                             obscureText: false,
-                          ),
-                          const SizedBox(
-                            height: 20,
                           ),
                           SignUpTextFieldWidget(
                             icon: const Icon(Icons.remove_red_eye),
@@ -156,7 +120,7 @@ class ScreenSignUp extends StatelessWidget {
                             length: null,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -221,6 +185,8 @@ class ScreenSignUp extends StatelessWidget {
     );
   }
 }
+
+
 
 onSignUp(BuildContext context) async {
   final teacherObject = TeacherModel(
