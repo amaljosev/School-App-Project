@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/teacher/profile/widgets/profile_head_widget.dart';
 
 class ScreenTeacherProfileAdmin extends StatelessWidget {
   const ScreenTeacherProfileAdmin({super.key, required this.teacherData});
@@ -10,37 +9,12 @@ class ScreenTeacherProfileAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Teacher Profile'), 
+      appBar: myAppbar('Teacher Profile'),
       body: Column(
         children: [
-          Container(
-            height: 130,
-            decoration: BoxDecoration(color: appbarColor),
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundColor: headingColor,
-                    radius: 60,
-                    child: CircleAvatar(
-                      radius: 55,
-                      backgroundImage:
-                          AssetImage('lib/assets/images/teacher.jpg'),
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Text(teacherData['name'].toString().toUpperCase(),
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.teko(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor)),
-                ) 
-              ],
-            ),
-          ),
+          ProfileHeadWidget(
+              image: 'lib/assets/images/teacher.jpg',
+              name: teacherData['name']),
           Column(
             children: [
               Text("Class Teacher of : ${teacherData['class']}",

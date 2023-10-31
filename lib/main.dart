@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           create: (context) => StudentBloc(), 
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp( 
         title: 'School App',
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false, 
-        home: const ScreenStudent(),        
+        home: const ScreenStudent(),           
       ),
     );
   }

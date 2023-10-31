@@ -4,10 +4,12 @@ import 'package:schoolapp/repositories/core/colors.dart';
 
 class ProfileHeadWidget extends StatelessWidget {
   const ProfileHeadWidget({
-    super.key, required this.image, required this.name,
+    super.key,
+    required this.image,
+    required this.name,
   });
-final String image;
-final String name;
+  final String image;
+  final String name;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,23 +17,22 @@ final String name;
       decoration: BoxDecoration(color: appbarColor),
       child: Row(
         children: [
-           Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
               backgroundColor: headingColor,
               radius: 60,
               child: CircleAvatar(
                 radius: 55,
-                backgroundImage:
-                    AssetImage(image),
+                backgroundImage: AssetImage(image),
               ),
             ),
           ),
-          Text(name.toUpperCase(),  
+          Text(name.toUpperCase(),
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.teko(
                   fontSize: 30,
-                  fontWeight: FontWeight.bold, 
+                  fontWeight: FontWeight.bold,
                   color: headingColor)),
         ],
       ),

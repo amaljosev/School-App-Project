@@ -56,17 +56,20 @@ class TeacherActions extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    width: size.width * 0.45,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: appbarColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Leave Applications ',
-                        style: appbarTextStyle,
+                  Card(
+                    elevation: 8,
+                    child: Container(
+                      width: size.width * 0.45,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: appbarColor,
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Leave Applications ',
+                          style: appbarTextStyle,
+                        ),
                       ),
                     ),
                   ),
@@ -75,32 +78,38 @@ class TeacherActions extends StatelessWidget {
               const SizedBox(width: 10),
               Column(
                 children: [
-                  Container(
-                    width: size.width * 0.45,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: appbarColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Assignments',
-                        style: appbarTextStyle,
+                  Card(
+                    elevation: 8,
+                    child: Container(
+                      width: size.width * 0.45,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: appbarColor,
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Assignments',
+                          style: appbarTextStyle,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    width: size.width * 0.45,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: appbarColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'HomeWorks',
-                        style: appbarTextStyle,
+                  Card( 
+                    elevation: 8,
+                    child: Container(
+                      width: size.width * 0.45,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: appbarColor,
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'HomeWorks',
+                          style: appbarTextStyle,
+                        ),
                       ),
                     ),
                   ),
