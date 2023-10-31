@@ -10,9 +10,18 @@ final emailController = TextEditingController();
 final classController = TextEditingController();
 final passwordController = TextEditingController();
 
-
-class ScreenLogin extends StatelessWidget {
+class ScreenLogin extends StatefulWidget {
   const ScreenLogin({super.key});
+
+  @override
+  State<ScreenLogin> createState() => _ScreenLoginState();
+}
+
+
+class _ScreenLoginState extends State<ScreenLogin> {
+  @override
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +41,7 @@ class ScreenLogin extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const ScreenAdmin(),
                 ));
-          }
+          } 
         },
         builder: (context, state) {
           return SafeArea(
@@ -192,3 +201,5 @@ class ScreenLogin extends StatelessWidget {
 void onSignIn(BuildContext context) {
   context.read<WelcomeBloc>().add(SignInButtonEvent());
 }
+
+

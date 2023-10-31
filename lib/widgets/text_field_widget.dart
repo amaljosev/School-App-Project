@@ -9,6 +9,8 @@ class SignUpTextFieldWidget extends StatelessWidget {
     required this.labelText,
     required this.controller,
     required this.keyboardType,
+    required this.length,  
+    required this.obscureText, 
   });
   final Widget icon;
   final Color fillColor;
@@ -16,6 +18,8 @@ class SignUpTextFieldWidget extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final int? length;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -28,7 +32,10 @@ class SignUpTextFieldWidget extends StatelessWidget {
         suffixIcon: icon,
         hintText: hintText,
         labelText: labelText,
+        
       ),
+      obscureText: obscureText, 
+      maxLength: length,
       controller: controller,
       keyboardType: keyboardType,
       validator: (value) =>

@@ -23,6 +23,5 @@ final class DropdownMenuTapState extends WelcomeActionState {
   DropdownMenuTapState({
     required this.dropdownValue,
     required this.index,
-
   });
 }

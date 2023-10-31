@@ -17,8 +17,9 @@ final class DropdownMenuTapEvent extends WelcomeActionEvent {
   final String? dropdownValue;
   final int onSelected;
 
-  DropdownMenuTapEvent(
-      {required this.dropdownValue,
-      required this.onSelected,
+  DropdownMenuTapEvent({
+    required this.dropdownValue,
+    required this.onSelected,
   });
 }
+

@@ -12,7 +12,6 @@ import 'package:schoolapp/screens/welcome/widgets/title_widget.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
 
 final nameController = TextEditingController();
-final classController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
@@ -32,16 +31,16 @@ class ScreenSignUp extends StatelessWidget {
         buildWhen: (previous, current) => current is! WelcomeActionState,
         listener: (context, state) {
           if (state is NavigateToSignUpState) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScreenLogin(),
-                ));
-          } else if (state is SignInSuccessState) {
+            Navigator.pop(context);
+          } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
                 'Successfully Registered \nwait for resposnce from pricipal',
                 Colors.green);
+            Navigator.pop(context);
+          } else if (state is SignUpErrorState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Class already exist', Colors.red);
           } else if (state is DropdownMenuTapState) {
             value = state.dropdownValue;
             index = state.index;
@@ -54,6 +53,7 @@ class ScreenSignUp extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final documents = snapshot.data!.docs;
+
                     DocumentSnapshot document = documents[index];
                     docId = document.id;
                     final classNames = documents
@@ -69,18 +69,31 @@ class ScreenSignUp extends StatelessWidget {
                         children: [
                           const TitleCardWidget(),
                           SignUpTextFieldWidget(
-                              icon: const Icon(Icons.person),
-                              fillColor: loginTextfieldColor,
-                              hintText: 'Teacher Name',
-                              labelText: 'Teacher Name',
-                              controller: nameController,
-                              keyboardType: TextInputType.name),
+                            icon: const Icon(Icons.person),
+                            fillColor: loginTextfieldColor,
+                            hintText: 'Teacher Name',
+                            labelText: 'Teacher Name',
+                            controller: nameController,
+                            keyboardType: TextInputType.name,
+                            length: null,
+                            obscureText: false,
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
                           DropdownMenu<String>(
                             hintText: 'Class',
+                            menuHeight: 200,
                             width: MediaQuery.of(context).size.width * 0.91,
+                            menuStyle: MenuStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(appbarColor),
+                              elevation: const MaterialStatePropertyAll(10),
+                              shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                            ),
                             inputDecorationTheme: InputDecorationTheme(
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,
@@ -107,32 +120,41 @@ class ScreenSignUp extends StatelessWidget {
                             height: 20,
                           ),
                           SignUpTextFieldWidget(
-                              icon: const Icon(Icons.email),
-                              fillColor: loginTextfieldColor,
-                              hintText: 'Email',
-                              labelText: 'Email',
-                              controller: emailController,
-                              keyboardType: TextInputType.emailAddress),
+                            icon: const Icon(Icons.email),
+                            fillColor: loginTextfieldColor,
+                            hintText: 'Email',
+                            labelText: 'Email',
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            length: null,
+                            obscureText: false,
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
                           SignUpTextFieldWidget(
-                              icon: const Icon(Icons.phone),
-                              fillColor: loginTextfieldColor,
-                              hintText: 'Contact Number',
-                              labelText: 'Contact Number',
-                              controller: contactController,
-                              keyboardType: TextInputType.phone),
+                            icon: const Icon(Icons.phone),
+                            fillColor: loginTextfieldColor,
+                            hintText: 'Contact Number',
+                            labelText: 'Contact Number',
+                            controller: contactController,
+                            keyboardType: TextInputType.phone,
+                            length: 10,
+                            obscureText: false,
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
                           SignUpTextFieldWidget(
-                              icon: const Icon(Icons.remove_red_eye),
-                              fillColor: loginTextfieldColor,
-                              hintText: 'Password',
-                              labelText: 'Password',
-                              controller: passwordController,
-                              keyboardType: TextInputType.emailAddress),
+                            icon: const Icon(Icons.remove_red_eye),
+                            fillColor: loginTextfieldColor,
+                            hintText: 'Password',
+                            labelText: 'Password',
+                            obscureText: true,
+                            controller: passwordController,
+                            keyboardType: TextInputType.emailAddress,
+                            length: null,
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
@@ -200,7 +222,7 @@ class ScreenSignUp extends StatelessWidget {
   }
 }
 
-onSignUp(BuildContext context) {
+onSignUp(BuildContext context) async {
   final teacherObject = TeacherModel(
     name: nameController.text,
     className: value as String,
@@ -210,6 +232,7 @@ onSignUp(BuildContext context) {
     password: passwordController.text.toString(),
     students: '0',
   );
+
   context.read<WelcomeBloc>().add(
         SignUpButtonEvent(teacherData: teacherObject),
       );
