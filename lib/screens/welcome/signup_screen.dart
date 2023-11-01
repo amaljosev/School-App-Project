@@ -106,7 +106,7 @@ class ScreenSignUp extends StatelessWidget {
                             labelText: 'Contact Number',
                             controller: contactController,
                             keyboardType: TextInputType.phone,
-                            length: 15,
+                            length: 10,
                             obscureText: false,
                           ),
                           SignUpTextFieldWidget(

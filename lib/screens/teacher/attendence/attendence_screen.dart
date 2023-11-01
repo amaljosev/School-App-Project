@@ -33,7 +33,7 @@ class ScreenAttendence extends StatelessWidget {
         ],
       ),
       body: WillPopScope(
-        onWillPop: () => toHome(context), 
+        onWillPop: () => toTeacherHome(context), 
         child: Column(
           children: [
             Container(

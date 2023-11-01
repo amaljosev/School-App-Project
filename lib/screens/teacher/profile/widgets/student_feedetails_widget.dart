@@ -4,9 +4,9 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class StudentFeeDetailsWidget extends StatelessWidget {
   const StudentFeeDetailsWidget({
-    super.key,
+    super.key, required this.isTeacher,
   });
-
+final bool isTeacher;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,7 +70,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: ElevatedButton.icon(
+              child:isTeacher? ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: buttonColor,
                       shape:
@@ -86,7 +86,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                   label: const Text(
                     'Edit',
                     style: TextStyle(color: whiteTextColor),
-                  )),
+                  )):null
             ),
           ],
         ),

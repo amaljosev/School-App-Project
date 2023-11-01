@@ -7,6 +7,7 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 
 final nameController = TextEditingController();
+final classTeacherController = TextEditingController();
 final rollNoController = TextEditingController();
 final guardianNameController = TextEditingController();
 final ageController = TextEditingController();
@@ -24,7 +25,7 @@ class ScreenStudentForm extends StatelessWidget {
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () => toHome(context), 
+        onWillPop: () => toTeacherHome(context),
         child: BlocConsumer<TeacherBloc, TeacherState>(
           listener: (context, state) {
             if (state is AddStudentState) {
@@ -117,6 +118,27 @@ class ScreenStudentForm extends StatelessWidget {
                       keyboardType: TextInputType.name,
                       validator: (value) => nameController.text.isEmpty
                           ? "Please enter Student's name"
+                          : null,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        filled: true,
+                        fillColor: loginTextfieldColor,
+                        suffixIcon: const Icon(Icons.person),
+                        hintText: 'Class Teacher',
+                        labelText: 'Class Teacher',
+                      ),
+                      controller: classTeacherController,
+                      keyboardType: TextInputType.name,
+                      validator: (value) => classTeacherController.text.isEmpty
+                          ? "Please enter Class Teacher's name"
                           : null,
                     ),
                     const SizedBox(

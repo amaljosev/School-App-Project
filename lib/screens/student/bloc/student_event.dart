@@ -4,7 +4,9 @@ abstract class StudentEvent {}
 
 abstract class StudentActionEvent extends StudentEvent {}
 
-final class BottomNavigationEvent extends StudentEvent{
+final class StudentBottomNavigationEvent extends StudentActionEvent{
   final int currentPageIndex;
-  BottomNavigationEvent({required this.currentPageIndex});
+  StudentBottomNavigationEvent({required this.currentPageIndex});
 } 
+
+final class FeeDetailsEvent extends StudentActionEvent{}

@@ -102,7 +102,7 @@ class ScreenAdmin extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: headingColor)),
               ),
-              StreamBuilder(
+              StreamBuilder( 
                   stream: AdminActions().getTeacherDatas(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

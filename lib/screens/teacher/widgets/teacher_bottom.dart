@@ -4,6 +4,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
+import 'package:schoolapp/screens/teacher/widgets/works_widget.dart';
 
 class TeacherActions extends StatelessWidget {
   const TeacherActions({
@@ -16,12 +17,20 @@ class TeacherActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherBloc, TeacherState>(
+       listenWhen: (previous, current) => current is TeacherActionState,
+        buildWhen: (previous, current) => current is! TeacherActionState, 
       listener: (context, state) {
         if (state is SchoolEventsState) {
           Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const ScreenSchoolEvents(),
+              ));
+        } else if (state is TeacherAssignmetState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScreenWorks(),
               ));
         }
       },
@@ -48,7 +57,7 @@ class TeacherActions extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Events', 
+                            'Events',
                             style: appbarTextStyle,
                           ),
                         ),
@@ -63,7 +72,8 @@ class TeacherActions extends StatelessWidget {
                       height: 80,
                       decoration: BoxDecoration(
                         color: appbarColor,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: Center(
                         child: Text(
@@ -78,32 +88,39 @@ class TeacherActions extends StatelessWidget {
               const SizedBox(width: 10),
               Column(
                 children: [
-                  Card(
-                    elevation: 8,
-                    child: Container(
-                      width: size.width * 0.45,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: appbarColor,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Assignments',
-                          style: appbarTextStyle,
+                  GestureDetector( 
+                    onTap: () => context
+                        .read<TeacherBloc>()
+                        .add(TeacherAssignmentEvent()),
+                    child: Card(
+                      elevation: 8,
+                      child: Container(
+                        width: size.width * 0.45,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: appbarColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Assignments',
+                            style: appbarTextStyle,
+                          ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Card( 
+                  Card(
                     elevation: 8,
                     child: Container(
-                      width: size.width * 0.45,
+                      width: size.width * 0.45, 
                       height: 80,
                       decoration: BoxDecoration(
                         color: appbarColor,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                       ),
                       child: Center(
                         child: Text(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/alert_diaglogs.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
@@ -17,15 +19,23 @@ class _ScreenStudentState extends State<ScreenStudent> {
   @override
   void initState() {
     super.initState();
-    context.read<StudentBloc>().add(BottomNavigationEvent(currentPageIndex: 0));
+    context
+        .read<StudentBloc>()
+        .add(StudentBottomNavigationEvent(currentPageIndex: 0));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StudentBloc, StudentState>(
+    return BlocConsumer<StudentBloc, StudentState>(
+      listener: (context, state) {
+        if (state is FeeDetailsState) {
+          tostudentHome(context); 
+          alertPopupMessage(context,);
+        }
+      },
       builder: (context, state) {
         final size = MediaQuery.of(context).size;
-        if (state is BottomNavigationState) {
+        if (state is StudentBottomNavigationState) {
           int currentPageIndex = state.currentPageIndex;
           return Scaffold(
             appBar: AppBar(
@@ -58,7 +68,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
               onDestinationSelected: (int index) {
                 context
                     .read<StudentBloc>()
-                    .add(BottomNavigationEvent(currentPageIndex: index));
+                    .add(StudentBottomNavigationEvent(currentPageIndex: index));
               },
               indicatorColor: appbarColor,
               selectedIndex: currentPageIndex,
@@ -105,34 +115,6 @@ class _ScreenStudentState extends State<ScreenStudent> {
           );
         }
       },
-    );
-  }
-}
-
-class StudentActionWidget extends StatelessWidget {
-  const StudentActionWidget({
-    super.key,
-    required this.name,
-  });
-  final String name;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadiusDirectional.all(Radius.circular(15))),
-      elevation: 5,
-      child: Container(
-        height: 120,
-        width: 120,
-        decoration: BoxDecoration(
-            color: appbarColor,
-            borderRadius: const BorderRadius.all(Radius.circular(15))),
-        child: Center(
-            child: Text(
-          name,
-          style: contentTextStyle,
-        )),
-      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
         backgroundColor: appbarColor,
       ),
       body: WillPopScope(
-        onWillPop: () => toHome(context),
+        onWillPop: () => toTeacherHome(context),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -46,7 +46,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        const StudentFeeDetailsWidget(),
+                        const StudentFeeDetailsWidget(isTeacher: true), 
                       ]))
             ],
           ),

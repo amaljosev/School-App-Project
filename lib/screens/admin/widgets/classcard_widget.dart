@@ -17,32 +17,35 @@ class ClassCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
+      child: SizedBox( 
         child: ListView.builder(
             itemCount: teachersList.length,
             itemBuilder: (context, index) {
               DocumentSnapshot document = teachersList[index];
               Map<String, dynamic> data =
                   document.data() as Map<String, dynamic>;
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Text(
-                      '${index + 1}',
-                      style: GoogleFonts.teko(
-                          fontSize: 45,
-                          letterSpacing: 3,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal:8.0), 
+                child: Card(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Text(
+                        '${index + 1}',
+                        style: GoogleFonts.teko(
+                            fontSize: 45,
+                            letterSpacing: 3,
+                            fontWeight: FontWeight.bold,
+                            color: headingColor),
+                      ),
                     ),
+                    title:
+                        Text('Class : ${data["class"]}', style: contentTextStyle),
+                    subtitle: Text('Class Teacher: ${data['name']} ',
+                        overflow: TextOverflow.ellipsis, style: contentTextStyle), 
+                    onTap: () =>
+                        context.read<AdminBloc>().add(StudentCardTapEvent()),
                   ),
-                  title:
-                      Text('Class : ${data["class"]}', style: contentTextStyle),
-                  subtitle: Text('Class Teacher: ${data['name']} ',
-                      overflow: TextOverflow.ellipsis, style: contentTextStyle), 
-                  onTap: () =>
-                      context.read<AdminBloc>().add(StudentCardTapEvent()),
                 ),
               );
             }),

@@ -19,7 +19,7 @@ class TeacherStudentsList extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ScreenStudentForm(), 
+                builder: (context) => const ScreenStudentForm(),
               ));
         } else if (state is StudentProfileState) {
           Navigator.push(
@@ -37,11 +37,10 @@ class TeacherStudentsList extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
-                    children: [ 
+                    children: [
                       GestureDetector(
-                        onTap: () => context
-                            .read<TeacherBloc>()
-                            .add(FormStudentEvent()),
+                        onTap: () =>
+                            context.read<TeacherBloc>().add(FormStudentEvent()),
                         child: CircleAvatar(
                           backgroundColor: appbarColor,
                           radius: 40,

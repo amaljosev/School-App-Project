@@ -11,7 +11,7 @@ class ScreenSchoolEvents extends StatelessWidget {
     return Scaffold(
       appBar: myAppbar('Upcoming Events'),
       body: WillPopScope(
-        onWillPop: () => toHome(context), 
+        onWillPop: () => toTeacherHome(context), 
         child: SafeArea(
           child: Column(
             children: [

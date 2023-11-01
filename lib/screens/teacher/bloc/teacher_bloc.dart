@@ -15,6 +15,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<StudentProfileEvent>(studentProfileEvent);
     on<BottomNavigationEvent>(bottomNavigationEvent);
     on<SchoolEventsEvent>(schoolEventsEvent);
+    on<TeacherAssignmentEvent>(teacherAssignmentEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -49,5 +50,9 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> schoolEventsEvent(SchoolEventsEvent event, Emitter<TeacherState> emit) { 
     emit(SchoolEventsState()); 
+  }
+
+  FutureOr<void> teacherAssignmentEvent(TeacherAssignmentEvent event, Emitter<TeacherState> emit) {
+    emit(TeacherAssignmetState());
   }
 }

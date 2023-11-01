@@ -7,11 +7,16 @@ part 'student_state.dart';
 
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
   StudentBloc() : super(StudentInitial()) {
-    on<BottomNavigationEvent>(bottomNavigationEvent);
+    on<StudentBottomNavigationEvent>(bottomNavigationEvent);
+    on<FeeDetailsEvent>(feeDetailsEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
-      BottomNavigationEvent event, Emitter<StudentState> emit) {
-    emit(BottomNavigationState(currentPageIndex: event.currentPageIndex));
+      StudentBottomNavigationEvent event, Emitter<StudentState> emit) {
+    emit(StudentBottomNavigationState(currentPageIndex: event.currentPageIndex)); 
+  }
+
+  FutureOr<void> feeDetailsEvent(FeeDetailsEvent event, Emitter<StudentState> emit) {
+    emit(FeeDetailsState());
   }
 }

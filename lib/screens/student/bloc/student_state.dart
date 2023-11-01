@@ -6,7 +6,8 @@ abstract class StudentActionState extends StudentState {}
 
 final class StudentInitial extends StudentState {}
 
-final class BottomNavigationState extends StudentActionState {
+final class StudentBottomNavigationState extends StudentActionState {
   final int currentPageIndex;
-  BottomNavigationState({required this.currentPageIndex});
+  StudentBottomNavigationState({required this.currentPageIndex});
 }
+final class FeeDetailsState extends StudentActionState{} 
