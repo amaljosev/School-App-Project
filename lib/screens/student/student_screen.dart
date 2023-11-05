@@ -5,6 +5,7 @@ import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/alert_diaglogs.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
+import 'package:schoolapp/screens/student/tasks/student_tasks_widget.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
 
@@ -28,9 +29,17 @@ class _ScreenStudentState extends State<ScreenStudent> {
   Widget build(BuildContext context) {
     return BlocConsumer<StudentBloc, StudentState>(
       listener: (context, state) {
-        if (state is FeeDetailsState) {
-          tostudentHome(context); 
-          alertPopupMessage(context,);
+        if (state is StudentActionsState) {
+          if (state.index == 1) {
+            tostudentHome(context);
+            feePopupMessage(
+              context,
+            );
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ScreenStudentTasks(),
+            ));
+          }
         }
       },
       builder: (context, state) {

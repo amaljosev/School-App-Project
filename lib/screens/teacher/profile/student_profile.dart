@@ -35,7 +35,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
               const ProfileHeadWidget(
                   image: 'lib/assets/images/student female.png',
                   name: 'Student Name '),
-              const StudentDetailsWidget(),
+              const StudentDetailsWidget(isTeacher: true),
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(
@@ -46,7 +46,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        const StudentFeeDetailsWidget(isTeacher: true), 
+                        const StudentFeeDetailsWidget(isTeacher: true),
                       ]))
             ],
           ),

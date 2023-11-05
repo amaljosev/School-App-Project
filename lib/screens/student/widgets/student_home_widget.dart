@@ -24,28 +24,26 @@ class StudentHomeWidget extends StatelessWidget {
             ),
           ),
         ),
-        StudentDetailsWidget(),
+        StudentDetailsWidget(isTeacher: false),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // Column(
-            //   children: [
-            //     StudentActionWidget(name: 'HW'),
-            //     SizedBox(
-            //       height: 20,
-            //     ),
-            //     StudentActionWidget(
-            //       name: 'Assignment',
-            //     ),
-            //   ],
-            // ),
             Column(
               children: [
-                StudentFeeWidget(name: 'Fee Details'),
+                StudentFeeWidget(name: 'HW',index: 0),
                 SizedBox(
                   height: 20,
                 ),
-                // StudentActionWidget(name: 'Events'),
+                StudentFeeWidget(name: 'Fee Details',index: 1),
+              ],
+            ),
+            Column(
+              children: [
+                StudentFeeWidget(name: 'Assignments',index: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                StudentFeeWidget(name: 'Events',index: 0), 
               ],
             ),
           ],

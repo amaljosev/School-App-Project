@@ -11,7 +11,9 @@ import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
+import 'package:schoolapp/screens/welcome/first_screen.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
+import 'package:schoolapp/screens/welcome/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,24 +35,24 @@ class MyApp extends StatelessWidget {
           create: (context) => AdminBloc(),
         ),
         BlocProvider(
-          create: (context) => AdminRequestBloc(), 
+          create: (context) => AdminRequestBloc(),
         ),
         BlocProvider(
           create: (context) => TeacherBloc(),
         ),
         BlocProvider(
-          create: (context) => StudentBloc(), 
+          create: (context) => StudentBloc(),
         ),
       ],
-      child: MaterialApp( 
+      child: MaterialApp(
         title: 'School App',
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        debugShowCheckedModeBanner: false, 
-        home: const ScreenStudent(),               
+        debugShowCheckedModeBanner: false,
+        home: const ScreenSplash(), 
       ),
     );
   }

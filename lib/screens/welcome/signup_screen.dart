@@ -32,7 +32,9 @@ class ScreenSignUp extends StatelessWidget {
         buildWhen: (previous, current) => current is! WelcomeActionState,
         listener: (context, state) {
           if (state is NavigateToSignUpState) {
-            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ScreenLogin(isTeacher: true), 
+            ));
           } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
@@ -82,7 +84,7 @@ class ScreenSignUp extends StatelessWidget {
                           const SizedBox(
                             height: 15,
                           ),
-                          DropDownWidget(classNames: classNames,index: index),
+                          DropDownWidget(classNames: classNames, index: index),
                           const SizedBox(
                             height: 15,
                           ),
@@ -186,8 +188,6 @@ class ScreenSignUp extends StatelessWidget {
   }
 }
 
-
-
 onSignUp(BuildContext context) async {
   final teacherObject = TeacherModel(
     name: nameController.text,
@@ -204,7 +204,6 @@ onSignUp(BuildContext context) async {
       );
 
   nameController.text = "";
-  classController.text = "";
   emailController.text = "";
   contactController.text = "";
   passwordController.text = "";

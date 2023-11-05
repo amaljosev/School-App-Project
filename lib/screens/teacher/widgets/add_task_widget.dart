@@ -5,6 +5,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 class AddTaskWidget extends StatelessWidget {
   const AddTaskWidget({super.key, required this.size});
   final Size size;
+
   @override
   Widget build(BuildContext context) {
     const List<String> subjectList = <String>[
@@ -43,6 +44,9 @@ class AddTaskWidget extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -70,7 +74,7 @@ class AddTaskWidget extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Padding( 
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
                             child: Padding(

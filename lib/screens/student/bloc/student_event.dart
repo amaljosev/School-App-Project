@@ -9,4 +9,7 @@ final class StudentBottomNavigationEvent extends StudentActionEvent{
   StudentBottomNavigationEvent({required this.currentPageIndex});
 } 
 
-final class FeeDetailsEvent extends StudentActionEvent{}
+final class StudentActionsEvent extends StudentActionEvent{
+  final int index;
+  StudentActionsEvent({required this.index}); 
+}

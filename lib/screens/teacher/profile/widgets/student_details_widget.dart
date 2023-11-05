@@ -4,9 +4,9 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class StudentDetailsWidget extends StatelessWidget {
   const StudentDetailsWidget({
-    super.key,
+    super.key, required this.isTeacher,
   });
-
+final bool isTeacher;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,7 +15,7 @@ class StudentDetailsWidget extends StatelessWidget {
         height: 270,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: appbarColor,
+            color:isTeacher? appbarColor:null, 
             borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),

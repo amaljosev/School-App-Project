@@ -11,7 +11,7 @@ final bool isTeacher;
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: appbarColor,
+        color:isTeacher? appbarColor:null, 
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

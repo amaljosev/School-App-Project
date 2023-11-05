@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/widgets/add_task_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/home_page_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_profile_widget.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenTeacher extends StatefulWidget {
   const ScreenTeacher({super.key});
@@ -29,12 +29,25 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
         if (state is BottomNavigationState) {
           int currentPageIndex = state.currentPageIndex;
           return Scaffold(
-            appBar: myAppbar('Teacher'),
+            appBar: AppBar(
+              title: Text( 
+                'Teacher',
+                style: appbarTextStyle,
+              ),
+              backgroundColor: appbarColor,
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.notifications_none_outlined,
+                    ))
+              ],
+            ),
             body: IndexedStack(
               index: currentPageIndex,
               children: <Widget>[
                 HomePageWidget(size: size),
-                AddTaskWidget(size: size),
+                AddTaskWidget(size: size), 
                  TeacherPrfileWidget(size: size),
                 
               ],

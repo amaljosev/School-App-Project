@@ -6,6 +6,8 @@ abstract class WelcomeActionState extends WelcomeState {}
 
 final class WelcomeInitial extends WelcomeState {}
 
+final class SplashState extends WelcomeState {}
+
 final class NavigateToSignUpState extends WelcomeActionState {}
 
 final class SignUpSuccessState extends WelcomeActionState {}
@@ -24,4 +26,20 @@ final class DropdownMenuTapState extends WelcomeActionState {
     required this.dropdownValue,
     required this.index,
   });
+}
+
+final class LoginCompletedState extends WelcomeActionState {}
+
+final class AdminLoginState extends WelcomeActionEvent {}
+
+final class NewUserState extends WelcomeActionState {}
+
+final class TeacherLoginState extends WelcomeActionState{
+  final bool isTeacher;
+  TeacherLoginState({required this.isTeacher});
+}
+
+final class StudentLoginState extends WelcomeActionState{
+  final bool isTeacher;
+  StudentLoginState({required this.isTeacher});
 }

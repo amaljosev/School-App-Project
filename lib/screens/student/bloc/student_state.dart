@@ -10,4 +10,7 @@ final class StudentBottomNavigationState extends StudentActionState {
   final int currentPageIndex;
   StudentBottomNavigationState({required this.currentPageIndex});
 }
-final class FeeDetailsState extends StudentActionState{} 
+final class StudentActionsState extends StudentActionState{
+  final int index;
+  StudentActionsState({required this.index});
+} 
