@@ -18,7 +18,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
   @override
   void initState() {
     super.initState();
-    context.read<TeacherBloc>().add(BottomNavigationEvent(currentPageIndex: 0)); 
+    context.read<TeacherBloc>().add(BottomNavigationEvent(currentPageIndex: 0));
   }
 
   @override
@@ -30,7 +30,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
           int currentPageIndex = state.currentPageIndex;
           return Scaffold(
             appBar: AppBar(
-              title: Text( 
+              title: Text(
                 'Teacher',
                 style: appbarTextStyle,
               ),
@@ -47,9 +47,25 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
               index: currentPageIndex,
               children: <Widget>[
                 HomePageWidget(size: size),
-                AddTaskWidget(size: size), 
-                 TeacherPrfileWidget(size: size),
-                
+                AddTaskWidget(size: size),
+                Container(
+                  width: size.width,
+                  height: size.height,
+                  child: ListView.separated(
+                      itemBuilder: (context, index) => const ListTile(
+                            title: Text('date '),
+                            trailing: Column(
+                              mainAxisAlignment: MainAxisAlignment.center, 
+                              children: [
+                                Text('total present : 40'),
+                                Text('total absent : 10')  
+                              ],
+                            ),
+                          ),
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: 10),
+                ),
+                TeacherPrfileWidget(size: size),
               ],
             ),
             bottomNavigationBar: NavigationBar(
@@ -82,6 +98,17 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
                     color: headingColor,
                   ),
                   label: 'Add Task',
+                ),
+                NavigationDestination(
+                  icon: Icon(
+                    Icons.bar_chart_rounded,
+                    color: headingColor,
+                  ),
+                  selectedIcon: Icon(
+                    Icons.bar_chart,
+                    color: headingColor,
+                  ),
+                  label: 'Staticstics',
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(
