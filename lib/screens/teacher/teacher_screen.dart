@@ -47,7 +47,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
               index: currentPageIndex,
               children: <Widget>[
                 HomePageWidget(size: size),
-                AddTaskWidget(size: size),
+                AddTaskWidget(size: size,),  
                 Container(
                   width: size.width,
                   height: size.height,

@@ -39,11 +39,11 @@ class StudentHomeWidget extends StatelessWidget {
             ),
             Column(
               children: [
-                StudentFeeWidget(name: 'Assignments',index: 0),
+                StudentFeeWidget(name: 'Assignments',index: 2),
                 SizedBox(
                   height: 20,
                 ),
-                StudentFeeWidget(name: 'Events',index: 0), 
+                StudentFeeWidget(name: 'Events',index: 3), 
               ],
             ),
           ],

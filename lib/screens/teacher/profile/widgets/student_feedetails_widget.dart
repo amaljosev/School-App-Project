@@ -38,7 +38,7 @@ final bool isTeacher;
                         style: contentTextStyle,
                       ),
                       Text(
-                        'Amount Paied :',
+                        'Amount Paid :',
                         style: contentTextStyle,
                       ),
                       Text(

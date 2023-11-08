@@ -3,8 +3,9 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class AddTaskWidget extends StatelessWidget {
-  const AddTaskWidget({super.key, required this.size});
+  const AddTaskWidget({super.key, required this.size,});
   final Size size;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +23,10 @@ class AddTaskWidget extends StatelessWidget {
         length: 2,
         child: Column(
           children: [
-            const TabBar(
+             TabBar(
               tabs: [
                 Tab(
-                  text: 'Home Work',
+                  text: 'Home Work', 
                 ),
                 Tab(
                   text: 'Assignment',
@@ -87,7 +88,8 @@ class AddTaskWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ), 
+                        
                         Padding(
                           padding: const EdgeInsets.only(right: 18.0),
                           child: ElevatedButton.icon(

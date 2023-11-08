@@ -5,9 +5,11 @@ import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/alert_diaglogs.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
-import 'package:schoolapp/screens/student/tasks/student_tasks_widget.dart';
+import 'package:schoolapp/screens/student/events/event_screen_student.dart';
+import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
+import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
 
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});
@@ -35,9 +37,17 @@ class _ScreenStudentState extends State<ScreenStudent> {
             feePopupMessage(
               context,
             );
-          } else {
+          } else if(state.index==0){
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ScreenStudentTasks(),
+              builder: (context) => const ScreenStudentTasks(taskName: 'Home Work'),
+            ));
+          }else if(state.index==2){ 
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ScreenStudentTasks(taskName:'Assignment' ), 
+            ));
+          }else if(state.index==3){ 
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ScreenEventsStudent(),  
             ));
           }
         }
@@ -64,12 +74,8 @@ class _ScreenStudentState extends State<ScreenStudent> {
             body: IndexedStack(
               index: currentPageIndex,
               children: <Widget>[
-                const StudentHomeWidget(),
-                Container(
-                  height: size.height,
-                  width: size.width,
-                  color: Colors.deepPurple,
-                ),
+                const StudentHomeWidget(), 
+                const ApplicationWidget(isTeacher: false), 
                 StudentAttendenceDetailsWidget(size: size),
               ],
             ),
