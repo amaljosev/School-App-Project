@@ -27,3 +27,7 @@ final class BottomNavigationEvent extends TeacherActionEvent {
 final class SchoolEventsEvent extends TeacherActionEvent{}
 
 final class TeacherAssignmentEvent extends TeacherActionEvent{}
+
+final class TeacherHomeWorkEvent extends TeacherActionEvent{}
+
+final class TeacherLeaveApplicationEvent extends TeacherActionEvent{} 

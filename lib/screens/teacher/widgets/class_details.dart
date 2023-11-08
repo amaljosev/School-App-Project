@@ -29,7 +29,7 @@ class ClassDetailsWidget extends StatelessWidget {
       },
       builder: (context, state) {
         return Center(
-          child: Container(
+          child: Container( 
             height: 200,
             width: size.width * 0.97,
             decoration: BoxDecoration(

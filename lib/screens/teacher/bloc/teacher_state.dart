@@ -24,3 +24,7 @@ final class BottomNavigationState extends  TeacherActionState{
 final class SchoolEventsState extends TeacherActionState {} 
 
 final class TeacherAssignmetState extends TeacherActionState{}
+
+final class TeacherHomeWorkState extends TeacherActionState{}
+
+final class TeacherLeaveApplicationState extends TeacherActionState{} 
