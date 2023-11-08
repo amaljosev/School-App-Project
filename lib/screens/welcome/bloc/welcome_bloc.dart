@@ -12,7 +12,8 @@ SignUpRequest signUpRequest = SignUpRequest();
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc() : super(WelcomeInitial()) {
     on<NavigateEvent>(navigate);
-    on<SignInButtonEvent>(signInButtonEvent);
+    on<TeacherSignInEvent>(teacherSignInEvent);
+    on<StudentSignInEvent>(studentSignInEvent);
     on<SignUpButtonEvent>(signUpButtonEvent);
     on<DropdownMenuTapEvent>(dropdownMenuTapEvent);
     on<SplashEvent>(splashEvent);
@@ -28,14 +29,25 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
     emit(NavigateToSignUpState());
   }
 
-  FutureOr<void> signInButtonEvent(
-      SignInButtonEvent event, Emitter<WelcomeState> emit) async {
+  FutureOr<void> teacherSignInEvent(
+      TeacherSignInEvent event, Emitter<WelcomeState> emit) async {
     final userExist =
-        await LoginFunctions().loginUser(event.email, event.password);
+        await LoginFunctions().teacherLogin(event.email, event.password);
     if (userExist) {
-      emit(SignInSuccessState());
+      emit(TeacherSignInSuccessState());
     } else {
-      emit(SignInErrorState());
+      emit(TeacherSignInErrorState());
+    }
+  }
+
+  FutureOr<void> studentSignInEvent(
+      StudentSignInEvent event, Emitter<WelcomeState> emit) async {
+    final userExist =
+        await LoginFunctions().studentLogin(event.email, event.password); 
+    if (userExist) {
+      emit(StudentSignInSuccessState());
+    } else {
+      emit(StudentSignInErrorState());
     }
   }
 

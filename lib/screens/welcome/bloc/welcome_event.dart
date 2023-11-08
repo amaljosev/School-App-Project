@@ -8,11 +8,18 @@ final class NavigateEvent extends WelcomeActionEvent {}
 
 final class SplashEvent extends WelcomeActionEvent {}
 
-final class SignInButtonEvent extends WelcomeActionEvent {
+final class TeacherSignInEvent extends WelcomeActionEvent {
   final String email;
   final String password;
   
-  SignInButtonEvent(
+  TeacherSignInEvent(
+      { required this.email, required this.password});
+}
+final class StudentSignInEvent extends WelcomeActionEvent {
+  final String email;
+  final String password;
+  
+  StudentSignInEvent( 
       { required this.email, required this.password});
 }
 

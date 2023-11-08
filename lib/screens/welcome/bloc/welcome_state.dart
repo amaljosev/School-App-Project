@@ -14,9 +14,13 @@ final class SignUpSuccessState extends WelcomeActionState {}
 
 final class SignUpErrorState extends WelcomeActionState {}
 
-final class SignInSuccessState extends WelcomeActionState {}
+final class TeacherSignInSuccessState extends WelcomeActionState {}
 
-final class SignInErrorState extends WelcomeActionState {}
+final class TeacherSignInErrorState extends WelcomeActionState {}
+
+final class StudentSignInSuccessState extends WelcomeActionState {}
+
+final class StudentSignInErrorState extends WelcomeActionState {}
 
 final class DropdownMenuTapState extends WelcomeActionState {
   final String? dropdownValue;
