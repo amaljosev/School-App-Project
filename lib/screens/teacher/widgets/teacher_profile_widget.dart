@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/widgets/button_widget.dart';
 
 class TeacherPrfileWidget extends StatelessWidget {
   const TeacherPrfileWidget({super.key, required this.size});
   final Size size;
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -59,23 +61,7 @@ class TeacherPrfileWidget extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 18.0),
-          child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: buttonColor,
-                  shape: const ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
-                  fixedSize: const Size(160, 30),
-                  elevation: 10),
-              onPressed: () {},
-              icon: const Icon(Icons.edit, color: whiteTextColor),
-              label: const Text(
-                'Edit Profile',
-                style: TextStyle(color: whiteTextColor),
-              )),
-        ),
+        const ButtonSubmissionWidget(label: 'Edit', icon: Icons.edit),  
       ],
     );
   }

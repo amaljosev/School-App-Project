@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/widgets/button_widget.dart';
 
 class StudentDetailsWidget extends StatelessWidget {
   const StudentDetailsWidget({
@@ -54,23 +55,10 @@ final bool isTeacher;
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: buttonColor,
-                        shape: const ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        fixedSize: const Size(100, 30),
-                        elevation: 10),
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit, color: whiteTextColor),
-                    label: const Text(
-                      'Edit',
-                      style: TextStyle(color: whiteTextColor),
-                    )),
-              ),
+               const Padding( 
+                 padding: EdgeInsets.all(8.0),
+                 child: ButtonSubmissionWidget(label: 'Edit', icon: Icons.edit),
+               ), 
             ],
           ),
         ),

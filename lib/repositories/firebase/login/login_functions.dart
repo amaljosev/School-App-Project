@@ -17,7 +17,6 @@ class LoginFunctions {
         return true;
       }
     }
-
     // Username doesn't exist or the password doesn't match.
     return false;
   }
@@ -37,7 +36,6 @@ class LoginFunctions {
         return true;
       }
     }
-
     // Username doesn't exist or the password doesn't match.
     return false;
   }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/screens/student/student_screen.dart';
-import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/login_screen.dart';
 
@@ -19,13 +17,13 @@ class ScreenFirst extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  ScreenLogin(isTeacher: state.isTeacher), 
+                builder: (context) => ScreenLogin(isTeacher: state.isTeacher),
               ));
-        } else if (state is StudentLoginState) { 
+        } else if (state is StudentLoginState) {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  ScreenLogin(isTeacher: state.isTeacher),  
+                builder: (context) => ScreenLogin(isTeacher: state.isTeacher),
               ));
         }
       },
@@ -45,12 +43,12 @@ class ScreenFirst extends StatelessWidget {
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
                         color: Colors.black)),
-                const SizedBox(
-                  height: 20,
+                        const SizedBox(
+                  height: 40,  
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: [ 
                     ElevatedButton(
                         onPressed: () => context
                             .read<WelcomeBloc>()
@@ -77,7 +75,7 @@ class ScreenFirst extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () => context
                               .read<WelcomeBloc>()
-                              .add(StudentLoginEvent(isTeacher: false)),  
+                              .add(StudentLoginEvent(isTeacher: false)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: buttonColor,
                               shape: const ContinuousRectangleBorder(

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/widgets/button_widget.dart';
 
 class ScreenStudentTasks extends StatelessWidget {
   const ScreenStudentTasks({super.key, required this.taskName});
-final String taskName;
+  final String taskName;
   @override
   Widget build(BuildContext context) {
     const List<String> subjectList = <String>[
@@ -21,28 +22,28 @@ final String taskName;
       initialIndex: 0,
       length: 2,
       child: WillPopScope(
-        onWillPop: () => tostudentHome(context), 
+        onWillPop: () => tostudentHome(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: appbarColor, 
-            title:  Text(taskName,style: appbarTextStyle),  
-            bottom:  TabBar(
-              tabs: <Widget>[ 
+            backgroundColor: appbarColor,
+            title: Text(taskName, style: appbarTextStyle),
+            bottom: TabBar(
+              tabs: <Widget>[
                 Tab(
                   icon: const Icon(Icons.assignment),
                   text: taskName,
                 ),
                 Tab(
                   icon: const Icon(Icons.save_as_sharp),
-                  text: 'Submit $taskName', 
+                  text: 'Submit $taskName',
                 ),
               ],
             ),
           ),
           body: TabBarView(
             children: <Widget>[
-               Center(
-                child: Text("$taskName's are list here"),  
+              Center(
+                child: Text("$taskName's are list here"),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -93,24 +94,26 @@ final String taskName;
                       ),
                     ),
                   ),
-                  
                   Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: buttonColor,
-                            shape: const ContinuousRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        OutlinedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all(
+                                const BorderSide(width: 2.0, color: titleColor),
+                              ),
                             ),
-                            fixedSize: const Size(120, 30),
-                            elevation: 10),
-                        onPressed: () {},
-                        icon: const Icon(Icons.send, color: whiteTextColor),
-                        label: const Text(
-                          'Send',
-                          style: TextStyle(color: whiteTextColor),
-                        )),
+                            child:  Text('Upload $taskName')),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('No file selected !!'), 
+                        )
+                      ],
+                    ),
                   ),
+                  const ButtonSubmissionWidget(label: 'send', icon: Icons.send),
                 ],
               ),
             ],

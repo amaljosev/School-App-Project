@@ -4,6 +4,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/widgets/add_task_widget.dart';
+import 'package:schoolapp/screens/teacher/widgets/attendace_history_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/home_page_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_profile_widget.dart';
 
@@ -47,24 +48,10 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
               index: currentPageIndex,
               children: <Widget>[
                 HomePageWidget(size: size),
-                AddTaskWidget(size: size,),  
-                Container(
-                  width: size.width,
-                  height: size.height,
-                  child: ListView.separated(
-                      itemBuilder: (context, index) => const ListTile(
-                            title: Text('date '),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.center, 
-                              children: [
-                                Text('total present : 40'),
-                                Text('total absent : 10')  
-                              ],
-                            ),
-                          ),
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemCount: 10),
+                AddTaskWidget(
+                  size: size,
                 ),
+                const AttendenceHistoryWidget(),
                 TeacherPrfileWidget(size: size),
               ],
             ),

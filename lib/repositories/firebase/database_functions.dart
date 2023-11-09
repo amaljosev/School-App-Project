@@ -4,7 +4,7 @@ class DbFunctions {
     Future<void> addrDetails(Map<String, dynamic> map,String collectionName) async {
     return await FirebaseFirestore.instance
         .collection(collectionName) 
-        .doc()
+        .doc()  
         .set(map);
   }
   

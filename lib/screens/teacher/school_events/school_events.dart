@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
+import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenSchoolEvents extends StatelessWidget {
@@ -30,7 +31,7 @@ class ApplicationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30), 
+        const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -45,7 +46,7 @@ class ApplicationWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
-                      elevation: 10, 
+                      elevation: 10,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
@@ -53,7 +54,6 @@ class ApplicationWidget extends StatelessWidget {
                             TextFormField(
                               decoration: InputDecoration(
                                 hintText: isTeacher ? 'Title' : 'Date of Leave',
-                               
                               ),
                             ),
                             TextFormField(
@@ -68,23 +68,9 @@ class ApplicationWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: buttonColor,
-                            shape: const ContinuousRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                            fixedSize: const Size(110, 30),
-                            elevation: 10),
-                        onPressed: () {},
-                        icon: const Icon(Icons.send, color: whiteTextColor),
-                        label: const Text(
-                          'Share',
-                          style: TextStyle(color: whiteTextColor),
-                        )),
+                  const ButtonSubmissionWidget(
+                    label: 'Share',
+                    icon: Icons.send,
                   ),
                 ],
               ),
