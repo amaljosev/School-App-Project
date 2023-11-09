@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
+import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 
 part 'teacher_event.dart';
 part 'teacher_state.dart';
@@ -18,6 +20,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<TeacherAssignmentEvent>(teacherAssignmentEvent);
     on<TeacherLeaveApplicationEvent>(teacherLeaveApplicationEvent);
     on<TeacherHomeWorkEvent>(teacherHomeWorkEvent);
+    on<FetchTeacherDatasEvent>(fetchTeacherDatasEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -68,5 +71,13 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> teacherHomeWorkEvent(
       TeacherHomeWorkEvent event, Emitter<TeacherState> emit) {
     emit(TeacherHomeWorkState());
+  }
+
+  FutureOr<void> fetchTeacherDatasEvent(
+      FetchTeacherDatasEvent event, Emitter<TeacherState> emit) async {
+    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+
+   Stream<DocumentSnapshot<Object?>>? teacherDatas= DbFunctionsTeacher().getTeacherData(id as String); 
+    emit(FetchTeacherDataState(teacherDatas: teacherDatas)); 
   }
 }

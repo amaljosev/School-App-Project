@@ -25,7 +25,8 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocBuilder<TeacherBloc, TeacherState>(
+    return BlocConsumer<TeacherBloc, TeacherState>(
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is BottomNavigationState) {
           int currentPageIndex = state.currentPageIndex;
@@ -33,7 +34,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
             appBar: AppBar(
               title: Text(
                 'Teacher',
-                style: appbarTextStyle, 
+                style: appbarTextStyle,
               ),
               backgroundColor: appbarColor,
               actions: [
@@ -113,7 +114,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
           );
         } else {
           return const SizedBox(
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(child: CircularProgressIndicator(color: Colors.cyan,)),
           );
         }
       },

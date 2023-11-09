@@ -31,3 +31,5 @@ final class TeacherAssignmentEvent extends TeacherActionEvent{}
 final class TeacherHomeWorkEvent extends TeacherActionEvent{}
 
 final class TeacherLeaveApplicationEvent extends TeacherActionEvent{} 
+
+final class FetchTeacherDatasEvent extends TeacherActionEvent{}

@@ -28,3 +28,9 @@ final class TeacherAssignmetState extends TeacherActionState{}
 final class TeacherHomeWorkState extends TeacherActionState{}
 
 final class TeacherLeaveApplicationState extends TeacherActionState{} 
+
+final class FetchTeacherDataState extends TeacherActionState{
+  Stream<DocumentSnapshot<Object?>>? teacherDatas;
+  FetchTeacherDataState({required this.teacherDatas});  
+
+} 

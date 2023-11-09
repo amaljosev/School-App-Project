@@ -47,3 +47,4 @@ final class StudentLoginState extends WelcomeActionState{
   final bool isTeacher;
   StudentLoginState({required this.isTeacher});
 }
+
