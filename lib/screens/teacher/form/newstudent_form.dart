@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/widgets/text_field_widget.dart';
 
-final nameController = TextEditingController();
+final firstNameController = TextEditingController();
+final secondNameController = TextEditingController();
 final classTeacherController = TextEditingController();
 final rollNoController = TextEditingController();
 final guardianNameController = TextEditingController();
 final ageController = TextEditingController();
-final classController = TextEditingController();
 final registrationNumberController = TextEditingController();
 final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
+
+enum Gender { male, female }
+
+List<String> classNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 class ScreenStudentForm extends StatelessWidget {
   const ScreenStudentForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Gender? gender = Gender.female;
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: WillPopScope(
@@ -69,242 +75,198 @@ class ScreenStudentForm extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      children: [
-                        Stack(
-                          children: [
-                            const CircleAvatar(
-                              backgroundColor: headingColor,
-                              radius: 60,
-                              child: CircleAvatar(
-                                radius: 55,
-                                backgroundImage: AssetImage(
-                                    'lib/assets/images/student female.png'),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: CircleAvatar(
-                                backgroundColor: headingColor,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: appbarColor,
-                                    )),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        filled: true,
-                        fillColor: loginTextfieldColor,
-                        suffixIcon: const Icon(Icons.person),
-                        hintText: 'Student Name',
-                        labelText: 'Student Name',
+                    const CircleAvatar(
+                      backgroundColor: headingColor,
+                      radius: 60,
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundImage:
+                            AssetImage('lib/assets/images/student female.png'),
                       ),
-                      controller: nameController,
-                      keyboardType: TextInputType.name,
-                      validator: (value) => nameController.text.isEmpty
-                          ? "Please enter Student's name"
-                          : null,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        filled: true,
-                        fillColor: loginTextfieldColor,
-                        suffixIcon: const Icon(Icons.person),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.person_outline_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'First Name',
+                        labelText: 'First Name',
+                        controller: firstNameController,
+                        keyboardType: TextInputType.name,
+                        length: null,
+                        obscureText: false),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.person_add_alt_outlined,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Second Name',
+                        labelText: 'Second Name',
+                        controller: secondNameController,
+                        keyboardType: TextInputType.name,
+                        length: null,
+                        obscureText: false),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.person_3_outlined,
+                            color: headingColor),
+                        fillColor: appbarColor,
                         hintText: 'Class Teacher',
                         labelText: 'Class Teacher',
-                      ),
-                      controller: classTeacherController,
-                      keyboardType: TextInputType.name,
-                      validator: (value) => classTeacherController.text.isEmpty
-                          ? "Please enter Class Teacher's name"
-                          : null,
-                    ),
+                        controller: classTeacherController,
+                        keyboardType: TextInputType.name,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon:
-                              const Icon(Icons.format_list_numbered_sharp),
-                          hintText: 'Roll No',
-                          labelText: 'Roll No'),
-                      controller: rollNoController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) => classController.text.isEmpty
-                          ? "Please enter Student's Roll No"
-                          : null,
-                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.format_list_numbered_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Roll No',
+                        labelText: 'Roll No',
+                        controller: rollNoController,
+                        keyboardType: TextInputType.number,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon: const Icon(Icons.av_timer),
-                          hintText: 'Age',
-                          labelText: 'Age'),
-                      controller: ageController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) => classController.text.isEmpty
-                          ? "Please enter Student's age"
-                          : null,
-                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.av_timer_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Age',
+                        labelText: 'Age',
+                        controller: ageController,
+                        keyboardType: TextInputType.number,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon: const Icon(Icons.class_),
-                          hintText: 'Class',
-                          labelText: 'Class'),
-                      controller: classController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) => classController.text.isEmpty
-                          ? "Please enter Student's class"
-                          : null,
-                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.list, color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Register No',
+                        labelText: 'Register No',
+                        controller: registrationNumberController,
+                        keyboardType: TextInputType.number,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon:
-                              const Icon(Icons.format_list_numbered_sharp),
-                          hintText: 'Register No',
-                          labelText: 'Register No'),
-                      controller: registrationNumberController,
-                      keyboardType: TextInputType.number,
-                      validator: (value) => classController.text.isEmpty
-                          ? "Please enter Student's Register No"
-                          : null,
-                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.mail_outline_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Email',
+                        labelText: 'Email',
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon: const Icon(Icons.email),
-                          hintText: 'Email',
-                          labelText: 'Email'),
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) => emailController.text.isEmpty
-                          ? "Please enter Student's or guardian's email"
-                          : null,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon: const Icon(Icons.phone),
-                          hintText: 'Contact Number',
-                          labelText: 'Contact Number'),
-                      controller: contactController,
-                      keyboardType: TextInputType.phone,
-                      maxLength: 10,
-                      validator: (value) => contactController.text.isEmpty
-                          ? "Please enter Student's or guardian's contact no"
-                          : null,
-                    ),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.phone_iphone_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Contact Number',
+                        labelText: 'Contact Number',
+                        controller: contactController,
+                        keyboardType: TextInputType.number,
+                        length: 10,
+                        obscureText: false),
                     const SizedBox(
                       height: 5,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        filled: true,
-                        fillColor: loginTextfieldColor,
-                        suffixIcon: const Icon(Icons.people),
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.people_outline,
+                            color: headingColor),
+                        fillColor: appbarColor,
                         hintText: "Guardian's Name",
                         labelText: "Guardian's Name",
-                      ),
-                      controller: guardianNameController,
-                      keyboardType: TextInputType.name,
-                      validator: (value) => nameController.text.isEmpty
-                          ? "Please enter Guardian's Name"
-                          : null,
-                    ),
+                        controller: guardianNameController,
+                        keyboardType: TextInputType.name,
+                        length: null,
+                        obscureText: false),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          filled: true,
-                          fillColor: loginTextfieldColor,
-                          suffixIcon: IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.lock)),
-                          hintText: 'Password',
-                          labelText: 'Password'),
-                      controller: passwordController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) => passwordController.text.isEmpty
-                          ? 'Please enter a password'
-                          : null,
+                    SignUpTextFieldWidget(
+                        icon: const Icon(Icons.lock_outline_rounded,
+                            color: headingColor),
+                        fillColor: appbarColor,
+                        hintText: 'Password',
+                        labelText: 'Password',
+                        controller: passwordController,
+                        keyboardType: TextInputType.emailAddress,
+                        length: null,
+                        obscureText: true),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Gender',
+                              style: titleTextStyle,
+                            ),
+                            Row(
+                              children: [
+                                Radio<Gender>(
+                                  value: Gender.female,
+                                  groupValue: gender,
+                                  onChanged: (Gender? value) {},
+                                ),
+                                const Text('Female'),
+                                Radio<Gender>(
+                                  value: Gender.male,
+                                  groupValue: gender,
+                                  onChanged: (Gender? value) {},
+                                ),
+                                const Text('Male'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              'Class',
+                              style: titleTextStyle,
+                            ),
+                            DropdownMenu<String>(
+                              initialSelection: classNames.first,
+                              onSelected: (String? value) {
+                                // This is called when the user selects an item.
+                                // setState(() {
+                                //   dropdownValue = value!;
+                                // });
+                              },
+                              dropdownMenuEntries: classNames
+                                  .map<DropdownMenuEntry<String>>(
+                                      (String value) {
+                                return DropdownMenuEntry<String>(
+                                    value: value, label: value);
+                              }).toList(),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                     const SizedBox(
                       height: 20,
@@ -312,7 +274,7 @@ class ScreenStudentForm extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (studentFormKey.currentState!.validate()) {
-                          onCreate(context);
+                          // onCreate(context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -341,25 +303,25 @@ class ScreenStudentForm extends StatelessWidget {
   }
 }
 
-void onCreate(BuildContext context) {
-  final studentObject = StudentModel(
-      rollNo: int.parse(rollNoController.text),
-      name: nameController.text,
-      age: int.parse(ageController.text),
-      className: int.parse(classController.text),
-      registerNo: int.parse(registrationNumberController.text),
-      email: emailController.text,
-      contactNo: int.parse(contactController.text),
-      guardianName: guardianNameController.text,
-      password: passwordController.text);
-  context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
+// void onCreate(BuildContext context) {
+//   final studentObject = StudentModel(
+//       rollNo: int.parse(rollNoController.text),
+//       name: nameController.text,
+//       age: int.parse(ageController.text),
+//       className: int.parse(classController.text),
+//       registerNo: int.parse(registrationNumberController.text),
+//       email: emailController.text,
+//       contactNo: int.parse(contactController.text),
+//       guardianName: guardianNameController.text,
+//       password: passwordController.text);
+//   context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
 
-  nameController.text = "";
-  guardianNameController.text = "";
-  ageController.text = "";
-  classController.text = "";
-  registrationNumberController.text = "";
-  emailController.text = "";
-  contactController.text = "";
-  passwordController.text = "";
-}
+//   nameController.text = "";
+//   guardianNameController.text = "";
+//   ageController.text = "";
+//   classController.text = "";
+//   registrationNumberController.text = "";
+//   emailController.text = "";
+//   contactController.text = "";
+//   passwordController.text = "";
+// }

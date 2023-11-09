@@ -33,7 +33,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
             appBar: AppBar(
               title: Text(
                 'Teacher',
-                style: appbarTextStyle,
+                style: appbarTextStyle, 
               ),
               backgroundColor: appbarColor,
               actions: [

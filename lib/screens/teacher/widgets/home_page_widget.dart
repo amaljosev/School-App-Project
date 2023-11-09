@@ -30,7 +30,7 @@ class HomePageWidget extends StatelessWidget {
             ),
             child: Text(
               'Students',
-              style: contentTextStyle 
+              style: titleTextStyle  
             ),
           ),
           const TeacherStudentsList(),
