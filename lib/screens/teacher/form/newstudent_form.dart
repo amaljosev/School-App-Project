@@ -329,7 +329,7 @@ void onCreate(BuildContext context) {
   secondNameController.text = '';
   classTeacherController.text = '';
   rollNoController.text = '';
-  guardianNameController.text = ''; 
+  guardianNameController.text = '';
   ageController.text = '';
   registrationNumberController.text = '';
   emailController.text = '';

@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginFunctions {
   Future<bool> teacherLogin(
@@ -33,7 +32,7 @@ class LoginFunctions {
   Future<bool> studentLogin(
       String enteredUsername, String enteredPassword) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('students')
+        .collection('all_students') 
         .where('email', isEqualTo: enteredUsername)
         .get();
 

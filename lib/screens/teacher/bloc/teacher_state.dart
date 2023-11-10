@@ -14,7 +14,11 @@ final class AddStudentState extends TeacherActionState {}
 
 final class AttendenceState extends TeacherActionState {}
 
-final class StudentProfileState extends TeacherActionState {}
+final class StudentProfileState extends TeacherActionState {
+  final Map<String, dynamic>  students;
+  final int index;
+  StudentProfileState( {required this.students,required this.index,}); 
+}
 
 final class BottomNavigationState extends  TeacherActionState{ 
  final int currentPageIndex;
@@ -47,5 +51,9 @@ final class DropdownTeacherState extends TeacherActionState {
 final class RadioButtonState extends TeacherActionState{
  final Gender? gender;
  RadioButtonState({required this.gender});
-
 }
+
+final class FetchStudentDatasState extends TeacherActionState{
+ final Stream<QuerySnapshot<Object?>> studetDatas;  
+ FetchStudentDatasState({required this.studetDatas});   
+} 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
+import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 
 class StudentDbFunctions {
   final CollectionReference studentsCollection =
@@ -21,6 +22,9 @@ class StudentDbFunctions {
       'gender': studentData.gender,
       'standard': studentData.standard
     };
-    DbFunctions().addrDetails(studentMap, 'students');
+    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    DbFunctions()
+        .addStudentDetails(studentMap, 'teachers', id as String, 'students');
+        DbFunctions().addrDetails(studentMap, 'all_students'); 
   }
 }

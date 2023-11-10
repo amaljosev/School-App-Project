@@ -10,6 +10,7 @@ part 'teacher_event.dart';
 part 'teacher_state.dart';
 
 class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
+  String? id = '';
   TeacherBloc() : super(TeacherInitial()) {
     on<TeacherEvent>(teacherEvent);
     on<FormStudentEvent>(formStudentEvent);
@@ -24,6 +25,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<FetchTeacherDatasEvent>(fetchTeacherDatasEvent);
     on<DropdownTeacherEvent>(dropdownTeacherEvent);
     on<RadioButtonEvent>(radioButtonEvent);
+    on<FetchStudentDatasEvent>(fetchStudentDatasEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -44,7 +46,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> studentProfileEvent(
       StudentProfileEvent event, Emitter<TeacherState> emit) {
-    emit(StudentProfileState());
+    emit(StudentProfileState(students: event.students,index: event.index));  
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -78,8 +80,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> fetchTeacherDatasEvent(
       FetchTeacherDatasEvent event, Emitter<TeacherState> emit) async {
-    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-
+    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
     Stream<DocumentSnapshot<Object?>>? teacherDatas =
         DbFunctionsTeacher().getTeacherData(id as String);
     emit(FetchTeacherDataState(teacherDatas: teacherDatas));
@@ -94,5 +95,13 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> radioButtonEvent(
       RadioButtonEvent event, Emitter<TeacherState> emit) {
     emit(RadioButtonState(gender: event.gender));
+  }
+
+  FutureOr<void> fetchStudentDatasEvent(
+      FetchStudentDatasEvent event, Emitter<TeacherState> emit) async {
+    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    Stream<QuerySnapshot<Object?>>? studentDatas =
+        DbFunctionsTeacher().getStudentsDatas(id);
+    emit(FetchStudentDatasState(studetDatas: studentDatas));
   }
 }

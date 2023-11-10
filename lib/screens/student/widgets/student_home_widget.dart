@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/student/widgets/student_fee_widget.dart';
-import 'package:schoolapp/screens/teacher/profile/widgets/student_details_widget.dart';
 
 class StudentHomeWidget extends StatelessWidget {
   const StudentHomeWidget({
@@ -24,7 +23,7 @@ class StudentHomeWidget extends StatelessWidget {
             ),
           ),
         ),
-        StudentDetailsWidget(isTeacher: false),
+        // StudentDetailsWidget(isTeacher: false),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

@@ -9,8 +9,10 @@ import 'package:schoolapp/screens/teacher/profile/widgets/student_details_widget
 import 'package:schoolapp/screens/teacher/profile/widgets/student_feedetails_widget.dart';
 
 class ScreenStudentProfileTeacher extends StatelessWidget {
-  const ScreenStudentProfileTeacher({super.key});
-
+  const ScreenStudentProfileTeacher(
+      {super.key, required this.index, required this.studentsMap});
+  final Map<String, dynamic> studentsMap;
+  final int index;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -32,10 +34,11 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ProfileHeadWidget(
+               ProfileHeadWidget(
                   image: 'lib/assets/images/student female.png',
-                  name: 'Student Name '),
-              const StudentDetailsWidget(isTeacher: true),
+                  name: "${studentsMap['first_name']} ${studentsMap['second_name']}"), 
+              StudentDetailsWidget(
+                  isTeacher: true, students: studentsMap, index: index), 
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(

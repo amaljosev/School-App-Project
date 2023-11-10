@@ -15,7 +15,11 @@ final class AddStudentEvent extends TeacherActionEvent {
 
 final class AttendenceEvent extends TeacherActionEvent {}
 
-final class StudentProfileEvent extends TeacherActionEvent {}
+final class StudentProfileEvent extends TeacherActionEvent {
+  final Map<String, dynamic>  students;
+  final int index;
+  StudentProfileEvent({required this.students, required this.index});
+}
 
 final class BottomNavigationEvent extends TeacherActionEvent {
   int currentPageIndex;
@@ -42,7 +46,10 @@ final class DropdownTeacherEvent extends TeacherActionEvent {
     required this.onSelected,
   });
 }
-final class RadioButtonEvent extends TeacherActionEvent{
+
+final class RadioButtonEvent extends TeacherActionEvent {
   final Gender? gender;
   RadioButtonEvent({required this.gender});
 }
+
+final class FetchStudentDatasEvent extends TeacherActionEvent {}
