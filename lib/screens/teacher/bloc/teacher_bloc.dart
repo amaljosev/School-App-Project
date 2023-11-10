@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
+import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 
 part 'teacher_event.dart';
 part 'teacher_state.dart';
@@ -21,6 +22,8 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<TeacherLeaveApplicationEvent>(teacherLeaveApplicationEvent);
     on<TeacherHomeWorkEvent>(teacherHomeWorkEvent);
     on<FetchTeacherDatasEvent>(fetchTeacherDatasEvent);
+    on<DropdownTeacherEvent>(dropdownTeacherEvent);
+    on<RadioButtonEvent>(radioButtonEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -77,7 +80,19 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
       FetchTeacherDatasEvent event, Emitter<TeacherState> emit) async {
     final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
 
-   Stream<DocumentSnapshot<Object?>>? teacherDatas= DbFunctionsTeacher().getTeacherData(id as String); 
-    emit(FetchTeacherDataState(teacherDatas: teacherDatas)); 
+    Stream<DocumentSnapshot<Object?>>? teacherDatas =
+        DbFunctionsTeacher().getTeacherData(id as String);
+    emit(FetchTeacherDataState(teacherDatas: teacherDatas));
+  }
+
+  FutureOr<void> dropdownTeacherEvent(
+      DropdownTeacherEvent event, Emitter<TeacherState> emit) {
+    emit(DropdownTeacherState(
+        dropdownValue: event.dropdownValue, index: event.onSelected));
+  }
+
+  FutureOr<void> radioButtonEvent(
+      RadioButtonEvent event, Emitter<TeacherState> emit) {
+    emit(RadioButtonState(gender: event.gender));
   }
 }

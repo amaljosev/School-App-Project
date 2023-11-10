@@ -24,12 +24,25 @@ final class BottomNavigationEvent extends TeacherActionEvent {
   });
 }
 
-final class SchoolEventsEvent extends TeacherActionEvent{}
+final class SchoolEventsEvent extends TeacherActionEvent {}
 
-final class TeacherAssignmentEvent extends TeacherActionEvent{}
+final class TeacherAssignmentEvent extends TeacherActionEvent {}
 
-final class TeacherHomeWorkEvent extends TeacherActionEvent{}
+final class TeacherHomeWorkEvent extends TeacherActionEvent {}
 
-final class TeacherLeaveApplicationEvent extends TeacherActionEvent{} 
+final class TeacherLeaveApplicationEvent extends TeacherActionEvent {}
 
-final class FetchTeacherDatasEvent extends TeacherActionEvent{}
+final class FetchTeacherDatasEvent extends TeacherActionEvent {}
+
+final class DropdownTeacherEvent extends TeacherActionEvent {
+  final String? dropdownValue;
+  final int onSelected;
+  DropdownTeacherEvent({
+    required this.dropdownValue,
+    required this.onSelected,
+  });
+}
+final class RadioButtonEvent extends TeacherActionEvent{
+  final Gender? gender;
+  RadioButtonEvent({required this.gender});
+}

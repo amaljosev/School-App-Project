@@ -21,7 +21,7 @@ class _TeacherPrfileWidgetState extends State<TeacherPrfileWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<TeacherBloc>().add(FetchTeacherDatasEvent());
+    context.read<TeacherBloc>().add(FetchTeacherDatasEvent()); 
   }
 
   @override
@@ -91,7 +91,7 @@ class _TeacherPrfileWidgetState extends State<TeacherPrfileWidget> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Class Teacher of : ${data!["class"]}",  
+                            Text("Class Teacher of : ${data["class"]}",   
                                 overflow: TextOverflow.ellipsis,
                                 style: contentTextStyle),
                             Text('Email : ${data["email"]}', 

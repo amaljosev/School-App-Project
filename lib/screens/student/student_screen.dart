@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/repositories/utils/alert_diaglogs.dart';
+import 'package:schoolapp/screens/student/widgets/fee_popup.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';

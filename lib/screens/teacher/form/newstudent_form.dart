@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/alert_diglogs.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
@@ -21,13 +23,15 @@ final passwordController = TextEditingController();
 enum Gender { male, female }
 
 List<String> classNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+int index = 0;
+String? value = '';
+Gender? gender = Gender.female;
 
 class ScreenStudentForm extends StatelessWidget {
   const ScreenStudentForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Gender? gender = Gender.female;
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: WillPopScope(
@@ -37,7 +41,12 @@ class ScreenStudentForm extends StatelessWidget {
             if (state is AddStudentState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Student Created Successfully', Colors.green);
-              Navigator.pop(context);
+              AlertDialogWidgets().addStudentMessage(context);
+            } else if (state is DropdownTeacherState) {
+              index = state.index;
+              value = state.dropdownValue;
+            } else if (state is RadioButtonState) {
+              gender = state.gender;
             }
           },
           builder: (context, state) {
@@ -134,11 +143,8 @@ class ScreenStudentForm extends StatelessWidget {
                         labelText: 'Roll No',
                         controller: rollNoController,
                         keyboardType: TextInputType.number,
-                        length: null,
+                        length: 2,
                         obscureText: false),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     SignUpTextFieldWidget(
                         icon: const Icon(Icons.av_timer_rounded,
                             color: headingColor),
@@ -147,11 +153,8 @@ class ScreenStudentForm extends StatelessWidget {
                         labelText: 'Age',
                         controller: ageController,
                         keyboardType: TextInputType.number,
-                        length: null,
+                        length: 2,
                         obscureText: false),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     SignUpTextFieldWidget(
                         icon: const Icon(Icons.list, color: headingColor),
                         fillColor: appbarColor,
@@ -159,11 +162,8 @@ class ScreenStudentForm extends StatelessWidget {
                         labelText: 'Register No',
                         controller: registrationNumberController,
                         keyboardType: TextInputType.number,
-                        length: null,
+                        length: 6,
                         obscureText: false),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     SignUpTextFieldWidget(
                         icon: const Icon(Icons.mail_outline_rounded,
                             color: headingColor),
@@ -230,13 +230,17 @@ class ScreenStudentForm extends StatelessWidget {
                                 Radio<Gender>(
                                   value: Gender.female,
                                   groupValue: gender,
-                                  onChanged: (Gender? value) {},
+                                  onChanged: (Gender? value) => context
+                                      .read<TeacherBloc>()
+                                      .add(RadioButtonEvent(gender: value)),
                                 ),
                                 const Text('Female'),
                                 Radio<Gender>(
                                   value: Gender.male,
                                   groupValue: gender,
-                                  onChanged: (Gender? value) {},
+                                  onChanged: (Gender? value) => context
+                                      .read<TeacherBloc>()
+                                      .add(RadioButtonEvent(gender: value)),
                                 ),
                                 const Text('Male'),
                               ],
@@ -252,10 +256,12 @@ class ScreenStudentForm extends StatelessWidget {
                             DropdownMenu<String>(
                               initialSelection: classNames.first,
                               onSelected: (String? value) {
-                                // This is called when the user selects an item.
-                                // setState(() {
-                                //   dropdownValue = value!;
-                                // });
+                                index = classNames
+                                    .indexWhere((item) => item == value);
+                                return context.read<TeacherBloc>().add(
+                                    DropdownTeacherEvent(
+                                        dropdownValue: value,
+                                        onSelected: index));
                               },
                               dropdownMenuEntries: classNames
                                   .map<DropdownMenuEntry<String>>(
@@ -274,7 +280,7 @@ class ScreenStudentForm extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (studentFormKey.currentState!.validate()) {
-                          // onCreate(context);
+                          onCreate(context);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -303,25 +309,30 @@ class ScreenStudentForm extends StatelessWidget {
   }
 }
 
-// void onCreate(BuildContext context) {
-//   final studentObject = StudentModel(
-//       rollNo: int.parse(rollNoController.text),
-//       name: nameController.text,
-//       age: int.parse(ageController.text),
-//       className: int.parse(classController.text),
-//       registerNo: int.parse(registrationNumberController.text),
-//       email: emailController.text,
-//       contactNo: int.parse(contactController.text),
-//       guardianName: guardianNameController.text,
-//       password: passwordController.text);
-//   context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
+void onCreate(BuildContext context) {
+  final studentObject = StudentModel(
+      firstName: firstNameController.text,
+      secondName: secondNameController.text,
+      classTeacher: classTeacherController.text,
+      rollNo: rollNoController.text,
+      age: ageController.text,
+      registerNo: registrationNumberController.text,
+      email: emailController.text,
+      contactNo: contactController.text,
+      guardianName: guardianNameController.text,
+      password: passwordController.text,
+      gender: gender.toString(),
+      standard: value as String);
+  context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
 
-//   nameController.text = "";
-//   guardianNameController.text = "";
-//   ageController.text = "";
-//   classController.text = "";
-//   registrationNumberController.text = "";
-//   emailController.text = "";
-//   contactController.text = "";
-//   passwordController.text = "";
-// }
+  firstNameController.text = '';
+  secondNameController.text = '';
+  classTeacherController.text = '';
+  rollNoController.text = '';
+  guardianNameController.text = ''; 
+  ageController.text = '';
+  registrationNumberController.text = '';
+  emailController.text = '';
+  contactController.text = '';
+  passwordController.text = '';
+}

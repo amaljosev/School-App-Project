@@ -13,6 +13,7 @@ class ScreenTeacher extends StatefulWidget {
 
   @override
   State<ScreenTeacher> createState() => _ScreenTeacherState();
+    
 }
 
 class _ScreenTeacherState extends State<ScreenTeacher> {
@@ -114,7 +115,10 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
           );
         } else {
           return const SizedBox(
-            child: Center(child: CircularProgressIndicator(color: Colors.cyan,)),
+            child: Center(
+                child: CircularProgressIndicator(
+              color: Colors.cyan,
+            )),
           );
         }
       },

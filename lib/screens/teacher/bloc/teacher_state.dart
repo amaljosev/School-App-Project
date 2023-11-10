@@ -34,3 +34,18 @@ final class FetchTeacherDataState extends TeacherActionState{
   FetchTeacherDataState({required this.teacherDatas});  
 
 } 
+final class DropdownTeacherState extends TeacherActionState {
+  final String? dropdownValue;
+  final int index;
+
+  DropdownTeacherState({ 
+    required this.dropdownValue,
+    required this.index,
+  });
+}
+
+final class RadioButtonState extends TeacherActionState{
+ final Gender? gender;
+ RadioButtonState({required this.gender});
+
+}
