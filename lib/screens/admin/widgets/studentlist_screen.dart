@@ -7,9 +7,10 @@ import 'package:schoolapp/widgets/my_appbar.dart';
 class ScreenStudentList extends StatelessWidget {
   const ScreenStudentList({
     super.key,
-    required this.studentData,
+    required this.studentData, required this.standard,
   });
-  final Stream<QuerySnapshot<Object?>> studentData;
+  final Stream<QuerySnapshot<Object?>> studentData; 
+  final String standard;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -28,7 +29,7 @@ class ScreenStudentList extends StatelessWidget {
           } else if (snapshot.hasData) {
             List<DocumentSnapshot> students = snapshot.data!.docs;
             return Scaffold(
-              appBar: myAppbar('class 1'),
+              appBar: myAppbar('class $standard'), 
               body: SafeArea(
                 child: SizedBox.expand(
                   child: ListView.builder(

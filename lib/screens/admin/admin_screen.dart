@@ -39,7 +39,7 @@ class ScreenAdmin extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      ScreenStudentList(studentData: state.studentList),
+                      ScreenStudentList(studentData: state.studentList,standard: state.standard ),
                 ));
           } else if (state is TeacherCardTapState) {
             Navigator.push(

@@ -6,7 +6,8 @@ abstract class AdminActionEvent extends AdminEvent {}
 
 final class StudentCardTapEvent extends AdminActionEvent {
   final String teacherId;
-  StudentCardTapEvent({required this.teacherId}); 
+  final String standard;
+  StudentCardTapEvent({required this.teacherId,required this.standard});  
 }
 
 final class TeacherCardTapEvent extends AdminActionEvent {

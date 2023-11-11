@@ -25,6 +25,7 @@ class ClassCardWidget extends StatelessWidget {
               final teacherId = document.id;
               Map<String, dynamic> data =
                   document.data() as Map<String, dynamic>;
+              final standard = data["class"];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Card(
@@ -40,14 +41,13 @@ class ClassCardWidget extends StatelessWidget {
                             color: headingColor),
                       ),
                     ),
-                    title: Text('Class : ${data["class"]}',
-                        style: contentTextStyle),
+                    title: Text('Class : $standard', style: contentTextStyle),
                     subtitle: Text('Class Teacher: ${data['name']} ',
                         overflow: TextOverflow.ellipsis,
                         style: contentTextStyle),
-                    onTap: () => context
-                        .read<AdminBloc>()
-                        .add(StudentCardTapEvent(teacherId: teacherId)),
+                    onTap: () => context.read<AdminBloc>().add(
+                        StudentCardTapEvent(
+                            teacherId: teacherId, standard: standard)),
                   ),
                 ),
               );

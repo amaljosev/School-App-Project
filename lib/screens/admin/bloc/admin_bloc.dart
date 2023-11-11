@@ -16,8 +16,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   FutureOr<void> studentCardTapEvent(
       StudentCardTapEvent event, Emitter<AdminState> emit) {
     final Stream<QuerySnapshot<Object?>> studentList =
-        AdminDb().getStudentsDatas(event.teacherId); 
-    emit(StudentCardTapState(studentList: studentList));
+        AdminDb().getStudentsDatas(event.teacherId);
+    emit(StudentCardTapState(
+        studentList: studentList, standard: event.standard));
   }
 
   FutureOr<void> teacherCardTapEvent(
