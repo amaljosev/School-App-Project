@@ -21,7 +21,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<TeacherBloc>().add(FetchTeacherDatasEvent()); 
+    context.read<TeacherBloc>().add(FetchTeacherDatasEvent());  
   }
 
   @override

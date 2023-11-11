@@ -38,18 +38,11 @@ final class TeacherLeaveApplicationEvent extends TeacherActionEvent {}
 
 final class FetchTeacherDatasEvent extends TeacherActionEvent {}
 
-final class DropdownTeacherEvent extends TeacherActionEvent {
-  final String? dropdownValue;
-  final int onSelected;
-  DropdownTeacherEvent({
-    required this.dropdownValue,
-    required this.onSelected,
-  });
-}
-
 final class RadioButtonEvent extends TeacherActionEvent {
   final Gender? gender;
   RadioButtonEvent({required this.gender});
 }
 
 final class FetchStudentDatasEvent extends TeacherActionEvent {}
+
+final class FetchClassDetailsEvent extends TeacherActionEvent{} 

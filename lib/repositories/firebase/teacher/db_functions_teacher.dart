@@ -18,13 +18,21 @@ class DbFunctionsTeacher {
     return prefs.getString('teacherId');
   }
 
-  
   Stream<QuerySnapshot<Object?>> getStudentsDatas(teacherId) {
     final CollectionReference studentCollection = FirebaseFirestore.instance
-      .collection('teachers')
-      .doc(teacherId) 
-      .collection('students');
-    final studentsStream = studentCollection.snapshots(); 
-    return studentsStream;   
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('students');
+    final studentsStream = studentCollection.snapshots();
+    return studentsStream;
+  }
+
+  Stream<QuerySnapshot<Object?>> getClassDetails(teacherId) {
+    final CollectionReference studentCollection = FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('class');
+    final studentsStream = studentCollection.snapshots();
+    return studentsStream;
   }
 }

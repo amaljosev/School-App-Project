@@ -7,9 +7,10 @@ import 'package:schoolapp/widgets/my_appbar.dart';
 class ScreenStudentList extends StatelessWidget {
   const ScreenStudentList({
     super.key,
-    required this.studentData, required this.standard,
+    required this.studentData,
+    required this.standard,
   });
-  final Stream<QuerySnapshot<Object?>> studentData; 
+  final Stream<QuerySnapshot<Object?>> studentData;
   final String standard;
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,7 @@ class ScreenStudentList extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox(
               child: Center(
-                child: CircularProgressIndicator(
-                  color: Colors.deepOrange,
-                ),
+                child: CircularProgressIndicator(),
               ),
             );
           } else if (snapshot.hasError) {
@@ -29,7 +28,7 @@ class ScreenStudentList extends StatelessWidget {
           } else if (snapshot.hasData) {
             List<DocumentSnapshot> students = snapshot.data!.docs;
             return Scaffold(
-              appBar: myAppbar('class $standard'), 
+              appBar: myAppbar('class $standard'),
               body: SafeArea(
                 child: SizedBox.expand(
                   child: ListView.builder(
@@ -47,9 +46,10 @@ class ScreenStudentList extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16)),
                           leading: CircleAvatar(
                             radius: 30,
-                            backgroundImage: AssetImage(student['gender']=='Gender.male' 
-                                ? 'lib/assets/images/student male.jpg'
-                                : 'lib/assets/images/student female.png'),
+                            backgroundImage: AssetImage(
+                                student['gender'] == 'Gender.male'
+                                    ? 'lib/assets/images/student male.jpg'
+                                    : 'lib/assets/images/student female.png'),
                           ),
                           title: Text(
                             "${student['first_name']}",
@@ -68,22 +68,24 @@ class ScreenStudentList extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'class : '"${student['standard']}",  
-                                            style: contentTextStyle,
-                                          ),
-                                          Text( 
-                                            'class teacher : '"${student['class_Teacher']}",
+                                            'class : ' "${student['standard']}",
                                             style: contentTextStyle,
                                           ),
                                           Text(
-                                            'contact : '"${student['contact_no']}", 
+                                            'class teacher : '
+                                            "${student['class_Teacher']}",
                                             style: contentTextStyle,
                                           ),
                                           Text(
-                                            'age : '"${student['age']}", 
+                                            'contact : '
+                                            "${student['contact_no']}",
                                             style: contentTextStyle,
                                           ),
-                                        ], 
+                                          Text(
+                                            'age : ' "${student['age']}",
+                                            style: contentTextStyle,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

@@ -23,9 +23,9 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<TeacherLeaveApplicationEvent>(teacherLeaveApplicationEvent);
     on<TeacherHomeWorkEvent>(teacherHomeWorkEvent);
     on<FetchTeacherDatasEvent>(fetchTeacherDatasEvent);
-    on<DropdownTeacherEvent>(dropdownTeacherEvent);
     on<RadioButtonEvent>(radioButtonEvent);
     on<FetchStudentDatasEvent>(fetchStudentDatasEvent);
+    on<FetchClassDetailsEvent>(fetchClassDetailsEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -46,7 +46,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> studentProfileEvent(
       StudentProfileEvent event, Emitter<TeacherState> emit) {
-    emit(StudentProfileState(students: event.students,index: event.index));  
+    emit(StudentProfileState(students: event.students, index: event.index));
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -86,11 +86,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     emit(FetchTeacherDataState(teacherDatas: teacherDatas));
   }
 
-  FutureOr<void> dropdownTeacherEvent(
-      DropdownTeacherEvent event, Emitter<TeacherState> emit) {
-    emit(DropdownTeacherState(
-        dropdownValue: event.dropdownValue, index: event.onSelected));
-  }
+
 
   FutureOr<void> radioButtonEvent(
       RadioButtonEvent event, Emitter<TeacherState> emit) {
@@ -103,5 +99,13 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     Stream<QuerySnapshot<Object?>>? studentDatas =
         DbFunctionsTeacher().getStudentsDatas(id);
     emit(FetchStudentDatasState(studetDatas: studentDatas));
+  }
+
+  FutureOr<void> fetchClassDetailsEvent(
+      FetchClassDetailsEvent event, Emitter<TeacherState> emit) async {
+    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    final Stream<QuerySnapshot<Object?>> classDatas =
+        DbFunctionsTeacher().getClassDetails(id);
+    emit(FetchClassDetailsState(classDatas: classDatas));
   }
 }

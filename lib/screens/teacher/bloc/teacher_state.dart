@@ -36,17 +36,7 @@ final class TeacherLeaveApplicationState extends TeacherActionState{}
 final class FetchTeacherDataState extends TeacherActionState{
   Stream<DocumentSnapshot<Object?>>? teacherDatas;
   FetchTeacherDataState({required this.teacherDatas});  
-
 } 
-final class DropdownTeacherState extends TeacherActionState {
-  final String? dropdownValue;
-  final int index;
-
-  DropdownTeacherState({ 
-    required this.dropdownValue,
-    required this.index,
-  });
-}
 
 final class RadioButtonState extends TeacherActionState{
  final Gender? gender;
@@ -57,3 +47,8 @@ final class FetchStudentDatasState extends TeacherActionState{
  final Stream<QuerySnapshot<Object?>> studetDatas;  
  FetchStudentDatasState({required this.studetDatas});   
 } 
+
+final class FetchClassDetailsState extends TeacherActionState{
+  final Stream<QuerySnapshot<Object?>> classDatas;
+  FetchClassDetailsState({required this.classDatas});
+}
