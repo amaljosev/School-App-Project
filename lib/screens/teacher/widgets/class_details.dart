@@ -5,7 +5,8 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/attendence/attendence_screen.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
-
+Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty(); 
+Map<String, dynamic>? classDatasGlobel = {}; 
 class ClassDetailsWidget extends StatefulWidget {
   const ClassDetailsWidget({
     super.key,
@@ -19,7 +20,7 @@ class ClassDetailsWidget extends StatefulWidget {
 }
 
 class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
-  late Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty();
+  
   @override
   void initState() {
     super.initState();
@@ -60,6 +61,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                 QueryDocumentSnapshot document = documents.first;
                 Map<String, dynamic>? data = 
                     document.data() as Map<String, dynamic>; 
+                    classDatasGlobel=data; 
                 return Center(
                   child: Container(
                     height: 200,

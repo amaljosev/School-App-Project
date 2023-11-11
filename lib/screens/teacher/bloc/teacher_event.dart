@@ -10,7 +10,8 @@ final class FormStudentEvent extends TeacherActionEvent {}
 
 final class AddStudentEvent extends TeacherActionEvent {
   StudentModel studentData;
-  AddStudentEvent({required this.studentData});
+  ClassModel classDatas;
+  AddStudentEvent({required this.studentData,required this.classDatas}); 
 }
 
 final class AttendenceEvent extends TeacherActionEvent {}

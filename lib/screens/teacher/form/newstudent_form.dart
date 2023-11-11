@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
@@ -8,6 +9,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/alert_diglogs.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
 
 class ScreenStudentForm extends StatefulWidget {
@@ -19,7 +21,6 @@ class ScreenStudentForm extends StatefulWidget {
 
 final firstNameController = TextEditingController();
 final secondNameController = TextEditingController();
-final classTeacherController = TextEditingController();
 final rollNoController = TextEditingController();
 final guardianNameController = TextEditingController();
 final ageController = TextEditingController();
@@ -30,9 +31,10 @@ final passwordController = TextEditingController();
 
 enum Gender { male, female }
 
-List<String> classNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
 Gender? gender = Gender.female;
+int totalStrength = 0;
+int totalBoys = 0;
+int totalGirls = 0;
 
 class _ScreenStudentFormState extends State<ScreenStudentForm> {
   late Stream<DocumentSnapshot<Object?>> teacherDatas = const Stream.empty();
@@ -76,7 +78,9 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                         documentSnapshot.data() as Map<String, dynamic>? ?? {};
                     final String teacher = data['name'];
                     final String standard = data['class'];
-
+                    totalStrength = classDatasGlobel?['total_students'] ?? '0';
+                    totalBoys = classDatasGlobel?['total_boys'] ?? '0';
+                    totalGirls = classDatasGlobel?['total_girls'] ?? '0';
                     return SafeArea(
                       child: Form(
                         key: studentFormKey,
@@ -273,7 +277,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                if (studentFormKey.currentState!.validate()) { 
+                                if (studentFormKey.currentState!.validate()) {
                                   onCreate(context, teacher, standard);
                                 }
                               },
@@ -325,11 +329,23 @@ void onCreate(BuildContext context, String teacher, String standard) {
       gender: gender.toString(),
       standard: standard,
       totalPresentDays: 0);
-  context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
+  if (gender == Gender.male) {
+    totalBoys += 1;
+  } else {
+    totalGirls += 1;
+  }
+  final classObject = ClassModel(
+      totalStudents: totalStrength += 1,
+      totalBoys: totalBoys,
+      totalGirls: totalGirls,
+      classTeacher: teacher,
+      standard: standard);
+
+  context.read<TeacherBloc>().add(
+      AddStudentEvent(studentData: studentObject, classDatas: classObject));
 
   firstNameController.text = '';
   secondNameController.text = '';
-  classTeacherController.text = '';
   rollNoController.text = '';
   guardianNameController.text = '';
   ageController.text = '';
