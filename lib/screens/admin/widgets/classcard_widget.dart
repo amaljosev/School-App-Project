@@ -17,15 +17,16 @@ class ClassCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox( 
+      child: SizedBox(
         child: ListView.builder(
             itemCount: teachersList.length,
             itemBuilder: (context, index) {
               DocumentSnapshot document = teachersList[index];
+              final teacherId = document.id;
               Map<String, dynamic> data =
                   document.data() as Map<String, dynamic>;
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal:8.0), 
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Card(
                   child: ListTile(
                     leading: CircleAvatar(
@@ -39,12 +40,14 @@ class ClassCardWidget extends StatelessWidget {
                             color: headingColor),
                       ),
                     ),
-                    title:
-                        Text('Class : ${data["class"]}', style: contentTextStyle),
+                    title: Text('Class : ${data["class"]}',
+                        style: contentTextStyle),
                     subtitle: Text('Class Teacher: ${data['name']} ',
-                        overflow: TextOverflow.ellipsis, style: contentTextStyle), 
-                    onTap: () =>
-                        context.read<AdminBloc>().add(StudentCardTapEvent()),
+                        overflow: TextOverflow.ellipsis,
+                        style: contentTextStyle),
+                    onTap: () => context
+                        .read<AdminBloc>()
+                        .add(StudentCardTapEvent(teacherId: teacherId)),
                   ),
                 ),
               );

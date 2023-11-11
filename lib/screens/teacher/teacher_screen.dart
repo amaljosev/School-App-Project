@@ -26,7 +26,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocConsumer<TeacherBloc, TeacherState>(
+    return BlocConsumer<TeacherBloc, TeacherState>( 
       listener: (context, state) {},
       builder: (context, state) {
         if (state is BottomNavigationState) {
@@ -54,7 +54,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
                   size: size,
                 ),
                 const AttendenceHistoryWidget(),
-                TeacherPrfileWidget(size: size),
+                TeacherProfileWidget(size: size),
               ],
             ),
             bottomNavigationBar: NavigationBar(

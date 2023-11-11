@@ -4,7 +4,10 @@ abstract class AdminEvent {}
 
 abstract class AdminActionEvent extends AdminEvent {}
 
-final class StudentCardTapEvent extends AdminActionEvent {}
+final class StudentCardTapEvent extends AdminActionEvent {
+  final String teacherId;
+  StudentCardTapEvent({required this.teacherId}); 
+}
 
 final class TeacherCardTapEvent extends AdminActionEvent {
   final Map<String, dynamic> teacherData;
@@ -12,3 +15,5 @@ final class TeacherCardTapEvent extends AdminActionEvent {
 }
 
 final class RequestTapEvent extends AdminActionEvent {}
+
+

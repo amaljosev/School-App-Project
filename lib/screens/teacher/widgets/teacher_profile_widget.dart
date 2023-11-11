@@ -7,15 +7,15 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 
-class TeacherPrfileWidget extends StatefulWidget {
-  const TeacherPrfileWidget({super.key, required this.size});
+class TeacherProfileWidget extends StatefulWidget {
+  const TeacherProfileWidget({super.key, required this.size});
   final Size size;
 
   @override
-  State<TeacherPrfileWidget> createState() => _TeacherPrfileWidgetState();
+  State<TeacherProfileWidget> createState() => _TeacherPrfileWidgetState();
 }
 
-class _TeacherPrfileWidgetState extends State<TeacherPrfileWidget> {
+class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
   late Stream<DocumentSnapshot<Object?>> teacherDatas = const Stream.empty();
 
   @override

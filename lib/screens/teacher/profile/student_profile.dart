@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/profile_head_widget.dart';
@@ -26,7 +27,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                   .add(BottomNavigationEvent(currentPageIndex: 0));
             },
             icon: const Icon(Icons.arrow_back)),
-        title: const Text('Student Profile'),
+        title:  Text('Student Profile',style: appbarTextStyle,), 
         backgroundColor: appbarColor,
       ),
       body: WillPopScope(

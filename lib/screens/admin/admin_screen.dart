@@ -38,7 +38,8 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenStudentList(),
+                  builder: (context) =>
+                      ScreenStudentList(studentData: state.studentList),
                 ));
           } else if (state is TeacherCardTapState) {
             Navigator.push(
@@ -102,7 +103,7 @@ class ScreenAdmin extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: headingColor)),
               ),
-              StreamBuilder( 
+              StreamBuilder(
                   stream: AdminActions().getTeacherDatas(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

@@ -16,7 +16,7 @@ class SignUpRequest {
       'password': teacherObject.password,
       'students': '0',
     };
-    await DbFunctions().addrDetails(teacherMap, 'teacher_requests');
+    await DbFunctions().addDetails(teacherMap, 'teacher_requests',teacherObject.email); 
   }
 
   Stream<QuerySnapshot> getTeacherDatas() {
@@ -24,7 +24,7 @@ class SignUpRequest {
     return teachersStream;
   }
 
-  Future<bool> checkClass(String value) async {
+  Future<bool> checkClass(String value) async { 
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teachers')
         .where('class', isEqualTo: value)

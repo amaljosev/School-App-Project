@@ -20,11 +20,11 @@ class StudentDbFunctions {
       'guardian_name': studentData.guardianName,
       'password': studentData.password,
       'gender': studentData.gender,
-      'standard': studentData.standard
+      'standard': studentData.standard 
     };
     final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
     DbFunctions()
         .addStudentDetails(studentMap, 'teachers', id as String, 'students');
-        DbFunctions().addrDetails(studentMap, 'all_students'); 
+        DbFunctions().addDetails(studentMap, 'all_students',studentData.email);  
   }
 }

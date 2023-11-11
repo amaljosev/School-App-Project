@@ -322,7 +322,8 @@ void onCreate(BuildContext context) {
       guardianName: guardianNameController.text,
       password: passwordController.text,
       gender: gender.toString(),
-      standard: value as String);
+      standard: value as String,
+      totalPresentDays: 0); 
   context.read<TeacherBloc>().add(AddStudentEvent(studentData: studentObject));
 
   firstNameController.text = '';
