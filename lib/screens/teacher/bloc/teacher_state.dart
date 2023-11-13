@@ -16,8 +16,12 @@ final class AttendenceState extends TeacherActionState {}
 
 final class StudentProfileState extends TeacherActionState {
   final Map<String, dynamic> students;
+  final String studentId;
   final CollectionReference<Map<String, dynamic>> studentFee;
-  StudentProfileState({required this.students, required this.studentFee});
+  StudentProfileState(
+      {required this.students,
+      required this.studentFee,
+      required this.studentId});
 }
 
 final class BottomNavigationState extends TeacherActionState {

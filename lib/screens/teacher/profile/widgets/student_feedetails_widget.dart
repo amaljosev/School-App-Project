@@ -15,7 +15,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     required this.studentId,
   }) : super(key: key);
   final String studentId;
-  final bool isTeacher;
+  final bool isTeacher; 
   final CollectionReference<Map<String, dynamic>> studentFee;
 
   @override
@@ -38,12 +38,13 @@ class StudentFeeDetailsWidget extends StatelessWidget {
           stream: studentFee.snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const  SizedBox(child: Center(child: CircularProgressIndicator(color: Colors.pink))); 
+              return const SizedBox(
+                  child: Center(
+                      child: CircularProgressIndicator(color: Colors.pink)));
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {
               final feeData = snapshot.data!.docs.first.data();
-
               return Container(
                 decoration: BoxDecoration(
                   color: isTeacher ? appbarColor : null,

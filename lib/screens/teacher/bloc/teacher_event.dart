@@ -12,10 +12,11 @@ final class AddStudentEvent extends TeacherActionEvent {
   FeeModel feeData;
   StudentModel studentData;
   ClassModel classDatas;
-  AddStudentEvent(
-      {required this.studentData,
-      required this.classDatas,
-      required this.feeData});
+  AddStudentEvent({
+    required this.studentData,
+    required this.classDatas,
+    required this.feeData,
+  });
 }
 
 final class AttendenceEvent extends TeacherActionEvent {}
@@ -23,7 +24,12 @@ final class AttendenceEvent extends TeacherActionEvent {}
 final class StudentProfileEvent extends TeacherActionEvent {
   final Map<String, dynamic> students;
   final CollectionReference<Map<String, dynamic>> studentFee;
-  StudentProfileEvent({required this.students, required this.studentFee});
+  final String studentId;
+  StudentProfileEvent({
+    required this.students,
+    required this.studentFee,
+    required this.studentId,
+  });
 }
 
 final class BottomNavigationEvent extends TeacherActionEvent {
@@ -69,5 +75,7 @@ final class UpdateStudentFeeEvent extends TeacherActionEvent {
 
 final class UpdateStudentDataEvent extends TeacherActionEvent {
   final StudentModel studentData;
-  UpdateStudentDataEvent({required this.studentData});
+  final String studentId;
+
+  UpdateStudentDataEvent({required this.studentData, required this.studentId});
 }

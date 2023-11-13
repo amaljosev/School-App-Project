@@ -9,7 +9,11 @@ class StudentDbFunctions {
   final CollectionReference studentsCollection =
       FirebaseFirestore.instance.collection('students');
 
-  Future<void> addStudent(StudentModel studentData, FeeModel feeDatas) async {
+  Future<void> addStudent({
+    required StudentModel studentData,
+    required FeeModel feeDatas,
+  }) async {
+    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
     Map<String, dynamic> studentMap = {
       'first_name': studentData.firstName,
       'second_name': studentData.secondName,
@@ -24,27 +28,48 @@ class StudentDbFunctions {
       'gender': studentData.gender,
       'standard': studentData.standard
     };
-    Map<String, dynamic> studentFeeMap = {
-      'total_amount': feeDatas.totalAmount,
-      'amount_paid': feeDatas.amountPayed,
-      'amount_pending': feeDatas.amountPending,
-    };
-    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    DbFunctions().addStudentDetails(
-        map: studentMap,
-        collectionName: 'teachers',
-        teacherId: id as String,
-        subCollectionName: 'students',
-        studentId: studentData.email);
-    DbFunctions().addDetails(
-        map: studentMap, collectionName: 'all_students', id: studentData.email);
-    DbFunctions().addStudentFeeDetails(
-        map: studentFeeMap,
-        teacherCollectionName: 'teachers',
-        teacherId: id,
-        studentCollectionName: 'students',
-        studentId: studentData.email,
-        feeCollectionName: 'student_fee');
+    await DbFunctions().addStudentDetails(
+      map: studentMap,
+      collectionName: 'teachers',
+      teacherId: id as String,
+      subCollectionName: 'students',
+    );
+    await DbFunctions()
+        .addDetails(map: studentMap, collectionName: 'all_students', id: id);
+    addClassAndFeeData(feeDatas, id);
+  }
+
+  Future<void> addClassAndFeeData(FeeModel feeDatas, String id) async {
+    try {
+      final String? teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs();
+
+      if (teacherId != null) {
+        // Reference to the teacher document
+        final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('students')
+            .get();
+        final studentId = querySnapshot.docs.last.id;
+
+        Map<String, dynamic> studentFeeMap = {
+          'total_amount': feeDatas.totalAmount,
+          'amount_paid': feeDatas.amountPayed,
+          'amount_pending': feeDatas.amountPending,
+        };
+        DbFunctions().addStudentFeeDetails(
+            map: studentFeeMap,
+            teacherCollectionName: 'teachers',
+            teacherId: teacherId,
+            studentCollectionName: 'students',
+            studentId: studentId,
+            feeCollectionName: 'student_fee');
+      }
+    } catch (e) {
+      // Handle errors, e.g., print or log them
+      print('Error updating class data: $e');
+    }
   }
 
   Future<void> updateClassData(ClassModel classData) async {
@@ -85,13 +110,13 @@ class StudentDbFunctions {
     }
   }
 
-  Future<void> updateStudentData(StudentModel studentData) async {
+  Future<void> updateStudentData(StudentModel studentData,String studentId) async { 
     try {
       final String? teacherId =
           await DbFunctionsTeacher().getTeacherIdFromPrefs();
 
       if (teacherId != null) {
-        final studentId = studentData.email;
+        
         Map<String, dynamic> studentMap = {
           'first_name': studentData.firstName,
           'second_name': studentData.secondName,

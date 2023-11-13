@@ -10,9 +10,13 @@ import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 
 class ScreenStudentForm extends StatefulWidget {
   const ScreenStudentForm(
-      {super.key, required this.isUpdate, required this.students});
+      {super.key,
+      required this.isUpdate,
+      required this.students,
+      required this.studentId});
   final bool isUpdate;
   final Map<String, dynamic>? students;
+  final String? studentId;
   @override
   State<ScreenStudentForm> createState() => _ScreenStudentFormState();
 }
@@ -39,7 +43,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); 
     context.read<TeacherBloc>().add(FetchTeacherDatasEvent());
     firstNameController.text = widget.students?['first_name'] ?? '';
     secondNameController.text = widget.students?['second_name'] ?? '';
@@ -69,7 +73,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
             } else if (state is RadioButtonState) {
               gender = state.gender;
             } else if (state is FetchTeacherDataState) {
-              teacherDatas = state.teacherDatas!; 
+              teacherDatas = state.teacherDatas!;
             } else if (state is UpdateStudentDataState) {
               context.read<TeacherBloc>().add(FetchStudentDatasEvent());
               AlertMessages().alertMessageSnakebar(
@@ -100,6 +104,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                       child: Form(
                         key: studentFormKey,
                         child: TextFieldTilesWidgetAddStudent(
+                            studentId: widget.studentId,
                             widget: widget,
                             studentFormKey: studentFormKey,
                             teacher: teacher,

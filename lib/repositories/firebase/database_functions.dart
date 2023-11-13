@@ -24,21 +24,21 @@ class DbFunctions {
         .set(map);
   }
 
-  Future<void> addStudentDetails(
-      {required Map<String, dynamic> map,
-      required String collectionName,
-      required String teacherId,
-      required String subCollectionName,
-      required String studentId}) async {
+  Future<void> addStudentDetails({
+    required Map<String, dynamic> map,
+    required String collectionName,
+    required String teacherId,
+    required String subCollectionName,
+  }) async {
     return await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
         .collection(subCollectionName)
-        .doc(studentId)
+        .doc()
         .set(map);
   }
 
-  Future<void> updateDetails( 
+  Future<void> updateDetails(
       {required Map<String, dynamic> map,
       required String collectionName,
       required String teacherId,
@@ -74,7 +74,8 @@ class DbFunctions {
       required String teacherCollectionName,
       required String teacherId,
       required String studentCollectionName,
-      required String studentId,required String feeId}) async {
+      required String studentId,
+      required String feeId}) async {
     return await FirebaseFirestore.instance
         .collection(teacherCollectionName)
         .doc(teacherId)
@@ -82,6 +83,6 @@ class DbFunctions {
         .doc(studentId)
         .collection('student_fee')
         .doc(feeId)
-        .update(map); 
+        .update(map);
   }
 }

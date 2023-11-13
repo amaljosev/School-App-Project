@@ -7,7 +7,6 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
-
 import '../../../../repositories/core/textstyle.dart';
 
 class TextFieldTilesWidgetAddStudent extends StatelessWidget {
@@ -17,15 +16,19 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
     required this.studentFormKey,
     required this.teacher,
     required this.standard,
+    required this.studentId,
   });
 
   final ScreenStudentForm widget;
   final GlobalKey<FormState> studentFormKey;
   final String teacher;
   final String standard;
+  final String? studentId;
 
   @override
   Widget build(BuildContext context) {
+    final String id = widget.isUpdate ? widget.studentId as String : '';
+
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       padding: const EdgeInsets.all(18),
@@ -124,15 +127,18 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
             keyboardType: TextInputType.number,
             length: 6,
             obscureText: false),
-        widget.isUpdate?const SizedBox():SignUpTextFieldWidget( 
-            icon: const Icon(Icons.mail_outline_rounded, color: headingColor),
-            fillColor: appbarColor,
-            hintText: 'Email',
-            labelText: 'Email',
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            length: null,
-            obscureText: false),
+        widget.isUpdate
+            ? const SizedBox()
+            : SignUpTextFieldWidget(
+                icon:
+                    const Icon(Icons.mail_outline_rounded, color: headingColor),
+                fillColor: appbarColor,
+                hintText: 'Email',
+                labelText: 'Email',
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                length: null,
+                obscureText: false),
         const SizedBox(
           height: 20,
         ),
@@ -212,6 +218,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
           onPressed: () {
             if (studentFormKey.currentState!.validate()) {
               onButtonTap(
+                  id: id,
                   isUpdate: widget.isUpdate,
                   context: context,
                   teacher: teacher,
@@ -242,7 +249,8 @@ void onButtonTap(
     {required bool isUpdate,
     required BuildContext context,
     required String teacher,
-    required String standard}) {
+    required String standard,
+    required String id}) {
   final studentObject = StudentModel(
       firstName: firstNameController.text,
       secondName: secondNameController.text,
@@ -271,9 +279,8 @@ void onButtonTap(
 
   final feeObject = FeeModel(totalAmount: 0, amountPayed: 0, amountPending: 0);
   isUpdate
-      ? context
-          .read<TeacherBloc>()
-          .add(UpdateStudentDataEvent(studentData: studentObject)) 
+      ? context.read<TeacherBloc>().add(
+          UpdateStudentDataEvent(studentData: studentObject, studentId: id))
       : context.read<TeacherBloc>().add(AddStudentEvent(
           studentData: studentObject,
           classDatas: classObject,

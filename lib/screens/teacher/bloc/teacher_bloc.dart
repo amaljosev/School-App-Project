@@ -40,7 +40,10 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> addStudentEvent(
       AddStudentEvent event, Emitter<TeacherState> emit) async {
-    await StudentDbFunctions().addStudent(event.studentData, event.feeData);
+    await StudentDbFunctions().addStudent(
+      studentData: event.studentData,
+      feeDatas: event.feeData,
+    );
     await StudentDbFunctions().updateClassData(event.classDatas);
     emit(AddStudentState());
   }
@@ -53,7 +56,9 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> studentProfileEvent(
       StudentProfileEvent event, Emitter<TeacherState> emit) {
     emit(StudentProfileState(
-        students: event.students, studentFee: event.studentFee));
+        studentId: event.studentId,
+        students: event.students,
+        studentFee: event.studentFee));
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -128,7 +133,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> updateStudentDataEvent(
       UpdateStudentDataEvent event, Emitter<TeacherState> emit) {
-    StudentDbFunctions().updateStudentData(event.studentData);
-    emit(UpdateStudentDataState()); 
+    StudentDbFunctions().updateStudentData(event.studentData,event.studentId); 
+    emit(UpdateStudentDataState());
   }
 }

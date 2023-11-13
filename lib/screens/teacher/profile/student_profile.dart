@@ -12,8 +12,12 @@ import 'package:schoolapp/screens/teacher/profile/widgets/student_feedetails_wid
 
 class ScreenStudentProfileTeacher extends StatelessWidget {
   const ScreenStudentProfileTeacher(
-      {super.key, required this.studentsMap, required this.studentFee});
+      {super.key,
+      required this.studentsMap,
+      required this.studentFee,
+      required this.studentId});
   final Map<String, dynamic> studentsMap;
+  final String studentId;
   final CollectionReference<Map<String, dynamic>> studentFee;
 
   @override
@@ -44,7 +48,8 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                   image: 'lib/assets/images/student female.png',
                   name:
                       "${studentsMap['first_name']} ${studentsMap['second_name']}"),
-              StudentDetailsWidget(isTeacher: true, students: studentsMap),
+              StudentDetailsWidget(
+                  isTeacher: true, students: studentsMap, studentId: studentId),
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(
@@ -58,7 +63,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                         StudentFeeDetailsWidget(
                             isTeacher: true,
                             studentFee: studentFee,
-                            studentId: studentsMap['email']),
+                            studentId: studentId),
                       ]))
             ],
           ),

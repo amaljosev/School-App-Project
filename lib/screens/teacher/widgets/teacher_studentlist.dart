@@ -32,14 +32,15 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    const ScreenStudentForm(isUpdate: false, students: null), 
+                builder: (context) => const ScreenStudentForm(
+                    isUpdate: false, students: null, studentId: null),
               ));
         } else if (state is StudentProfileState) {
           Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ScreenStudentProfileTeacher(
+                  studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,
                 ),
@@ -109,12 +110,14 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                                   .collection('student_fee');
                               final studentGender = student['gender'];
                               final name = student['first_name'];
+                              final String studentId = students[index].id;
                               return Column(
                                 children: [
                                   GestureDetector(
                                     onTap: () => context
                                         .read<TeacherBloc>()
                                         .add(StudentProfileEvent(
+                                            studentId: studentId,
                                             students: student,
                                             studentFee: studentFee)),
                                     child: CircleAvatar(
