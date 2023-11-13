@@ -55,7 +55,7 @@ final class FetchClassDetailsEvent extends TeacherActionEvent {}
 final class UpdateFeeScreenEvent extends TeacherActionEvent {
   final Map<String, dynamic> feeData;
   final String studentId;
-  UpdateFeeScreenEvent({required this.feeData,required this.studentId});
+  UpdateFeeScreenEvent({required this.feeData, required this.studentId});
 }
 
 final class UpdateStudentFeeEvent extends TeacherActionEvent {
@@ -65,4 +65,9 @@ final class UpdateStudentFeeEvent extends TeacherActionEvent {
     required this.feeData,
     required this.studentId,
   });
+}
+
+final class UpdateStudentDataEvent extends TeacherActionEvent {
+  final StudentModel studentData;
+  UpdateStudentDataEvent({required this.studentData});
 }

@@ -53,10 +53,12 @@ final class FetchClassDetailsState extends TeacherActionState {
   FetchClassDetailsState({required this.classDatas});
 }
 
-final class UpdateFeeScreenState extends TeacherActionState{
+final class UpdateFeeScreenState extends TeacherActionState {
   final Map<String, dynamic> feeData;
   final String studentId;
-  UpdateFeeScreenState({required this.feeData,required this.studentId}); 
-}  
+  UpdateFeeScreenState({required this.feeData, required this.studentId});
+}
 
-final class UpdateStudentFeeState extends TeacherActionState{}
+final class UpdateStudentFeeState extends TeacherActionState {}
+
+final class UpdateStudentDataState extends TeacherActionState {}

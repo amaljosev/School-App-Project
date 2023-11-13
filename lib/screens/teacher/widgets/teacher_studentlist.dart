@@ -32,7 +32,8 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ScreenStudentForm(),
+                builder: (context) =>
+                    const ScreenStudentForm(isUpdate: false, students: null), 
               ));
         } else if (state is StudentProfileState) {
           Navigator.push(

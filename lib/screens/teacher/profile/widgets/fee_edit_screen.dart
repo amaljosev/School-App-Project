@@ -108,7 +108,7 @@ void onUpdate(BuildContext context, String studentId) {
           amountPayed: totalPaid,
           amountPending: balanceAmount);
       context.read<TeacherBloc>().add(UpdateStudentFeeEvent(
-          feeData: studentFeeObject, studentId: studentId));
+          feeData: studentFeeObject, studentId: studentId)); 
       totalAmountController.text = '';
       paidAmountController.text = '';
     }else { 

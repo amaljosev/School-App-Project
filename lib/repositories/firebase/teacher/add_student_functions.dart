@@ -22,11 +22,11 @@ class StudentDbFunctions {
       'guardian_name': studentData.guardianName,
       'password': studentData.password,
       'gender': studentData.gender,
-      'standard': studentData.standard 
+      'standard': studentData.standard
     };
     Map<String, dynamic> studentFeeMap = {
       'total_amount': feeDatas.totalAmount,
-      'amount_paid': feeDatas.amountPayed,  
+      'amount_paid': feeDatas.amountPayed,
       'amount_pending': feeDatas.amountPending,
     };
     final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
@@ -81,6 +81,39 @@ class StudentDbFunctions {
       }
     } catch (e) {
       // Handle errors, e.g., print or log them
+      print('Error updating class data: $e');
+    }
+  }
+
+  Future<void> updateStudentData(StudentModel studentData) async {
+    try {
+      final String? teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs();
+
+      if (teacherId != null) {
+        final studentId = studentData.email;
+        Map<String, dynamic> studentMap = {
+          'first_name': studentData.firstName,
+          'second_name': studentData.secondName,
+          'class_Teacher': studentData.classTeacher,
+          'roll_no': studentData.rollNo,
+          'age': studentData.age,
+          'register_no': studentData.registerNo,
+          'email': studentData.email,
+          'contact_no': studentData.contactNo,
+          'guardian_name': studentData.guardianName,
+          'password': studentData.password,
+          'gender': studentData.gender,
+          'standard': studentData.standard
+        };
+        await DbFunctions().updateDetails(
+            map: studentMap,
+            collectionName: 'teachers',
+            teacherId: teacherId,
+            subCollectionName: 'students',
+            classId: studentId);
+      }
+    } catch (e) {
       print('Error updating class data: $e');
     }
   }

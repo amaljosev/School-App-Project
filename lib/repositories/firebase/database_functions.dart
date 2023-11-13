@@ -38,7 +38,7 @@ class DbFunctions {
         .set(map);
   }
 
-  Future<void> updateDetails(
+  Future<void> updateDetails( 
       {required Map<String, dynamic> map,
       required String collectionName,
       required String teacherId,

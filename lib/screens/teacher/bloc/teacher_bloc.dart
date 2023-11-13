@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
-import 'package:schoolapp/repositories/firebase/database_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
@@ -31,6 +30,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<FetchClassDetailsEvent>(fetchClassDetailsEvent);
     on<UpdateFeeScreenEvent>(updateFeeScreenEvent);
     on<UpdateStudentFeeEvent>(updateStudentFeeEvent);
+    on<UpdateStudentDataEvent>(updateStudentDataEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -122,7 +122,13 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> updateStudentFeeEvent(
       UpdateStudentFeeEvent event, Emitter<TeacherState> emit) {
-    DbFunctionsTeacher().updateStudentFeeDatas(event.feeData, event.studentId); 
+    DbFunctionsTeacher().updateStudentFeeDatas(event.feeData, event.studentId);
     emit(UpdateStudentFeeState());
+  }
+
+  FutureOr<void> updateStudentDataEvent(
+      UpdateStudentDataEvent event, Emitter<TeacherState> emit) {
+    StudentDbFunctions().updateStudentData(event.studentData);
+    emit(UpdateStudentDataState()); 
   }
 }
