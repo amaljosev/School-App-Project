@@ -13,7 +13,7 @@ final class AddStudentEvent extends TeacherActionEvent {
   StudentModel studentData;
   ClassModel classDatas;
   AddStudentEvent(
-      {required this.studentData, 
+      {required this.studentData,
       required this.classDatas,
       required this.feeData});
 }
@@ -23,7 +23,7 @@ final class AttendenceEvent extends TeacherActionEvent {}
 final class StudentProfileEvent extends TeacherActionEvent {
   final Map<String, dynamic> students;
   final CollectionReference<Map<String, dynamic>> studentFee;
-  StudentProfileEvent({required this.students,required this.studentFee}); 
+  StudentProfileEvent({required this.students, required this.studentFee});
 }
 
 final class BottomNavigationEvent extends TeacherActionEvent {
@@ -51,3 +51,18 @@ final class RadioButtonEvent extends TeacherActionEvent {
 final class FetchStudentDatasEvent extends TeacherActionEvent {}
 
 final class FetchClassDetailsEvent extends TeacherActionEvent {}
+
+final class UpdateFeeScreenEvent extends TeacherActionEvent {
+  final Map<String, dynamic> feeData;
+  final String studentId;
+  UpdateFeeScreenEvent({required this.feeData,required this.studentId});
+}
+
+final class UpdateStudentFeeEvent extends TeacherActionEvent {
+  final FeeModel feeData;
+  final String studentId;
+  UpdateStudentFeeEvent({
+    required this.feeData,
+    required this.studentId,
+  });
+}

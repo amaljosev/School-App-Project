@@ -113,7 +113,7 @@ class ScreenStudentTasks extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const ButtonSubmissionWidget(label: 'send', icon: Icons.send),
+                  // const ButtonSubmissionWidget(label: 'send', icon: Icons.send),
                 ],
               ),
             ],

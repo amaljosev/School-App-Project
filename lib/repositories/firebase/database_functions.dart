@@ -68,4 +68,20 @@ class DbFunctions {
         .doc()
         .set(map);
   }
+
+  Future<void> updateStudentFeeDetails(
+      {required Map<String, dynamic> map,
+      required String teacherCollectionName,
+      required String teacherId,
+      required String studentCollectionName,
+      required String studentId,required String feeId}) async {
+    return await FirebaseFirestore.instance
+        .collection(teacherCollectionName)
+        .doc(teacherId)
+        .collection(studentCollectionName)
+        .doc(studentId)
+        .collection('student_fee')
+        .doc(feeId)
+        .update(map); 
+  }
 }

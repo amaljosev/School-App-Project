@@ -104,8 +104,8 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                         ),
                       ),
                     ),
-                    const ButtonSubmissionWidget(
-                        label: 'Edit', icon: Icons.edit),
+                    // const ButtonSubmissionWidget(
+                    //     label: 'Edit', icon: Icons.edit),
                   ],
                 );
               } else {

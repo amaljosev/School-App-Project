@@ -22,7 +22,7 @@ class StudentDbFunctions {
       'guardian_name': studentData.guardianName,
       'password': studentData.password,
       'gender': studentData.gender,
-      'standard': studentData.standard
+      'standard': studentData.standard 
     };
     Map<String, dynamic> studentFeeMap = {
       'total_amount': feeDatas.totalAmount,

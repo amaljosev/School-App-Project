@@ -48,7 +48,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 10), 
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       scrollDirection: Axis.horizontal,
                       children: [
                         StudentAttendenceDetailsWidget(size: size),
@@ -56,7 +56,9 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                           width: 10,
                         ),
                         StudentFeeDetailsWidget(
-                            isTeacher: true, studentFee: studentFee),
+                            isTeacher: true,
+                            studentFee: studentFee,
+                            studentId: studentsMap['email']),
                       ]))
             ],
           ),

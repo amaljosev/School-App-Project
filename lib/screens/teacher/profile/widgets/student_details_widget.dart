@@ -57,10 +57,10 @@ class StudentDetailsWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ButtonSubmissionWidget(label: 'Edit', icon: Icons.edit),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.all(8.0),
+              //   child: ButtonSubmissionWidget(label: 'Edit', icon: Icons.edit),
+              // ),
             ],
           ),
         ),
