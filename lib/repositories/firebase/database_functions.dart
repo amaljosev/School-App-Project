@@ -2,15 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbFunctions {
   Future<void> addDetails(
-      Map<String, dynamic> map, String collectionName, String id) async {
+      {required Map<String, dynamic> map,
+      required String collectionName,
+      required String id}) async {
     return await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(id)
         .set(map);
   }
 
-  Future<void> addClassDetails(Map<String, dynamic> map, String collectionName,
-      String teacherId, String subCollectionName) async {
+  Future<void> addClassDetails(
+      {required Map<String, dynamic> map,
+      required String collectionName,
+      required String teacherId,
+      required String subCollectionName}) async {
     return await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
@@ -19,17 +24,21 @@ class DbFunctions {
         .set(map);
   }
 
-  Future<void> addStudentDetails(Map<String, dynamic> map,
-      String collectionName, String teacherId, String subCollectionName) async {
+  Future<void> addStudentDetails(
+      {required Map<String, dynamic> map,
+      required String collectionName,
+      required String teacherId,
+      required String subCollectionName,
+      required String studentId}) async {
     return await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
         .collection(subCollectionName)
-        .doc()
+        .doc(studentId)
         .set(map);
   }
 
-  Future<void> updateDetails( 
+  Future<void> updateDetails(
       {required Map<String, dynamic> map,
       required String collectionName,
       required String teacherId,
@@ -38,8 +47,25 @@ class DbFunctions {
     return await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
-        .collection(subCollectionName) 
+        .collection(subCollectionName)
         .doc(classId)
-        .update(map); 
+        .update(map);
+  }
+
+  Future<void> addStudentFeeDetails(
+      {required Map<String, dynamic> map,
+      required String teacherCollectionName,
+      required String teacherId,
+      required String studentCollectionName,
+      required String studentId,
+      required String feeCollectionName}) async {
+    return await FirebaseFirestore.instance
+        .collection(teacherCollectionName)
+        .doc(teacherId)
+        .collection(studentCollectionName)
+        .doc(studentId)
+        .collection(feeCollectionName)
+        .doc()
+        .set(map);
   }
 }

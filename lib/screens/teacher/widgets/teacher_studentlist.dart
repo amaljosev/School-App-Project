@@ -39,8 +39,8 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
               context,
               MaterialPageRoute(
                 builder: (context) => ScreenStudentProfileTeacher(
+                  studentFee: state.studentFee,
                   studentsMap: state.students,
-                  index: state.index,
                 ),
               ));
         } else if (state is FetchStudentDatasState) {
@@ -103,6 +103,9 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                             itemBuilder: (context, index) {
                               var student = students[index].data()
                                   as Map<String, dynamic>;
+                              final studentFee = students[index]
+                                  .reference
+                                  .collection('student_fee');
                               final studentGender = student['gender'];
                               final name = student['first_name'];
                               return Column(
@@ -111,13 +114,14 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                                     onTap: () => context
                                         .read<TeacherBloc>()
                                         .add(StudentProfileEvent(
-                                            students: student, index: index)),
+                                            students: student,
+                                            studentFee: studentFee)),
                                     child: CircleAvatar(
                                       backgroundColor: appbarColor,
                                       backgroundImage: AssetImage(studentGender ==
                                               'Gender.male'
                                           ? 'lib/assets/images/student male.jpg'
-                                          : 'lib/assets/images/student female.png'), 
+                                          : 'lib/assets/images/student female.png'),
                                       radius: 40,
                                     ),
                                   ),

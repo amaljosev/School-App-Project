@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/class_model.dart';
+import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
@@ -8,7 +9,7 @@ class StudentDbFunctions {
   final CollectionReference studentsCollection =
       FirebaseFirestore.instance.collection('students');
 
-  Future<void> addStudent(StudentModel studentData) async {
+  Future<void> addStudent(StudentModel studentData, FeeModel feeDatas) async {
     Map<String, dynamic> studentMap = {
       'first_name': studentData.firstName,
       'second_name': studentData.secondName,
@@ -23,10 +24,27 @@ class StudentDbFunctions {
       'gender': studentData.gender,
       'standard': studentData.standard
     };
+    Map<String, dynamic> studentFeeMap = {
+      'total_amount': feeDatas.totalAmount,
+      'amount_paid': feeDatas.amountPayed,  
+      'amount_pending': feeDatas.amountPending,
+    };
     final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    DbFunctions()
-        .addStudentDetails(studentMap, 'teachers', id as String, 'students');
-    DbFunctions().addDetails(studentMap, 'all_students', studentData.email);
+    DbFunctions().addStudentDetails(
+        map: studentMap,
+        collectionName: 'teachers',
+        teacherId: id as String,
+        subCollectionName: 'students',
+        studentId: studentData.email);
+    DbFunctions().addDetails(
+        map: studentMap, collectionName: 'all_students', id: studentData.email);
+    DbFunctions().addStudentFeeDetails(
+        map: studentFeeMap,
+        teacherCollectionName: 'teachers',
+        teacherId: id,
+        studentCollectionName: 'students',
+        studentId: studentData.email,
+        feeCollectionName: 'student_fee');
   }
 
   Future<void> updateClassData(ClassModel classData) async {
@@ -36,11 +54,12 @@ class StudentDbFunctions {
 
       if (teacherId != null) {
         // Reference to the teacher document
-        final QuerySnapshot querySnapshot =await FirebaseFirestore.instance
+        final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('teachers')
             .doc(teacherId)
-            .collection('class').get();
-        final classId = querySnapshot.docs.first.id; 
+            .collection('class')
+            .get();
+        final classId = querySnapshot.docs.first.id;
         // Reference to the specific document within the subcollection
 
         // Creating a map of fields you want to update

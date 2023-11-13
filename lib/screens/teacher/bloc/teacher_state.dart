@@ -15,40 +15,40 @@ final class AddStudentState extends TeacherActionState {}
 final class AttendenceState extends TeacherActionState {}
 
 final class StudentProfileState extends TeacherActionState {
-  final Map<String, dynamic>  students;
-  final int index;
-  StudentProfileState( {required this.students,required this.index,}); 
+  final Map<String, dynamic> students;
+  final CollectionReference<Map<String, dynamic>> studentFee;
+  StudentProfileState({required this.students, required this.studentFee});
 }
 
-final class BottomNavigationState extends  TeacherActionState{ 
- final int currentPageIndex;
- BottomNavigationState({required this.currentPageIndex});
+final class BottomNavigationState extends TeacherActionState {
+  final int currentPageIndex;
+  BottomNavigationState({required this.currentPageIndex});
 }
 
-final class SchoolEventsState extends TeacherActionState {} 
+final class SchoolEventsState extends TeacherActionState {}
 
-final class TeacherAssignmetState extends TeacherActionState{}
+final class TeacherAssignmetState extends TeacherActionState {}
 
-final class TeacherHomeWorkState extends TeacherActionState{}
+final class TeacherHomeWorkState extends TeacherActionState {}
 
-final class TeacherLeaveApplicationState extends TeacherActionState{} 
+final class TeacherLeaveApplicationState extends TeacherActionState {}
 
-final class FetchTeacherDataState extends TeacherActionState{
+final class FetchTeacherDataState extends TeacherActionState {
   Stream<DocumentSnapshot<Object?>>? teacherDatas;
-  FetchTeacherDataState({required this.teacherDatas});  
-} 
-
-final class RadioButtonState extends TeacherActionState{
- final Gender? gender;
- RadioButtonState({required this.gender});
+  FetchTeacherDataState({required this.teacherDatas});
 }
 
-final class FetchStudentDatasState extends TeacherActionState{
- final Stream<QuerySnapshot<Object?>> studetDatas;  
- FetchStudentDatasState({required this.studetDatas});   
-} 
+final class RadioButtonState extends TeacherActionState {
+  final Gender? gender;
+  RadioButtonState({required this.gender});
+}
 
-final class FetchClassDetailsState extends TeacherActionState{
+final class FetchStudentDatasState extends TeacherActionState {
+  final Stream<QuerySnapshot<Object?>> studetDatas;
+  FetchStudentDatasState({required this.studetDatas});
+}
+
+final class FetchClassDetailsState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> classDatas;
   FetchClassDetailsState({required this.classDatas});
 }

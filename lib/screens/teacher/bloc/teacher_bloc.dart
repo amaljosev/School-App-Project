@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/class_model.dart';
+import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
@@ -35,9 +36,9 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   }
 
   FutureOr<void> addStudentEvent(
-      AddStudentEvent event, Emitter<TeacherState> emit) async{
-   await StudentDbFunctions().addStudent(event.studentData);
-  await  StudentDbFunctions().updateClassData(event.classDatas);  
+      AddStudentEvent event, Emitter<TeacherState> emit) async {
+    await StudentDbFunctions().addStudent(event.studentData, event.feeData);
+    await StudentDbFunctions().updateClassData(event.classDatas);
     emit(AddStudentState());
   }
 
@@ -48,7 +49,8 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> studentProfileEvent(
       StudentProfileEvent event, Emitter<TeacherState> emit) {
-    emit(StudentProfileState(students: event.students, index: event.index));
+    emit(StudentProfileState(
+        students: event.students, studentFee: event.studentFee));
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -87,8 +89,6 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
         DbFunctionsTeacher().getTeacherData(id as String);
     emit(FetchTeacherDataState(teacherDatas: teacherDatas));
   }
-
-
 
   FutureOr<void> radioButtonEvent(
       RadioButtonEvent event, Emitter<TeacherState> emit) {

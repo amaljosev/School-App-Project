@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
@@ -11,9 +12,10 @@ import 'package:schoolapp/screens/teacher/profile/widgets/student_feedetails_wid
 
 class ScreenStudentProfileTeacher extends StatelessWidget {
   const ScreenStudentProfileTeacher(
-      {super.key, required this.index, required this.studentsMap});
+      {super.key, required this.studentsMap, required this.studentFee});
   final Map<String, dynamic> studentsMap;
-  final int index;
+  final CollectionReference<Map<String, dynamic>> studentFee;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -27,7 +29,10 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                   .add(BottomNavigationEvent(currentPageIndex: 0));
             },
             icon: const Icon(Icons.arrow_back)),
-        title:  Text('Student Profile',style: appbarTextStyle,), 
+        title: Text(
+          'Student Profile',
+          style: appbarTextStyle,
+        ),
         backgroundColor: appbarColor,
       ),
       body: WillPopScope(
@@ -35,22 +40,23 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-               ProfileHeadWidget(
+              ProfileHeadWidget(
                   image: 'lib/assets/images/student female.png',
-                  name: "${studentsMap['first_name']} ${studentsMap['second_name']}"), 
-              StudentDetailsWidget(
-                  isTeacher: true, students: studentsMap, index: index), 
+                  name:
+                      "${studentsMap['first_name']} ${studentsMap['second_name']}"),
+              StudentDetailsWidget(isTeacher: true, students: studentsMap),
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10), 
                       scrollDirection: Axis.horizontal,
                       children: [
                         StudentAttendenceDetailsWidget(size: size),
                         const SizedBox(
                           width: 10,
                         ),
-                        const StudentFeeDetailsWidget(isTeacher: true),
+                        StudentFeeDetailsWidget(
+                            isTeacher: true, studentFee: studentFee),
                       ]))
             ],
           ),

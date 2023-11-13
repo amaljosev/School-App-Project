@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/class_model.dart';
+import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
@@ -341,8 +342,10 @@ void onCreate(BuildContext context, String teacher, String standard) {
       classTeacher: teacher,
       standard: standard);
 
-  context.read<TeacherBloc>().add(
-      AddStudentEvent(studentData: studentObject, classDatas: classObject));
+  final feeObject = FeeModel(totalAmount: 0, amountPayed: 0, amountPending: 0);
+
+  context.read<TeacherBloc>().add(AddStudentEvent(
+      studentData: studentObject, classDatas: classObject, feeData: feeObject));
 
   firstNameController.text = '';
   secondNameController.text = '';

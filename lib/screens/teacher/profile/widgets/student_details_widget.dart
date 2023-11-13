@@ -7,12 +7,10 @@ class StudentDetailsWidget extends StatelessWidget {
   const StudentDetailsWidget({
     super.key,
     required this.isTeacher,
-    required this.index,
     required this.students,
     
   });
   final bool isTeacher;
-  final int index;
   final Map<String, dynamic> students;
   @override
   Widget build(BuildContext context) {
