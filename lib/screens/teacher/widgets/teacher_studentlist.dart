@@ -39,7 +39,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ScreenStudentProfileTeacher(
+                builder: (context) => ScreenStudentProfileTeacher( 
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,

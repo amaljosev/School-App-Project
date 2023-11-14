@@ -13,7 +13,6 @@ class ScreenTeacher extends StatefulWidget {
 
   @override
   State<ScreenTeacher> createState() => _ScreenTeacherState();
-    
 }
 
 class _ScreenTeacherState extends State<ScreenTeacher> {
@@ -26,7 +25,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocConsumer<TeacherBloc, TeacherState>( 
+    return BlocConsumer<TeacherBloc, TeacherState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is BottomNavigationState) {

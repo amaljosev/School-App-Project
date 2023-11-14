@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/firebase/signup/signup_functions.dart';
+import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
-import 'package:schoolapp/screens/welcome/login_screen.dart';
 import 'package:schoolapp/screens/welcome/widgets/dropdown_widget.dart';
 import 'package:schoolapp/screens/welcome/widgets/title_widget.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
@@ -31,19 +31,23 @@ class ScreenSignUp extends StatelessWidget {
         listenWhen: (previous, current) => current is WelcomeActionState,
         buildWhen: (previous, current) => current is! WelcomeActionState,
         listener: (context, state) {
-          if (state is NavigateToSignUpState) {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ScreenLogin(isTeacher: true), 
-            ));
+          if (state is SignUpLoadingState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              loadingSnakebarWidget(),
+            );
           } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
                 'Successfully Registered \nwait for resposnce from pricipal',
                 Colors.green);
             Navigator.pop(context);
-          } else if (state is SignUpErrorState) {
+          } else if (state is SignUpClassErrorState) {
             AlertMessages().alertMessageSnakebar(
-                context, 'Class already exist', Colors.red);
+                context, 'Enterd Class already Registered', Colors.red);  
+          }
+          else if (state is SignUpErrorState) { 
+            AlertMessages().alertMessageSnakebar(
+                context, 'Not registerd Please contact admin', Colors.red); 
           } else if (state is DropdownMenuTapState) {
             value = state.dropdownValue;
             index = state.index;
@@ -155,9 +159,7 @@ class ScreenSignUp extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black)),
                               TextButton(
-                                onPressed: () => context
-                                    .read<WelcomeBloc>()
-                                    .add(NavigateEvent()),
+                                onPressed: () => Navigator.pop(context),
                                 child: Text('Sign In',
                                     style: GoogleFonts.farro(
                                         fontSize: 13,
@@ -186,6 +188,7 @@ class ScreenSignUp extends StatelessWidget {
       ),
     );
   }
+
 }
 
 onSignUp(BuildContext context) async {

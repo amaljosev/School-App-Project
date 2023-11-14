@@ -58,6 +58,7 @@ class ScreenLogin extends StatelessWidget {
             child: Form(
               key: formKey,
               child: ListView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag, 
                 children: [
                   const SizedBox(
                     height: 40,

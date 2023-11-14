@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 
-class TitleCardWidget extends StatelessWidget {
+class TitleCardWidget extends StatelessWidget {  
   const TitleCardWidget({super.key});
 
   @override
@@ -26,7 +26,7 @@ class TitleCardWidget extends StatelessWidget {
         ),
         Center(
           child: Text(
-            'STUDENTS SIGHT',
+            'Edu Plan',
             style: GoogleFonts.macondo(
                 fontSize: 35,
                 letterSpacing: 3,

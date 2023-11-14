@@ -10,9 +10,13 @@ final class SplashState extends WelcomeState {}
 
 final class NavigateToSignUpState extends WelcomeActionState {}
 
+final class SignUpLoadingState extends WelcomeActionState{}
+
 final class SignUpSuccessState extends WelcomeActionState {}
 
 final class SignUpErrorState extends WelcomeActionState {}
+
+final class SignUpClassErrorState extends WelcomeActionState {}
 
 final class TeacherSignInSuccessState extends WelcomeActionState {}
 

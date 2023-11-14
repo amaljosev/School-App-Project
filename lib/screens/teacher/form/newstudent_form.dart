@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/utils/alert_diglogs.dart';
+import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/widgets/textfield_widgets.dart';
@@ -21,6 +22,8 @@ class ScreenStudentForm extends StatefulWidget {
   State<ScreenStudentForm> createState() => _ScreenStudentFormState();
 }
 
+enum Gender { male, female }
+
 final firstNameController = TextEditingController();
 final secondNameController = TextEditingController();
 final rollNoController = TextEditingController();
@@ -31,19 +34,17 @@ final emailController = TextEditingController();
 final contactController = TextEditingController();
 final passwordController = TextEditingController();
 
-enum Gender { male, female }
-
-Gender? gender = Gender.female;
 int totalStrength = 0;
 int totalBoys = 0;
 int totalGirls = 0;
 
 class _ScreenStudentFormState extends State<ScreenStudentForm> {
+  Gender? gender = Gender.female;
   late Stream<DocumentSnapshot<Object?>> teacherDatas = const Stream.empty();
 
   @override
   void initState() {
-    super.initState(); 
+    super.initState();
     context.read<TeacherBloc>().add(FetchTeacherDatasEvent());
     firstNameController.text = widget.students?['first_name'] ?? '';
     secondNameController.text = widget.students?['second_name'] ?? '';
@@ -66,10 +67,18 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
         onWillPop: () => toTeacherHome(context),
         child: BlocConsumer<TeacherBloc, TeacherState>(
           listener: (context, state) {
-            if (state is AddStudentState) {
+            if (state is AddStudentLoadingState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                loadingSnakebarWidget(),
+              );
+            } else if (state is AddStudentSuccessState) {
+              Navigator.pop(context);
+              toTeacherHome(context);
               AlertMessages().alertMessageSnakebar(
                   context, 'Student Created Successfully', Colors.green);
-              AlertDialogWidgets().addStudentMessage(context);
+            } else if (state is AddStudentErrorState) {
+              AlertMessages().alertMessageSnakebar(
+                  context, 'Student not Added', Colors.red);
             } else if (state is RadioButtonState) {
               gender = state.gender;
             } else if (state is FetchTeacherDataState) {
@@ -104,6 +113,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                       child: Form(
                         key: studentFormKey,
                         child: TextFieldTilesWidgetAddStudent(
+                            gender: gender,
                             studentId: widget.studentId,
                             widget: widget,
                             studentFormKey: studentFormKey,

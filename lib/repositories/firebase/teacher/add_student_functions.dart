@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
@@ -9,37 +11,42 @@ class StudentDbFunctions {
   final CollectionReference studentsCollection =
       FirebaseFirestore.instance.collection('students');
 
-  Future<void> addStudent({
+  Future<bool> addStudent({
     required StudentModel studentData,
     required FeeModel feeDatas,
   }) async {
-    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    Map<String, dynamic> studentMap = {
-      'first_name': studentData.firstName,
-      'second_name': studentData.secondName,
-      'class_Teacher': studentData.classTeacher,
-      'roll_no': studentData.rollNo,
-      'age': studentData.age,
-      'register_no': studentData.registerNo,
-      'email': studentData.email,
-      'contact_no': studentData.contactNo,
-      'guardian_name': studentData.guardianName,
-      'password': studentData.password,
-      'gender': studentData.gender,
-      'standard': studentData.standard
-    };
-    await DbFunctions().addStudentDetails(
-      map: studentMap,
-      collectionName: 'teachers',
-      teacherId: id as String,
-      subCollectionName: 'students',
-    );
-    await DbFunctions()
-        .addDetails(map: studentMap, collectionName: 'all_students', id: id);
-    addClassAndFeeData(feeDatas, id);
+    try {
+      final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      Map<String, dynamic> studentMap = {
+        'first_name': studentData.firstName,
+        'second_name': studentData.secondName,
+        'class_Teacher': studentData.classTeacher,
+        'roll_no': studentData.rollNo,
+        'age': studentData.age,
+        'register_no': studentData.registerNo,
+        'email': studentData.email,
+        'contact_no': studentData.contactNo,
+        'guardian_name': studentData.guardianName,
+        'password': studentData.password,
+        'gender': studentData.gender,
+        'standard': studentData.standard
+      };
+      final bool response = await DbFunctions().addStudentDetails(
+        map: studentMap,
+        collectionName: 'teachers',
+        teacherId: id as String,
+        subCollectionName: 'students',
+      );
+      final bool response2 = await DbFunctions()
+          .addDetails(map: studentMap, collectionName: 'all_users');
+      addClassAndFeeData(feeDatas, studentData.registerNo);
+      return response && response2;
+    } catch (e) {
+      return false;
+    }
   }
 
-  Future<void> addClassAndFeeData(FeeModel feeDatas, String id) async {
+  Future<void> addClassAndFeeData(FeeModel feeDatas, String regNo) async {
     try {
       final String? teacherId =
           await DbFunctionsTeacher().getTeacherIdFromPrefs();
@@ -50,8 +57,9 @@ class StudentDbFunctions {
             .collection('teachers')
             .doc(teacherId)
             .collection('students')
+            .where('register_no', isEqualTo: regNo)
             .get();
-        final studentId = querySnapshot.docs.last.id;
+        final studentId = querySnapshot.docs.first.id;
 
         Map<String, dynamic> studentFeeMap = {
           'total_amount': feeDatas.totalAmount,
@@ -72,7 +80,8 @@ class StudentDbFunctions {
     }
   }
 
-  Future<void> updateClassData(ClassModel classData) async {
+  Future<bool> updateClassData(ClassModel classData) async {
+    bool response = false;
     try {
       final String? teacherId =
           await DbFunctionsTeacher().getTeacherIdFromPrefs();
@@ -97,26 +106,28 @@ class StudentDbFunctions {
         };
 
         // Update the document in the subcollection
-        await DbFunctions().updateDetails(
+        response = await DbFunctions().updateDetails(
             map: updateData,
             collectionName: 'teachers',
             teacherId: teacherId,
             subCollectionName: 'class',
             classId: classId);
       }
+      return response;
     } catch (e) {
       // Handle errors, e.g., print or log them
-      print('Error updating class data: $e');
+      log('Error updating class data: $e');
+      return false;
     }
   }
 
-  Future<void> updateStudentData(StudentModel studentData,String studentId) async { 
+  Future<void> updateStudentData(
+      StudentModel studentData, String studentId) async {
     try {
       final String? teacherId =
           await DbFunctionsTeacher().getTeacherIdFromPrefs();
 
       if (teacherId != null) {
-        
         Map<String, dynamic> studentMap = {
           'first_name': studentData.firstName,
           'second_name': studentData.secondName,

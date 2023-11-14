@@ -6,20 +6,24 @@ class SignUpRequest {
   final CollectionReference teacherDatas =
       FirebaseFirestore.instance.collection('teacher_requests');
 
-  addData(TeacherModel teacherObject) async {
-    Map<String, dynamic> teacherMap = {
-      'name': teacherObject.name,
-      'class': teacherObject.className,
-      'class_id': teacherObject.classId,
-      'email': teacherObject.email,
-      'contact': teacherObject.contact,
-      'password': teacherObject.password,
-      'students': '0',
-    };
-    await DbFunctions().addDetails(
+  Future<bool> addData(TeacherModel teacherObject) async {
+    try {
+      Map<String, dynamic> teacherMap = {
+        'name': teacherObject.name,
+        'class': teacherObject.className,
+        'class_id': teacherObject.classId,
+        'email': teacherObject.email,
+        'contact': teacherObject.contact,
+        'password': teacherObject.password,
+      };
+      final resopnse = await DbFunctions().addDetails(
         map: teacherMap,
         collectionName: 'teacher_requests',
-        id: teacherObject.email);
+      );
+      return resopnse;
+    } catch (e) {
+      return false;
+    }
   }
 
   Stream<QuerySnapshot> getTeacherDatas() {
@@ -32,7 +36,11 @@ class SignUpRequest {
         .collection('teachers')
         .where('class', isEqualTo: value)
         .get();
+    final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('teacher_requests') 
+        .where('class', isEqualTo: value) 
+        .get();
 
-    return querySnapshot.docs.isNotEmpty;
+    return querySnapshot.docs.isNotEmpty || querySnapshot2.docs.isNotEmpty;
   }
 }

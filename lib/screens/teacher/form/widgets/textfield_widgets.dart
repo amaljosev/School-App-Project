@@ -17,6 +17,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
     required this.teacher,
     required this.standard,
     required this.studentId,
+    required this.gender,
   });
 
   final ScreenStudentForm widget;
@@ -24,10 +25,13 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
   final String teacher;
   final String standard;
   final String? studentId;
+  final Gender? gender;
 
   @override
   Widget build(BuildContext context) {
     final String id = widget.isUpdate ? widget.studentId as String : '';
+
+    gender ?? Gender.female;
 
     return ListView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -222,7 +226,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                   isUpdate: widget.isUpdate,
                   context: context,
                   teacher: teacher,
-                  standard: standard);
+                  standard: standard,
+                  gender: gender);
             }
           },
           style: ElevatedButton.styleFrom(
@@ -250,7 +255,8 @@ void onButtonTap(
     required BuildContext context,
     required String teacher,
     required String standard,
-    required String id}) {
+    required String id,
+    required Gender? gender}) {
   final studentObject = StudentModel(
       firstName: firstNameController.text,
       secondName: secondNameController.text,

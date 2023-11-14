@@ -10,7 +10,11 @@ final class HomeState extends TeacherActionState {}
 
 final class FormStudentState extends TeacherActionState {}
 
-final class AddStudentState extends TeacherActionState {}
+final class AddStudentSuccessState extends TeacherActionState {}
+
+final class AddStudentLoadingState extends TeacherActionState {}
+
+final class AddStudentErrorState extends TeacherActionState {}
 
 final class AttendenceState extends TeacherActionState {}
 

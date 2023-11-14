@@ -1,14 +1,24 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbFunctions {
-  Future<void> addDetails(
-      {required Map<String, dynamic> map,
-      required String collectionName,
-      required String id}) async {
-    return await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(id)
-        .set(map);
+  Future<bool> addDetails({
+    required Map<String, dynamic> map,
+    required String collectionName,
+  }) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc()
+          .set(map);
+      // If the set operation is successful, return true
+      return true;
+    } catch (e) {
+      // If an error occurs during the set operation, return false
+      log("Error adding details: $e");
+      return false;
+    }
   }
 
   Future<void> addClassDetails(
@@ -24,32 +34,43 @@ class DbFunctions {
         .set(map);
   }
 
-  Future<void> addStudentDetails({
+  Future<bool> addStudentDetails({
     required Map<String, dynamic> map,
     required String collectionName,
     required String teacherId,
     required String subCollectionName,
   }) async {
-    return await FirebaseFirestore.instance
+    try {
+      await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
         .collection(subCollectionName)
         .doc()
         .set(map);
+        return true;
+    } catch (e) {
+      return false;
+    }
+     
   }
 
-  Future<void> updateDetails(
+  Future<bool> updateDetails(
       {required Map<String, dynamic> map,
       required String collectionName,
       required String teacherId,
       required String subCollectionName,
       required String classId}) async {
-    return await FirebaseFirestore.instance
+    try {
+      await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(teacherId)
         .collection(subCollectionName)
         .doc(classId)
         .update(map);
+        return true;
+    } catch (e) {
+      return false; 
+    } 
   }
 
   Future<void> addStudentFeeDetails(
