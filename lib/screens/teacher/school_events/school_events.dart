@@ -68,10 +68,12 @@ class ApplicationWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // const ButtonSubmissionWidget(
-                  //   label: 'Share',
-                  //   icon: Icons.send,
-                  // ),
+                   ButtonSubmissionWidget(
+                    label: 'Share',
+                    icon: Icons.send,onTap: () {
+                      
+                    },
+                  ),
                 ],
               ),
             ),

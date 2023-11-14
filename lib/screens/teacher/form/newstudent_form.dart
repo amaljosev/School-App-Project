@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
-import 'package:schoolapp/repositories/utils/alert_diglogs.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
@@ -84,10 +83,8 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
             } else if (state is FetchTeacherDataState) {
               teacherDatas = state.teacherDatas!;
             } else if (state is UpdateStudentDataState) {
-              context.read<TeacherBloc>().add(FetchStudentDatasEvent());
               AlertMessages().alertMessageSnakebar(
                   context, 'DataUpdated Successfully', Colors.green);
-
               Navigator.pop(context);
             }
           },

@@ -7,7 +7,7 @@ Future<void> feePopupMessage(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         actions: <Widget>[
-          // const StudentFeeDetailsWidget(isTeacher: false),
+      //  StudentFeeDetailsWidget(isTeacher: false,), 
           TextButton(
             style: TextButton.styleFrom(
               textStyle: Theme.of(context).textTheme.labelLarge,

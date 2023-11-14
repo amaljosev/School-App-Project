@@ -131,9 +131,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
             keyboardType: TextInputType.number,
             length: 6,
             obscureText: false),
-        widget.isUpdate
-            ? const SizedBox()
-            : SignUpTextFieldWidget(
+        SignUpTextFieldWidget(
                 icon:
                     const Icon(Icons.mail_outline_rounded, color: headingColor),
                 fillColor: appbarColor,

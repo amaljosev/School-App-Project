@@ -21,7 +21,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<TeacherBloc>().add(FetchTeacherDatasEvent());  
+    context.read<TeacherBloc>().add(FetchTeacherDatasEvent());
   }
 
   @override
@@ -48,7 +48,8 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                 Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
+                Map<String, dynamic>? data =
+                    snapshot.data!.data() as Map<String, dynamic>?;
                 return Column(
                   children: [
                     Container(
@@ -69,7 +70,8 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                             ),
                           ),
                           Flexible(
-                            child: Text('${data!["name"]}'.toString().toUpperCase(),  
+                            child: Text(
+                                '${data!["name"]}'.toString().toUpperCase(),
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.teko(
                                     fontSize: 30,
@@ -91,21 +93,24 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Class Teacher of : ${data["class"]}",   
+                            Text("Class Teacher of : ${data["class"]}",
                                 overflow: TextOverflow.ellipsis,
                                 style: contentTextStyle),
-                            Text('Email : ${data["email"]}', 
+                            Text('Email : ${data["email"]}',
                                 overflow: TextOverflow.ellipsis,
                                 style: contentTextStyle),
-                            Text('Mobile No : ${data["contact"]}', 
+                            Text('Mobile No : ${data["contact"]}',
                                 overflow: TextOverflow.ellipsis,
                                 style: contentTextStyle),
                           ],
                         ),
                       ),
                     ),
-                    // const ButtonSubmissionWidget(
-                    //     label: 'Edit', icon: Icons.edit),
+                    ButtonSubmissionWidget(
+                      label: 'Edit',
+                      icon: Icons.edit,
+                      onTap: () {}, 
+                    ),
                   ],
                 );
               } else {

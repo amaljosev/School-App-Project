@@ -105,15 +105,19 @@ class ScreenStudentTasks extends StatelessWidget {
                                 const BorderSide(width: 2.0, color: titleColor),
                               ),
                             ),
-                            child:  Text('Upload $taskName')),
+                            child: Text('Upload $taskName')),
                         const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('No file selected !!'), 
+                          child: Text('No file selected !!'),
                         )
                       ],
                     ),
                   ),
-                  // const ButtonSubmissionWidget(label: 'send', icon: Icons.send),
+                  ButtonSubmissionWidget(
+                    label: 'send',
+                    icon: Icons.send,
+                    onTap: () {},
+                  ),
                 ],
               ),
             ],
