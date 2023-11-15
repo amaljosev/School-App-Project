@@ -18,7 +18,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
     required this.teacher,
     required this.standard,
     required this.studentId,
-    required this.gender, required this.isTeacher,
+    required this.gender,
+    required this.isTeacher,
   });
 
   final ScreenStudentForm widget;
@@ -105,44 +106,47 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-       isTeacher?Row(children: [],) :SignUpTextFieldWidget(  
-            icon: const Icon(Icons.format_list_numbered_rounded,
-                color: headingColor),
-            fillColor: appbarColor,
-            hintText: 'Roll No',
-            labelText: 'Roll No',
-            controller: rollNoController,
-            keyboardType: TextInputType.number,
-            length: 2,
-            obscureText: false),
+        isTeacher
+            ? SignUpTextFieldWidget(
+                icon: const Icon(Icons.format_list_numbered_rounded,
+                    color: headingColor),
+                fillColor: appbarColor,
+                hintText: 'Roll No',
+                labelText: 'Roll No',
+                controller: rollNoController,
+                keyboardType: TextInputType.number,
+                length: 2,
+                obscureText: false)
+            : const Row(),
         SignUpTextFieldWidget(
             icon: const Icon(Icons.av_timer_rounded, color: headingColor),
             fillColor: appbarColor,
             hintText: 'Age',
             labelText: 'Age',
             controller: ageController,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.number, 
             length: 2,
             obscureText: false),
-        SignUpTextFieldWidget(
-            icon: const Icon(Icons.list, color: headingColor),
-            fillColor: appbarColor,
-            hintText: 'Register No',
-            labelText: 'Register No',
-            controller: registrationNumberController,
-            keyboardType: TextInputType.number,
-            length: 6,
-            obscureText: false),
-        SignUpTextFieldWidget(
-                icon:
-                    const Icon(Icons.mail_outline_rounded, color: headingColor),
+        isTeacher
+            ? SignUpTextFieldWidget(
+                icon: const Icon(Icons.list, color: headingColor),
                 fillColor: appbarColor,
-                hintText: 'Email',
-                labelText: 'Email',
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                length: null,
-                obscureText: false),
+                hintText: 'Register No',
+                labelText: 'Register No',
+                controller: registrationNumberController,
+                keyboardType: TextInputType.number,
+                length: 6,
+                obscureText: false)
+            : const Row(),
+        SignUpTextFieldWidget(
+            icon: const Icon(Icons.mail_outline_rounded, color: headingColor),
+            fillColor: appbarColor,
+            hintText: 'Email',
+            labelText: 'Email',
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            length: null,
+            obscureText: false),
         const SizedBox(
           height: 20,
         ),
@@ -227,7 +231,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                   context: context,
                   teacher: teacher,
                   standard: standard,
-                  gender: gender,isTeacher: widget.isTeacher);
+                  gender: gender,
+                  isTeacher: widget.isTeacher);
             }
           },
           style: ElevatedButton.styleFrom(
@@ -256,7 +261,8 @@ void onButtonTap(
     required String teacher,
     required String standard,
     required String id,
-    required Gender? gender,required isTeacher}) {
+    required Gender? gender,
+    required isTeacher}) {
   final studentObject = StudentModel(
       firstName: firstNameController.text,
       secondName: secondNameController.text,
@@ -286,15 +292,15 @@ void onButtonTap(
   final feeObject = FeeModel(totalAmount: 0, amountPayed: 0, amountPending: 0);
   if (isTeacher) {
     isUpdate
-      ? context.read<TeacherBloc>().add(
-          UpdateStudentDataEvent(studentData: studentObject, studentId: id))
-      : context.read<TeacherBloc>().add(AddStudentEvent(
-          studentData: studentObject,
-          classDatas: classObject,
-          feeData: feeObject));
-  }else{
-    context.read<StudentBloc>().add(
-          UpdateStudentDataStudentEvent(studentData: studentObject, studentId: id)); 
+        ? context.read<TeacherBloc>().add(
+            UpdateStudentDataEvent(studentData: studentObject, studentId: id))
+        : context.read<TeacherBloc>().add(AddStudentEvent(
+            studentData: studentObject,
+            classDatas: classObject,
+            feeData: feeObject));
+  } else {
+    context.read<StudentBloc>().add(UpdateStudentDataStudentEvent(
+        studentData: studentObject, studentId: id));
   }
 
   firstNameController.text = '';

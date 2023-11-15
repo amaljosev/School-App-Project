@@ -65,7 +65,8 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () => onBack(context),
+        onWillPop: () =>
+            widget.isTeacher ? toTeacherHome(context) : tostudentHome(context),
         child: BlocConsumer<TeacherBloc, TeacherState>(
           listener: (context, state) {
             if (state is AddStudentLoadingState) {
@@ -73,10 +74,10 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                 loadingSnakebarWidget(),
               );
             } else if (state is AddStudentSuccessState) {
-              Navigator.pop(context);
-              toTeacherHome(context);
               AlertMessages().alertMessageSnakebar(
                   context, 'Student Created Successfully', Colors.green);
+              toTeacherHome(context);
+              Navigator.pop(context);
             } else if (state is AddStudentErrorState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Student not Added', Colors.red);
@@ -87,7 +88,6 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
             } else if (state is UpdateStudentDataState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'DataUpdated Successfully', Colors.green);
-
               Navigator.pop(context);
             }
           },
@@ -134,10 +134,5 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
         ),
       ),
     );
-  }
-
-  onBack(BuildContext context) {
-    toTeacherHome(context);
-    tostudentHome(context);
   }
 }
