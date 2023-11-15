@@ -13,10 +13,12 @@ class ScreenStudentForm extends StatefulWidget {
       {super.key,
       required this.isUpdate,
       required this.students,
-      required this.studentId});
+      required this.studentId,
+      required this.isTeacher});
   final bool isUpdate;
   final Map<String, dynamic>? students;
   final String? studentId;
+  final bool isTeacher;
   @override
   State<ScreenStudentForm> createState() => _ScreenStudentFormState();
 }
@@ -63,7 +65,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () => toTeacherHome(context),
+        onWillPop: () => onBack(context),
         child: BlocConsumer<TeacherBloc, TeacherState>(
           listener: (context, state) {
             if (state is AddStudentLoadingState) {
@@ -85,6 +87,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
             } else if (state is UpdateStudentDataState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'DataUpdated Successfully', Colors.green);
+
               Navigator.pop(context);
             }
           },
@@ -103,13 +106,16 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                         documentSnapshot.data() as Map<String, dynamic>? ?? {};
                     final String teacher = data['name'];
                     final String standard = data['class'];
-                    totalStrength = classDatasGlobel?['total_students'] ?? '0';
-                    totalBoys = classDatasGlobel?['total_boys'] ?? '0';
-                    totalGirls = classDatasGlobel?['total_girls'] ?? '0';
+                    if (widget.isTeacher) {
+                      totalStrength = classDatasGlobel?['total_students'] ?? 0;
+                      totalBoys = classDatasGlobel?['total_boys'] ?? 0;
+                      totalGirls = classDatasGlobel?['total_girls'] ?? 0;
+                    }
                     return SafeArea(
                       child: Form(
                         key: studentFormKey,
                         child: TextFieldTilesWidgetAddStudent(
+                            isTeacher: widget.isTeacher,
                             gender: gender,
                             studentId: widget.studentId,
                             widget: widget,
@@ -128,5 +134,10 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
         ),
       ),
     );
+  }
+
+  onBack(BuildContext context) {
+    toTeacherHome(context);
+    tostudentHome(context);
   }
 }

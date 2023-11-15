@@ -42,9 +42,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
             stream: teacherDatas,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(
-                  color: Colors.deepOrange,
-                );
+                return const SizedBox(child:  Center(child: CircularProgressIndicator())); 
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -109,7 +107,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                     ButtonSubmissionWidget(
                       label: 'Edit',
                       icon: Icons.edit,
-                      onTap: () {}, 
+                      onTap: () {},
                     ),
                   ],
                 );

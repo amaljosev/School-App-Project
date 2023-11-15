@@ -4,6 +4,7 @@ import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
@@ -17,7 +18,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
     required this.teacher,
     required this.standard,
     required this.studentId,
-    required this.gender,
+    required this.gender, required this.isTeacher,
   });
 
   final ScreenStudentForm widget;
@@ -26,6 +27,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
   final String standard;
   final String? studentId;
   final Gender? gender;
+  final bool isTeacher;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        SignUpTextFieldWidget(
+       isTeacher?Row(children: [],) :SignUpTextFieldWidget(  
             icon: const Icon(Icons.format_list_numbered_rounded,
                 color: headingColor),
             fillColor: appbarColor,
@@ -225,7 +227,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                   context: context,
                   teacher: teacher,
                   standard: standard,
-                  gender: gender);
+                  gender: gender,isTeacher: widget.isTeacher);
             }
           },
           style: ElevatedButton.styleFrom(
@@ -254,7 +256,7 @@ void onButtonTap(
     required String teacher,
     required String standard,
     required String id,
-    required Gender? gender}) {
+    required Gender? gender,required isTeacher}) {
   final studentObject = StudentModel(
       firstName: firstNameController.text,
       secondName: secondNameController.text,
@@ -282,13 +284,18 @@ void onButtonTap(
       standard: standard);
 
   final feeObject = FeeModel(totalAmount: 0, amountPayed: 0, amountPending: 0);
-  isUpdate
+  if (isTeacher) {
+    isUpdate
       ? context.read<TeacherBloc>().add(
           UpdateStudentDataEvent(studentData: studentObject, studentId: id))
       : context.read<TeacherBloc>().add(AddStudentEvent(
           studentData: studentObject,
           classDatas: classObject,
           feeData: feeObject));
+  }else{
+    context.read<StudentBloc>().add(
+          UpdateStudentDataStudentEvent(studentData: studentObject, studentId: id)); 
+  }
 
   firstNameController.text = '';
   secondNameController.text = '';

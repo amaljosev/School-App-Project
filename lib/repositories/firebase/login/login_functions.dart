@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LoginFunctions {
   Future<bool> teacherLogin(
       String enteredUsername, String enteredPassword) async {
@@ -18,11 +17,11 @@ class LoginFunctions {
       if (storedPassword == enteredPassword) {
         // Passwords match; user is authenticated.
         final String teacherId = teacherDoc.id;
-        SharedPreferences prefsTeacherId = await SharedPreferences.getInstance();
-        prefsTeacherId.setString('teacherId', teacherId); 
-          
+        SharedPreferences prefsTeacherId =
+            await SharedPreferences.getInstance();
+        prefsTeacherId.setString('teacherId', teacherId);
+
         return true;
-      
       }
     }
     // Username doesn't exist or the password doesn't match.
@@ -32,7 +31,7 @@ class LoginFunctions {
   Future<bool> studentLogin(
       String enteredUsername, String enteredPassword) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('all_students') 
+        .collection('all_users')
         .where('email', isEqualTo: enteredUsername)
         .get();
 
@@ -43,12 +42,25 @@ class LoginFunctions {
 
       if (storedPassword == enteredPassword) {
         // Passwords match; user is authenticated.
-        return true;
+        final String teacherId = studentDoc.get('teacher_id');
+        SharedPreferences prefsTeacherId =
+            await SharedPreferences.getInstance();
+
+            final String studentRgNo = studentDoc.get('register_no');
+        prefsTeacherId.setString('teacherId', teacherId);
+        final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('teachers').doc(teacherId).collection('students')
+        .where('register_no', isEqualTo: studentRgNo)
+        .get();
+        final DocumentSnapshot newStudentDoc = querySnapshot2.docs.first; 
+        final String studentId = newStudentDoc.id; 
+        SharedPreferences prefsStudentId =
+            await SharedPreferences.getInstance();
+        prefsStudentId.setString('studentId', studentId);
+        return true; 
       }
     }
     // Username doesn't exist or the password doesn't match.
     return false;
   }
-
-  
 }

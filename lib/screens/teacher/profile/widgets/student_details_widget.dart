@@ -8,11 +8,12 @@ class StudentDetailsWidget extends StatelessWidget {
   const StudentDetailsWidget({
     super.key,
     required this.isTeacher,
-    required this.students, required this.studentId,
+    required this.students,
+    required this.studentId,
   });
   final bool isTeacher;
   final Map<String, dynamic> students;
-   final String studentId;
+  final String studentId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -74,8 +75,11 @@ class StudentDetailsWidget extends StatelessWidget {
                     onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ScreenStudentForm( 
-                              isUpdate: true, students: students,studentId: studentId),
+                          builder: (context) => ScreenStudentForm(
+                              isUpdate: true,
+                              students: students,
+                              studentId: studentId,
+                              isTeacher: isTeacher),
                         ))),
               ),
             ],

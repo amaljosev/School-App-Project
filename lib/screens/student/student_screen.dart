@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
+import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/widgets/fee_popup.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
@@ -18,36 +21,60 @@ class ScreenStudent extends StatefulWidget {
   State<ScreenStudent> createState() => _ScreenStudentState();
 }
 
+late Stream<DocumentSnapshot<Object?>> studentstream;
+
 class _ScreenStudentState extends State<ScreenStudent> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<StudentBloc>()
-        .add(StudentBottomNavigationEvent(currentPageIndex: 0));
+    context.read<StudentBloc>().add(FetchStudentDataEvent());
   }
 
+  String id = '';
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StudentBloc, StudentState>(
       listener: (context, state) {
+        if (state is FetchStudentDatasSuccessState) {
+          id = state.studentId;
+          studentstream = state.studentstream;
+          context
+              .read<StudentBloc>()
+              .add(StudentBottomNavigationEvent(currentPageIndex: 0));
+        }
+        if (state is UpdateStudentDataLoadingState) {
+          ScaffoldMessenger.of(context).showSnackBar(loadingSnakebarWidget());
+        }
+        if (state is UpdateStudentDataSuccessState) {
+          AlertMessages().alertMessageSnakebar(
+              context, 'Successfully Updated', Colors.green);
+          Navigator.pop(context);
+          context.read<StudentBloc>().add(FetchStudentDataEvent());
+          tostudentHome(context);
+        }
+        if (state is UpdateStudentDataErrorState) {
+          AlertMessages().alertMessageSnakebar(
+              context, 'Something went wrong! Plese try again', Colors.red);
+        }
         if (state is StudentActionsState) {
           if (state.index == 1) {
             tostudentHome(context);
             feePopupMessage(
               context,
             );
-          } else if(state.index==0){
+          } else if (state.index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ScreenStudentTasks(taskName: 'Home Work'),
+              builder: (context) =>
+                  const ScreenStudentTasks(taskName: 'Home Work'),
             ));
-          }else if(state.index==2){ 
+          } else if (state.index == 2) {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ScreenStudentTasks(taskName:'Assignment' ), 
+              builder: (context) =>
+                  const ScreenStudentTasks(taskName: 'Assignment'),
             ));
-          }else if(state.index==3){ 
+          } else if (state.index == 3) {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ScreenEventsStudent(),  
+              builder: (context) => const ScreenEventsStudent(),
             ));
           }
         }
@@ -56,77 +83,104 @@ class _ScreenStudentState extends State<ScreenStudent> {
         final size = MediaQuery.of(context).size;
         if (state is StudentBottomNavigationState) {
           int currentPageIndex = state.currentPageIndex;
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Student',
-                style: appbarTextStyle,
-              ),
-              backgroundColor: appbarColor,
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.notifications_none_outlined,
-                    ))
-              ],
-            ),
-            body: IndexedStack(
-              index: currentPageIndex,
-              children: <Widget>[
-                const StudentHomeWidget(), 
-                const ApplicationWidget(isTeacher: false), 
-                StudentAttendenceDetailsWidget(size: size),
-              ],
-            ),
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected: (int index) {
-                context
-                    .read<StudentBloc>()
-                    .add(StudentBottomNavigationEvent(currentPageIndex: index));
-              },
-              indicatorColor: appbarColor,
-              selectedIndex: currentPageIndex,
-              destinations: const <Widget>[
-                NavigationDestination(
-                  selectedIcon: Icon(
-                    Icons.home,
-                    color: headingColor,
-                  ),
-                  icon: Icon(
-                    Icons.home_outlined,
-                    color: headingColor,
-                  ),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    Icons.assignment_outlined,
-                    color: headingColor,
-                  ),
-                  selectedIcon: Icon(
-                    Icons.assignment,
-                    color: headingColor,
-                  ),
-                  label: 'Application',
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    Icons.calendar_month,
-                    color: headingColor,
-                  ),
-                  selectedIcon: Icon(
-                    Icons.assignment_turned_in_sharp,
-                    color: headingColor,
-                  ),
-                  label: 'Attendence',
-                ),
-              ],
-            ),
-          );
+
+          return StreamBuilder<DocumentSnapshot>(
+              stream: studentstream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  Map<String, dynamic> studentData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text(
+                        "${studentData['first_name']} ${studentData['second_name']}",
+                        style: appbarTextStyle,
+                      ),
+                      backgroundColor: appbarColor,
+                      actions: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.notifications_none_outlined,
+                            ))
+                      ],
+                    ),
+                    body: IndexedStack(
+                      index: currentPageIndex,
+                      children: <Widget>[
+                        StudentHomeWidget(studentId: id, students: studentData),
+                        const ApplicationWidget(isTeacher: false),
+                        StudentAttendenceDetailsWidget(size: size),
+                      ],
+                    ),
+                    bottomNavigationBar: NavigationBar(
+                      onDestinationSelected: (int index) {
+                        context.read<StudentBloc>().add(
+                            StudentBottomNavigationEvent(
+                                currentPageIndex: index));
+                      },
+                      indicatorColor: appbarColor,
+                      selectedIndex: currentPageIndex,
+                      destinations: const <Widget>[
+                        NavigationDestination(
+                          selectedIcon: Icon(
+                            Icons.home,
+                            color: headingColor,
+                          ),
+                          icon: Icon(
+                            Icons.home_outlined,
+                            color: headingColor,
+                          ),
+                          label: 'Home',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(
+                            Icons.assignment_outlined,
+                            color: headingColor,
+                          ),
+                          selectedIcon: Icon(
+                            Icons.assignment,
+                            color: headingColor,
+                          ),
+                          label: 'Application',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(
+                            Icons.calendar_month,
+                            color: headingColor,
+                          ),
+                          selectedIcon: Icon(
+                            Icons.assignment_turned_in_sharp,
+                            color: headingColor,
+                          ),
+                          label: 'Attendence',
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const SizedBox(
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    )),
+                  );
+                }
+              });
         } else {
           return const SizedBox(
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(
+                child: CircularProgressIndicator(
+              color: Colors.red,
+            )),
           );
         }
       },

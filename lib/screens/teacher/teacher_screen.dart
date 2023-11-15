@@ -114,10 +114,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
           );
         } else {
           return const SizedBox(
-            child: Center(
-                child: CircularProgressIndicator(
-              color: Colors.cyan,
-            )),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
       },

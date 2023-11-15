@@ -40,7 +40,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox(
                   child: Center(
-                      child: CircularProgressIndicator(color: Colors.pink)));
+                      child: CircularProgressIndicator()));
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {

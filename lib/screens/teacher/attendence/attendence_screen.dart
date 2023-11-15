@@ -12,7 +12,7 @@ class ScreenAttendence extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton( 
+        leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
               context
@@ -33,7 +33,7 @@ class ScreenAttendence extends StatelessWidget {
         ],
       ),
       body: WillPopScope(
-        onWillPop: () => toTeacherHome(context), 
+        onWillPop: () => toTeacherHome(context),
         child: Column(
           children: [
             Container(

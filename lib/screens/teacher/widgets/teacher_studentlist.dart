@@ -33,13 +33,16 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
               context,
               MaterialPageRoute(
                 builder: (context) => const ScreenStudentForm(
-                    isUpdate: false, students: null, studentId: null),
+                    isUpdate: false,
+                    students: null,
+                    studentId: null,
+                    isTeacher: true),
               ));
         } else if (state is StudentProfileState) {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ScreenStudentProfileTeacher( 
+                builder: (context) => ScreenStudentProfileTeacher(
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,
@@ -59,9 +62,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox(
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.deepOrange,
-                    ),
+                    child: CircularProgressIndicator(),
                   ),
                 );
               } else if (snapshot.hasError) {

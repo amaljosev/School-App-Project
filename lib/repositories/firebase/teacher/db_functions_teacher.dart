@@ -19,6 +19,11 @@ class DbFunctionsTeacher {
     id = prefs.getString('teacherId');
     return prefs.getString('teacherId');
   }
+  Future<String?> getStudentIdFromPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('studentId');
+    return prefs.getString('studentId'); 
+  }
 
   Stream<QuerySnapshot<Object?>> getStudentsDatas(teacherId) {
     final CollectionReference studentCollection = FirebaseFirestore.instance

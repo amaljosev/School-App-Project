@@ -21,6 +21,7 @@ class StudentDbFunctions {
         'first_name': studentData.firstName,
         'second_name': studentData.secondName,
         'class_Teacher': studentData.classTeacher,
+        'teacher_id': id,
         'roll_no': studentData.rollNo,
         'age': studentData.age,
         'register_no': studentData.registerNo,
@@ -121,8 +122,9 @@ class StudentDbFunctions {
     }
   }
 
-  Future<void> updateStudentData(
+  Future<bool> updateStudentData(
       StudentModel studentData, String studentId) async {
+    bool responce = false;
     try {
       final String? teacherId =
           await DbFunctionsTeacher().getTeacherIdFromPrefs();
@@ -142,15 +144,16 @@ class StudentDbFunctions {
           'gender': studentData.gender,
           'standard': studentData.standard
         };
-        await DbFunctions().updateDetails(
+        responce = await DbFunctions().updateDetails(
             map: studentMap,
             collectionName: 'teachers',
             teacherId: teacherId,
             subCollectionName: 'students',
             classId: studentId);
       }
+      return responce;
     } catch (e) {
-      print('Error updating class data: $e');
+      return false;
     }
   }
 }
