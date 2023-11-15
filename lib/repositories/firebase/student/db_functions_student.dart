@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbFunctionsStudent {
@@ -15,5 +17,17 @@ class DbFunctionsStudent {
     } catch (error) {
       rethrow;
     }
+  }
+
+  FutureOr<CollectionReference<Map<String, dynamic>>> getFeeDetails(
+      String teacherId, String studentId) {
+    final CollectionReference<Map<String, dynamic>> studentFeeCollection =
+        FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('students')
+            .doc(studentId)
+            .collection('student_fee');
+    return studentFeeCollection;
   }
 }

@@ -1,13 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:schoolapp/repositories/firebase/student/db_functions_student.dart';
+import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_feedetails_widget.dart';
 
-Future<void> feePopupMessage(BuildContext context) {
+Future<void> feePopupMessage(
+    {required BuildContext context}) async {
+  final String? studentId = await DbFunctionsTeacher().getStudentIdFromPrefs();
+  final String? teacherId = await DbFunctionsTeacher().getTeacherIdFromPrefs(); 
+  CollectionReference<Map<String, dynamic>> studentFee =
+      await DbFunctionsStudent().getFeeDetails(teacherId as String, studentId as String); 
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         actions: <Widget>[
-      //  StudentFeeDetailsWidget(isTeacher: false,), 
+          StudentFeeDetailsWidget(
+            isTeacher: false,
+            studentFee: studentFee,
+            studentId: studentId,
+          ),
           TextButton(
             style: TextButton.styleFrom(
               textStyle: Theme.of(context).textTheme.labelLarge,

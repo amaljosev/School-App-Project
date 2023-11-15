@@ -60,7 +60,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
           if (state.index == 1) {
             tostudentHome(context);
             feePopupMessage(
-              context,
+             context:  context 
             );
           } else if (state.index == 0) {
             Navigator.of(context).push(MaterialPageRoute(

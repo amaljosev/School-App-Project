@@ -102,7 +102,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Padding(
+                     isTeacher? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ButtonSubmissionWidget(
                           label: 'Edit',
@@ -111,7 +111,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                               UpdateFeeScreenEvent(
                                   feeData: feeData, studentId: studentId)),
                         ),
-                      ),
+                      ):const Row(), 
                     ],
                   ),
                 ),
