@@ -119,10 +119,19 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> fetchClassDetailsEvent(
       FetchClassDetailsEvent event, Emitter<TeacherState> emit) async {
-    final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    final Stream<QuerySnapshot<Object?>> classDatas =
-        DbFunctionsTeacher().getClassDetails(id);
-    emit(FetchClassDetailsState(classDatas: classDatas));
+    emit(FetchClassDetailsLoadingState());
+    try { 
+      final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs(); 
+     
+      final Stream<QuerySnapshot<Object?>> classDatas =
+          DbFunctionsTeacher().getClassDetails(id);
+        
+
+      emit(FetchClassDetailsState(classDatas: classDatas));
+      
+    } catch (e) {
+      emit(FetchClassDetailsErrorState());
+    }
   }
 
   FutureOr<void> updateFeeScreenEvent(

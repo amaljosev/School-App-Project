@@ -17,6 +17,7 @@ class DbFunctionsTeacher {
   Future<String?> getTeacherIdFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getString('teacherId');
+    
     return prefs.getString('teacherId');
   }
   Future<String?> getStudentIdFromPrefs() async {
@@ -35,11 +36,13 @@ class DbFunctionsTeacher {
   }
 
   Stream<QuerySnapshot<Object?>> getClassDetails(teacherId) {
+    
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
         .collection('class');
     final studentsStream = studentCollection.snapshots();
+    
     return studentsStream;
   }
 

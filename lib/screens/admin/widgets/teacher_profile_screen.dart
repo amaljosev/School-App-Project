@@ -37,15 +37,15 @@ class ScreenTeacherProfileAdmin extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: SizedBox(
-              child: ListView.separated(
-                  itemBuilder: (context, index) =>
-                      Text('${index + 1} leave asked'),
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemCount: 10),
-            ),
-          ),
+          // Expanded(
+          //   child: SizedBox(
+          //     child: ListView.separated(
+          //         itemBuilder: (context, index) =>
+          //             Text('${index + 1} leave asked'),
+          //         separatorBuilder: (context, index) => const Divider(),
+          //         itemCount: 10),
+          //   ),
+          // ), 
         ],
       ),
     );

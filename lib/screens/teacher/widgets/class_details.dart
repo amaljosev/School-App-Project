@@ -2,11 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/attendence/attendence_screen.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
-Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty(); 
-Map<String, dynamic>? classDatasGlobel = {}; 
+
+Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty();
+Map<String, dynamic>? classDatasGlobel = {};
+
 class ClassDetailsWidget extends StatefulWidget {
   const ClassDetailsWidget({
     super.key,
@@ -20,7 +24,6 @@ class ClassDetailsWidget extends StatefulWidget {
 }
 
 class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
-  
   @override
   void initState() {
     super.initState();
@@ -40,6 +43,13 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                 builder: (context) => const ScreenAttendence(),
               ));
         }
+        if (state is FetchClassDetailsLoadingState) {
+          LoadingWidget().classDataLoadingShimmer();
+        }
+        if (state is FetchClassDetailsErrorState) {
+          AlertMessages().alertMessageSnakebar(
+              context, 'Something went wrong', Colors.red);
+        }
         if (state is FetchClassDetailsState) {
           classDatas = state.classDatas;
         }
@@ -49,19 +59,15 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
             stream: classDatas,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                return LoadingWidget().classDataLoadingShimmer();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+                List<QueryDocumentSnapshot> documents = snapshot.data!.docs; 
                 QueryDocumentSnapshot document = documents.first;
-                Map<String, dynamic>? data = 
-                    document.data() as Map<String, dynamic>; 
-                    classDatasGlobel=data; 
+                Map<String, dynamic>? data =
+                    document.data() as Map<String, dynamic>;
+                classDatasGlobel = data;
                 return Center(
                   child: Container(
                     height: 200,
@@ -80,11 +86,11 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "class : ${data['standard']}",  
+                                "class : ${data['standard']}",
                                 style: appbarTextStyle,
                               ),
                               Text(
-                                'Class Strength : ${data['total_students']}', 
+                                'Class Strength : ${data['total_students']}',
                                 style: contentTextStyle,
                               ),
                               Text(
@@ -96,9 +102,9 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                 style: contentTextStyle,
                               ),
                               Text(
-                                'Today Presents :26', 
+                                'Today Presents :26',
                                 style: contentTextStyle,
-                              ),
+                              ), 
                               Text(
                                 'Today Absents : 4',
                                 style: contentTextStyle,

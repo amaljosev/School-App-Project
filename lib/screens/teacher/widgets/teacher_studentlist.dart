@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
@@ -60,14 +61,11 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
             stream: studentDatasStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                 return LoadingWidget().studentCircleShimmer();
+               
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) {
+              } else if (snapshot.hasData) { 
                 var students = snapshot.data?.docs;
                 return SizedBox(
                     height: 130,
