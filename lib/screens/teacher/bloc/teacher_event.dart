@@ -79,3 +79,4 @@ final class UpdateStudentDataEvent extends TeacherActionEvent {
 
   UpdateStudentDataEvent({required this.studentData, required this.studentId});
 }
+final class FetchAllStudentsEvent extends TeacherActionEvent{}

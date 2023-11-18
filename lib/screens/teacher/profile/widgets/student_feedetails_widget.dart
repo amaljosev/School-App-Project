@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/shimmer_widget.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/fee_edit_screen.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StudentFeeDetailsWidget extends StatelessWidget {
   const StudentFeeDetailsWidget({
@@ -15,7 +17,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     required this.studentId,
   }) : super(key: key);
   final String studentId;
-  final bool isTeacher; 
+  final bool isTeacher;
   final CollectionReference<Map<String, dynamic>> studentFee;
 
   @override
@@ -38,9 +40,42 @@ class StudentFeeDetailsWidget extends StatelessWidget {
           stream: studentFee.snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox(
-                  child: Center(
-                      child: CircularProgressIndicator()));
+              return isTeacher
+                  ? const SizedBox(
+                      child: Center(child: CircularProgressIndicator()))
+                  : SizedBox(
+                      height: 100, 
+                      width: 200,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListTile(
+                            title: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Shimmer.fromColors(
+                                baseColor: appbarColor,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  width: 50,
+                                  height: 20,
+                                  color: Colors.purple.shade50,
+                                ),
+                              ),
+                            ),
+                            subtitle: Shimmer.fromColors(
+                              baseColor: appbarColor,
+                              highlightColor: Colors.white,
+                              child: Container(
+                                width: 50,
+                                height: 20,
+                                color: Colors.purple.shade50,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {
@@ -102,16 +137,19 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                     isTeacher? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ButtonSubmissionWidget(
-                          label: 'Edit',
-                          icon: Icons.edit,
-                          onTap: () => context.read<TeacherBloc>().add(
-                              UpdateFeeScreenEvent(
-                                  feeData: feeData, studentId: studentId)),
-                        ),
-                      ):const Row(), 
+                      isTeacher
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ButtonSubmissionWidget(
+                                label: 'Edit',
+                                icon: Icons.edit,
+                                onTap: () => context.read<TeacherBloc>().add(
+                                    UpdateFeeScreenEvent(
+                                        feeData: feeData,
+                                        studentId: studentId)),
+                              ),
+                            )
+                          : const Row(),
                     ],
                   ),
                 ),

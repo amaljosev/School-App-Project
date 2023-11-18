@@ -12,10 +12,8 @@ class DbFunctions {
           .collection(collectionName)
           .doc()
           .set(map);
-      // If the set operation is successful, return true
       return true;
     } catch (e) {
-      // If an error occurs during the set operation, return false
       log("Error adding details: $e");
       return false;
     }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
+import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
@@ -13,7 +14,6 @@ import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
-
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});
 
@@ -59,9 +59,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
         if (state is StudentActionsState) {
           if (state.index == 1) {
             tostudentHome(context);
-            feePopupMessage(
-             context:  context 
-            );
+            feePopupMessage(context: context);
           } else if (state.index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
@@ -88,11 +86,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
               stream: studentstream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
+                  return LoadingWidget().studentHomeLoading(size);
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.hasData) {

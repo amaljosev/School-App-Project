@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/screens/teacher/all_students/allstudents_screen.dart';
 import 'package:schoolapp/screens/teacher/widgets/calender_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_bottom.dart';
@@ -28,9 +29,19 @@ class HomePageWidget extends StatelessWidget {
             padding: const EdgeInsets.only(
               left: 15,
             ),
-            child: Text(
-              'Students',
-              style: titleTextStyle  
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Students', style: titleTextStyle),
+                TextButton(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const ScreenAllStudentsTeacher(),
+                        )),
+                    child: const Text('All Students >'))
+              ],
             ),
           ),
           const TeacherStudentsList(),

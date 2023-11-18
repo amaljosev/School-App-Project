@@ -56,13 +56,14 @@ final class FetchStudentDatasState extends TeacherActionState {
   FetchStudentDatasState({required this.studetDatas});
 }
 
-
 final class FetchClassDetailsState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> classDatas;
   FetchClassDetailsState({required this.classDatas});
 }
-final class FetchClassDetailsErrorState extends TeacherActionState{}
-final class FetchClassDetailsLoadingState extends TeacherActionState{}  
+
+final class FetchClassDetailsErrorState extends TeacherActionState {}
+
+final class FetchClassDetailsLoadingState extends TeacherActionState {}
 
 final class UpdateFeeScreenState extends TeacherActionState {
   final Map<String, dynamic> feeData;
@@ -73,3 +74,12 @@ final class UpdateFeeScreenState extends TeacherActionState {
 final class UpdateStudentFeeState extends TeacherActionState {}
 
 final class UpdateStudentDataState extends TeacherActionState {}
+
+final class FetchAllStudentsSuccessState extends TeacherActionState {
+  final Stream<QuerySnapshot<Object?>> studentDatas;
+  FetchAllStudentsSuccessState({required this.studentDatas});
+}
+
+final class FetchAllStudentsErrorState extends TeacherActionState {}
+
+final class FetchAllStudentsLoadingState extends TeacherActionState {}
