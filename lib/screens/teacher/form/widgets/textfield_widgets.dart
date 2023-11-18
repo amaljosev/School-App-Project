@@ -124,7 +124,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
             hintText: 'Age',
             labelText: 'Age',
             controller: ageController,
-            keyboardType: TextInputType.number, 
+            keyboardType: TextInputType.number,
             length: 2,
             obscureText: false),
         isTeacher
@@ -138,15 +138,18 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                 length: 6,
                 obscureText: false)
             : const Row(),
-        SignUpTextFieldWidget(
-            icon: const Icon(Icons.mail_outline_rounded, color: headingColor),
-            fillColor: appbarColor,
-            hintText: 'Email',
-            labelText: 'Email',
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            length: null,
-            obscureText: false),
+        widget.isUpdate
+            ? const Row()
+            : SignUpTextFieldWidget(
+                icon:
+                    const Icon(Icons.mail_outline_rounded, color: headingColor),
+                fillColor: appbarColor,
+                hintText: 'Email',
+                labelText: 'Email',
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                length: null,
+                obscureText: false),
         const SizedBox(
           height: 20,
         ),

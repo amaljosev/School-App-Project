@@ -63,7 +63,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                List<QueryDocumentSnapshot> documents = snapshot.data!.docs; 
+                List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
                 QueryDocumentSnapshot document = documents.first;
                 Map<String, dynamic>? data =
                     document.data() as Map<String, dynamic>;
@@ -82,32 +82,65 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Text(
-                                "class : ${data['standard']}",
-                                style: appbarTextStyle,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "class  ${data['standard']}",
+                                    style: appbarTextStyle,
+                                  ),
+                                  Text(
+                                    'Class Strength ',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    'Boys ',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    'Girls ',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    'Today Presents ',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    'Today Absents ',
+                                    style: contentTextStyle,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Class Strength : ${data['total_students']}',
-                                style: contentTextStyle,
-                              ),
-                              Text(
-                                'Boys : ${data['total_boys']}',
-                                style: contentTextStyle,
-                              ),
-                              Text(
-                                'Girls : ${data['total_girls']}',
-                                style: contentTextStyle,
-                              ),
-                              Text(
-                                'Today Presents :26',
-                                style: contentTextStyle,
-                              ), 
-                              Text(
-                                'Today Absents : 4',
-                                style: contentTextStyle,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Text(''),
+                                  ),
+                                  Text(
+                                    ': ${data['total_students']}',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    ': ${data['total_boys']}',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    ': ${data['total_girls']}',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    ': 26',
+                                    style: contentTextStyle,
+                                  ),
+                                  Text(
+                                    ': 4',
+                                    style: contentTextStyle,
+                                  ),
+                                ],
                               ),
                             ],
                           ),

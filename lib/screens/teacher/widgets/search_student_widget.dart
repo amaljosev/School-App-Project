@@ -17,7 +17,7 @@ class ScreenSearchStudent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherBloc, TeacherState>(
       listener: (context, state) {
-        if (state is SearchStudentScreenState) { 
+        if (state is SearchStudentScreenState) {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -89,7 +89,8 @@ class ScreenSearchStudent extends StatelessWidget {
                         final String studentId = students[index].id;
                         return ListTile(
                           title: Text(
-                              "${filteredStudents[index]['first_name']} ${filteredStudents[index]['second_name']}",style: contentTextStyle),   
+                              "${filteredStudents[index]['first_name']} ${filteredStudents[index]['second_name']}",
+                              style: contentTextStyle),
                           onTap: () => context.read<TeacherBloc>().add(
                               StudentProfileEvent(
                                   studentId: studentId,
