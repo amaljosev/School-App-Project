@@ -12,7 +12,7 @@ final titleTextStyle = GoogleFonts.teko(
     fontSize: 18, fontWeight: FontWeight.bold, color: contentColor);
 
 final teacherAddStudentTextStyle = GoogleFonts.ubuntu(
-    fontSize: 14, fontWeight: FontWeight.bold, color: contentColor); 
+    fontSize: 14, fontWeight: FontWeight.bold, color: contentColor);
 
-final studentProfileTextStyle = GoogleFonts.ubuntu(
+final studentProfileTextStyle = GoogleFonts.ubuntu( 
     fontSize: 15, fontWeight: FontWeight.bold, color: contentColor);

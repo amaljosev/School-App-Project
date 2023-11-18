@@ -45,6 +45,7 @@ dependencies:
   video_player: ^2.8.1
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+  anim_search_bar: ^2.0.3
 
 
 

@@ -79,4 +79,15 @@ final class UpdateStudentDataEvent extends TeacherActionEvent {
 
   UpdateStudentDataEvent({required this.studentData, required this.studentId});
 }
-final class FetchAllStudentsEvent extends TeacherActionEvent{}
+
+final class FetchAllStudentsEvent extends TeacherActionEvent {}
+
+final class SearchStudentScreenEvent extends TeacherActionEvent {
+  final List<DocumentSnapshot<Object?>> studentList;
+  SearchStudentScreenEvent({required this.studentList});
+}
+
+final class PerformSearchEvent extends TeacherActionEvent {
+  final String searchContent;
+  PerformSearchEvent({required this.searchContent}); 
+}

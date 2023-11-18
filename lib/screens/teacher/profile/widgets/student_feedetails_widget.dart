@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/repositories/utils/shimmer_widget.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/fee_edit_screen.dart';
+import 'package:schoolapp/screens/teacher/profile/widgets/shimmerloading_student_fee.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class StudentFeeDetailsWidget extends StatelessWidget {
   const StudentFeeDetailsWidget({
@@ -43,39 +42,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
               return isTeacher
                   ? const SizedBox(
                       child: Center(child: CircularProgressIndicator()))
-                  : SizedBox(
-                      height: 100, 
-                      width: 200,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ListTile(
-                            title: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Shimmer.fromColors(
-                                baseColor: appbarColor,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  width: 50,
-                                  height: 20,
-                                  color: Colors.purple.shade50,
-                                ),
-                              ),
-                            ),
-                            subtitle: Shimmer.fromColors(
-                              baseColor: appbarColor,
-                              highlightColor: Colors.white,
-                              child: Container(
-                                width: 50,
-                                height: 20,
-                                color: Colors.purple.shade50,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                  : const ShimmerLoadingForStudentFee(); 
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {
@@ -165,3 +132,4 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     );
   }
 }
+

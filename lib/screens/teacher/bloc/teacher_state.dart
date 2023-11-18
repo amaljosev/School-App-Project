@@ -83,3 +83,13 @@ final class FetchAllStudentsSuccessState extends TeacherActionState {
 final class FetchAllStudentsErrorState extends TeacherActionState {}
 
 final class FetchAllStudentsLoadingState extends TeacherActionState {}
+
+final class SearchStudentScreenState extends TeacherActionState {
+  final List<DocumentSnapshot<Object?>> studentList;
+  SearchStudentScreenState({required this.studentList});
+}
+
+final class PerformSearchState extends TeacherActionState {
+  final String searchContent; 
+  PerformSearchState({required this.searchContent}); 
+}

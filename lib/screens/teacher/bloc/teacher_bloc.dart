@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
@@ -32,6 +33,8 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     on<UpdateStudentFeeEvent>(updateStudentFeeEvent);
     on<UpdateStudentDataEvent>(updateStudentDataEvent);
     on<FetchAllStudentsEvent>(fetchAllStudentsEvent);
+    on<SearchStudentScreenEvent>(searchStudentScreenEvent);
+    on<PerformSearchEvent>(performSearchEvent);
   }
 
   FutureOr<void> formStudentEvent(
@@ -161,5 +164,15 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     } catch (e) {
       emit(FetchAllStudentsErrorState());
     }
+  }
+
+  FutureOr<void> searchStudentScreenEvent(
+      SearchStudentScreenEvent event, Emitter<TeacherState> emit) {
+    emit(SearchStudentScreenState(studentList: event.studentList));
+  }
+
+  FutureOr<void> performSearchEvent(
+      PerformSearchEvent event, Emitter<TeacherState> emit) {
+    emit(PerformSearchState(searchContent: event.searchContent));
   }
 }
