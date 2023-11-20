@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/widgets/textfield_widgets.dart';
 import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 

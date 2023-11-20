@@ -1,7 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 
 Future<bool> toTeacherHome(BuildContext context) async{
   context.read<TeacherBloc>().add(BottomNavigationEvent(currentPageIndex: 0));

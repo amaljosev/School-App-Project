@@ -7,7 +7,7 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
   const StudentAttendenceDetailsWidget({
     super.key,
     required this.size,
-    required this.studentsMap, 
+    required this.studentsMap,
   });
 
   final Size size;
@@ -75,11 +75,11 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                       style: contentTextStyle,
                     ),
                     Text(
-                      ': ${studentsMap?['total_present_days']}',  
+                      ': ${studentsMap?['total_present_days']}',
                       style: contentTextStyle,
                     ),
                     Text(
-                      ': ${studentsMap?['total_missed_days']}', 
+                      ': ${studentsMap?['total_missed_days']}',
                       style: contentTextStyle,
                     ),
                   ],

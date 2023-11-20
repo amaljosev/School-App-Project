@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 
@@ -47,13 +47,14 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,
+                 
                 ),
               ));
         } else if (state is FetchStudentDatasState) {
           studentDatasStream = state.studetDatas;
           context
               .read<TeacherBloc>()
-              .add(BottomNavigationEvent(currentPageIndex: 0));
+              .add(BottomNavigationEvent(currentPageIndex: 0)); 
         }
       },
       builder: (context, state) {
@@ -61,18 +62,17 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
             stream: studentDatasStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                 return LoadingWidget().studentCircleShimmer();
-               
+                return LoadingWidget().studentCircleShimmer();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) { 
-                List<DocumentSnapshot> students = snapshot.data!.docs; 
-                  students.sort((a, b) {
-                    String nameA = "${a['first_name']} ${a['second_name']}";
-                    String nameB = "${b['first_name']} ${b['second_name']}";
-                    return nameA.compareTo(nameB);
-                  });
-                
+              } else if (snapshot.hasData) {
+                List<DocumentSnapshot> students = snapshot.data!.docs;
+                students.sort((a, b) {
+                  String nameA = "${a['first_name']} ${a['second_name']}";
+                  String nameB = "${b['first_name']} ${b['second_name']}";
+                  return nameA.compareTo(nameB);
+                });
+
                 return SizedBox(
                     height: 130,
                     child: Row(
@@ -106,7 +106,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                           child: ListView.separated(
                             padding: const EdgeInsets.all(8.0),
                             scrollDirection: Axis.horizontal,
-                            itemCount: students.length, 
+                            itemCount: students.length,
                             itemBuilder: (context, index) {
                               var student = students[index].data()
                                   as Map<String, dynamic>;

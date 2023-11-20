@@ -5,7 +5,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/widgets/search_student_widget.dart';
 
@@ -34,7 +34,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
         if (state is FetchAllStudentsSuccessState) {
           studentListStream = state.studentDatas;
         } else if (state is FetchAllStudentsLoadingState) {
-          const CircularProgressIndicator(); 
+          const CircularProgressIndicator();
         } else if (state is FetchAllStudentsErrorState) {
           AlertMessages().alertMessageSnakebar(
               context, 'Something went wrong Try again', Colors.red);
@@ -43,6 +43,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
               context,
               MaterialPageRoute(
                 builder: (context) => ScreenStudentProfileTeacher(
+                 
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,
@@ -69,7 +70,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
                       child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) { 
+                } else if (snapshot.hasData) {
                   List<DocumentSnapshot> students = snapshot.data!.docs;
                   students.sort((a, b) {
                     String nameA = "${a['first_name']} ${a['second_name']}";

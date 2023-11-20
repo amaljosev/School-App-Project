@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/widgets/add_task_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/attendace_history_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/home_page_widget.dart';

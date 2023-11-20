@@ -7,7 +7,8 @@ import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/requests/bloc/admin_request_bloc.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/student_screen.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TeacherBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TeacherSecondBloc(), 
         ),
         BlocProvider(
           create: (context) => StudentBloc(),

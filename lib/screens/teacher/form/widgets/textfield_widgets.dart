@@ -5,7 +5,7 @@ import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
 import '../../../../repositories/core/textstyle.dart';

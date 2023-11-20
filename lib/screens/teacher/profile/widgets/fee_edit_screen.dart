@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 

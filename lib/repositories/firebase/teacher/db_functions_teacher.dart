@@ -72,7 +72,7 @@ class DbFunctionsTeacher {
             .collection('student_fee')
             .get();
         final feeId = querySnapshot.docs.first.id;
-        // Reference to the specific document within the subcollection
+        // Reference to the specific document within the subcollection 
 
         // Creating a map of fields you want to update
         Map<String, dynamic> studentFeeMap = {

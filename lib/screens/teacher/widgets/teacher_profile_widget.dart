@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 
 class TeacherProfileWidget extends StatefulWidget {

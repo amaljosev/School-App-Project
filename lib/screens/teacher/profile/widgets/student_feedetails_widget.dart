@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
+import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/fee_edit_screen.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/shimmerloading_student_fee.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
@@ -13,7 +13,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     Key? key,
     required this.isTeacher,
     required this.studentFee,
-    required this.studentId,
+    required this.studentId, 
   }) : super(key: key);
   final String studentId;
   final bool isTeacher;
