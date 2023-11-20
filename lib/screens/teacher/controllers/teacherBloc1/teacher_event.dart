@@ -17,7 +17,6 @@ final class AddStudentEvent extends TeacherActionEvent {
     required this.studentData,
     required this.classDatas,
     required this.feeData,
-
   });
 }
 
@@ -91,5 +90,5 @@ final class SearchStudentScreenEvent extends TeacherActionEvent {
 
 final class PerformSearchEvent extends TeacherActionEvent {
   final String searchContent;
-  PerformSearchEvent({required this.searchContent}); 
+  PerformSearchEvent({required this.searchContent});
 }

@@ -18,11 +18,14 @@ final class StudentActionsState extends StudentActionState {
 
 final class FetchStudentDatasSuccessState extends StudentActionState {
   final Stream<DocumentSnapshot<Object?>> studentstream;
-    final String studentId;
-  FetchStudentDatasSuccessState({required this.studentstream,required this.studentId});
+  final String studentId;
+  final int totalWorkingDaysCompleted;
+  FetchStudentDatasSuccessState(
+      {required this.studentstream, required this.studentId,required this.totalWorkingDaysCompleted});
 }
-final class UpdateStudentDataSuccessState extends StudentActionState {} 
-final class UpdateStudentDataErrorState extends StudentActionState {} 
-final class UpdateStudentDataLoadingState extends StudentActionState {} 
 
+final class UpdateStudentDataSuccessState extends StudentActionState {}
 
+final class UpdateStudentDataErrorState extends StudentActionState {}
+
+final class UpdateStudentDataLoadingState extends StudentActionState {}

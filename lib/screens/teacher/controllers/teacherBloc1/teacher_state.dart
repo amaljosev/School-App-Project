@@ -22,10 +22,12 @@ final class StudentProfileState extends TeacherActionState {
   final Map<String, dynamic> students;
   final String studentId;
   final CollectionReference<Map<String, dynamic>> studentFee;
+  final int totalWorkingDays;
   StudentProfileState(
       {required this.students,
       required this.studentFee,
-      required this.studentId});
+      required this.studentId,
+      required this.totalWorkingDays});
 }
 
 final class BottomNavigationState extends TeacherActionState {
@@ -60,7 +62,7 @@ final class FetchClassDetailsState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> classDatas;
   final Stream<QuerySnapshot<Object?>> todayAttendenceData;
   FetchClassDetailsState(
-      {required this.classDatas, required this.todayAttendenceData}); 
+      {required this.classDatas, required this.todayAttendenceData});
 }
 
 final class FetchClassDetailsErrorState extends TeacherActionState {}

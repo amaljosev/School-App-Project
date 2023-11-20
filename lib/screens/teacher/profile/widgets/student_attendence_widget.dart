@@ -8,10 +8,12 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
     super.key,
     required this.size,
     required this.studentsMap,
+    required this.totalWorkingDaysCompleted,
   });
 
   final Size size;
   final Map<String, dynamic>? studentsMap;
+  final int totalWorkingDaysCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      ': 140',
+                      ': $totalWorkingDaysCompleted',
                       style: contentTextStyle,
                     ),
                     Text(

@@ -44,6 +44,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
               context,
               MaterialPageRoute(
                 builder: (context) => ScreenStudentProfileTeacher(
+                  totalWorkingDays: state.totalWorkingDays,
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,

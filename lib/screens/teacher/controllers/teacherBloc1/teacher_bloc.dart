@@ -63,8 +63,16 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   }
 
   FutureOr<void> studentProfileEvent(
-      StudentProfileEvent event, Emitter<TeacherState> emit) {
+      StudentProfileEvent event, Emitter<TeacherState> emit) async {
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(id)
+        .collection('attendance')
+        .get();
+    final DocumentSnapshot classDoc = querySnapshot.docs.first;
+    int totalWorkingDays = classDoc.get('toatal_working_days_completed');
     emit(StudentProfileState(
+        totalWorkingDays: totalWorkingDays,
         studentId: event.studentId,
         students: event.students,
         studentFee: event.studentFee));

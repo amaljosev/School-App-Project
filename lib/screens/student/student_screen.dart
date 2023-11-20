@@ -31,6 +31,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
     context.read<StudentBloc>().add(FetchStudentDataEvent());
   }
 
+  int totalWorkingDays = 0;
   String id = '';
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
       listener: (context, state) {
         if (state is FetchStudentDatasSuccessState) {
           id = state.studentId;
+          totalWorkingDays = state.totalWorkingDaysCompleted;
           studentstream = state.studentstream;
           context
               .read<StudentBloc>()
@@ -114,7 +116,9 @@ class _ScreenStudentState extends State<ScreenStudent> {
                         StudentHomeWidget(studentId: id, students: studentData),
                         const ApplicationWidget(isTeacher: false),
                         StudentAttendenceDetailsWidget(
-                            size: size, studentsMap: null),
+                            size: size,
+                            studentsMap: null,
+                            totalWorkingDaysCompleted: totalWorkingDays),
                       ],
                     ),
                     bottomNavigationBar: NavigationBar(

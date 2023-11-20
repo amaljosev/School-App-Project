@@ -15,12 +15,12 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
       {super.key,
       required this.studentsMap,
       required this.studentFee,
-      required this.studentId,
+      required this.studentId, required this.totalWorkingDays,
      });
   final Map<String, dynamic> studentsMap;
   final String studentId;
   final CollectionReference<Map<String, dynamic>> studentFee;
-   
+   final int totalWorkingDays;
 
   @override
   Widget build(BuildContext context) { 
@@ -59,7 +59,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       children: [
                         StudentAttendenceDetailsWidget(
-                        
+                        totalWorkingDaysCompleted: totalWorkingDays, 
                           size: size,
                           studentsMap: studentsMap,
                         ),
