@@ -11,7 +11,8 @@ class StudentModel {
   final String password;
   final String gender;
   final String standard;
-  final int? totalPresentDays; 
+  final int totalPresent;
+  final int totalAbsent;
 
   StudentModel(
       {required this.firstName,
@@ -26,5 +27,6 @@ class StudentModel {
       required this.password,
       required this.gender,
       required this.standard,
-      required this.totalPresentDays});
+      required this.totalPresent,
+      required this.totalAbsent});
 }

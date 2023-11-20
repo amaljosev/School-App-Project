@@ -45,6 +45,16 @@ class DbFunctionsTeacher {
     
     return studentsStream;
   }
+  Stream<QuerySnapshot<Object?>> getCurrentAttendanceData(teacherId) {
+    
+    final CollectionReference studentCollection = FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('attendance'); 
+    final studentsStream = studentCollection.snapshots();
+    
+    return studentsStream;
+  }
 
   Future<void> updateStudentFeeDatas(
       FeeModel feeDatas, String studentId) async {

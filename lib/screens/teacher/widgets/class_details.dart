@@ -8,7 +8,6 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/attendence/attendence_screen.dart';
 import 'package:schoolapp/screens/teacher/bloc/teacher_bloc.dart';
 
-Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty();
 Map<String, dynamic>? classDatasGlobel = {};
 
 class ClassDetailsWidget extends StatefulWidget {
@@ -24,6 +23,8 @@ class ClassDetailsWidget extends StatefulWidget {
 }
 
 class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
+  Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty();
+  Stream<QuerySnapshot<Object?>> attendenceData = const Stream.empty();
   @override
   void initState() {
     super.initState();
@@ -52,116 +53,136 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
         }
         if (state is FetchClassDetailsState) {
           classDatas = state.classDatas;
+          attendenceData = state.todayAttendenceData;
         }
       },
       builder: (context, state) {
         return StreamBuilder<QuerySnapshot>(
             stream: classDatas,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return LoadingWidget().classDataLoadingShimmer();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
-                QueryDocumentSnapshot document = documents.first;
-                Map<String, dynamic>? data =
-                    document.data() as Map<String, dynamic>;
-                classDatasGlobel = data;
-                return Center(
-                  child: Container(
-                    height: 200,
-                    width: widget.size.width * 0.97,
-                    decoration: BoxDecoration(
-                        color: appbarColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+            builder: (context, classSnapshot) {
+              return StreamBuilder<QuerySnapshot>(
+                stream: attendenceData,
+                builder: (context, attendanceSnapshot) {
+                  if (classSnapshot.connectionState ==
+                          ConnectionState.waiting ||
+                      attendanceSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                    return LoadingWidget().classDataLoadingShimmer();
+                  } else if (classSnapshot.hasError ||
+                      attendanceSnapshot.hasError) {
+                    return Text('Error: ${classSnapshot.error}');
+                  } else if (classSnapshot.hasData &&
+                      attendanceSnapshot.hasData) {
+                    List<QueryDocumentSnapshot> documents =
+                        classSnapshot.data!.docs;
+                    QueryDocumentSnapshot document = documents.first; 
+                    Map<String, dynamic>? data =
+                        document.data() as Map<String, dynamic>;
+                    classDatasGlobel = data;
+                    List<QueryDocumentSnapshot> attendanceDocuments =
+                        attendanceSnapshot.data!.docs; 
+                    QueryDocumentSnapshot attendanceDoc =
+                        attendanceDocuments.first;
+                    Map<String, dynamic>? attendanceData =
+                        attendanceDoc.data() as Map<String, dynamic>;
+                    return Center(
+                      child: Container(
+                        height: 200,
+                        width: widget.size.width * 0.97,
+                        decoration: BoxDecoration(
+                            color: appbarColor,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    "class  ${data['standard']}",
-                                    style: appbarTextStyle,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "class  ${data['standard']}",
+                                        style: appbarTextStyle,
+                                      ),
+                                      Text(
+                                        'Class Strength ',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        'Boys ',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        'Girls ',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        'Today Presents ',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        'Today Absents ',
+                                        style: contentTextStyle,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'Class Strength ',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    'Boys ',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    'Girls ',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    'Today Presents ',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    'Today Absents ',
-                                    style: contentTextStyle,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Text(''),
+                                      ),
+                                      Text(
+                                        ': ${data['total_students']}',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        ': ${data['total_boys']}',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        ': ${data['total_girls']}',
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        ': ${attendanceData['total_presents']}',  
+                                        style: contentTextStyle,
+                                      ),
+                                      Text(
+                                        ': ${attendanceData['total_absents']}',
+                                        style: contentTextStyle,
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Text(''),
-                                  ),
-                                  Text(
-                                    ': ${data['total_students']}',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    ': ${data['total_boys']}',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    ': ${data['total_girls']}',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    ': 26',
-                                    style: contentTextStyle,
-                                  ),
-                                  Text(
-                                    ': 4',
-                                    style: contentTextStyle,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30),
+                              child: ElevatedButton(
+                                  onPressed: () => context
+                                      .read<TeacherBloc>()
+                                      .add(AttendenceEvent()),
+                                  child: const Text('Take Attendence')),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: ElevatedButton(
-                              onPressed: () => context
-                                  .read<TeacherBloc>()
-                                  .add(AttendenceEvent()),
-                              child: const Text('Take Attendence')),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const SizedBox(
-                  child: Center(child: Text('Something went wrong')),
-                );
-              }
+                      ),
+                    );
+                  } else {
+                    return const SizedBox(
+                      child: Center(child: Text('Something went wrong')),
+                    );
+                  }
+                },
+              );
             });
       },
     );

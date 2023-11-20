@@ -41,7 +41,8 @@ class AdminActions {
       // Delete the document from the "teacher_requests" collection
 
       await teacherDatas.doc(id).delete();
-      addClassData(classData,standard); 
+      addClassData(classData, standard);
+      addAttendace(standard);
     } else {
       // Handle the case where the document does not exist
       log("Teacher request document with ID $id does not exist.");
@@ -52,20 +53,43 @@ class AdminActions {
     await teacherDatas.doc(id).delete();
   }
 
-  Future<void> addClassData(Map<String, dynamic> classData,String enteredname) async {
+  Future<void> addClassData(
+      Map<String, dynamic> classData, String enteredClass) async {
     try {
-      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance 
-        .collection('teachers')
-        .where('class', isEqualTo: enteredname)
-        .get();
-      final teacherId = querySnapshot.docs.first.id; 
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('teachers')
+          .where('class', isEqualTo: enteredClass)
+          .get();
+      final teacherId = querySnapshot.docs.first.id;
       await DbFunctions().addClassDetails(
-          map: classData, 
+          map: classData,
           collectionName: 'teachers',
-          teacherId: teacherId, 
+          teacherId: teacherId,
           subCollectionName: 'class');
     } catch (e) {
-      print('Error updating class data: $e');
+      log('Error updating class data: $e');
+    }
+  }
+
+  Future<void> addAttendace(String enteredClass) async {
+    try {
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('teachers')
+          .where('class', isEqualTo: enteredClass)
+          .get();
+      final teacherId = querySnapshot.docs.first.id;
+      Map<String, dynamic> attendanceMap = {
+        'toatal_working_days_completed': 0,
+        'total_presents': 0,
+        'total_absents': 0,
+      };
+      await DbFunctions().addClassDetails(
+          map: attendanceMap,
+          collectionName: 'teachers',
+          teacherId: teacherId,
+          subCollectionName: 'attendance');
+    } catch (e) {
+      log('Error updating attendece data: $e');
     }
   }
 }

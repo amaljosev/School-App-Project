@@ -12,10 +12,12 @@ final class AddStudentEvent extends TeacherActionEvent {
   FeeModel feeData;
   StudentModel studentData;
   ClassModel classDatas;
+
   AddStudentEvent({
     required this.studentData,
     required this.classDatas,
     required this.feeData,
+
   });
 }
 

@@ -267,19 +267,21 @@ void onButtonTap(
     required Gender? gender,
     required isTeacher}) {
   final studentObject = StudentModel(
-      firstName: firstNameController.text,
-      secondName: secondNameController.text,
-      classTeacher: teacher,
-      rollNo: rollNoController.text,
-      age: ageController.text,
-      registerNo: registrationNumberController.text,
-      email: emailController.text,
-      contactNo: contactController.text,
-      guardianName: guardianNameController.text,
-      password: passwordController.text,
-      gender: gender.toString(),
-      standard: standard,
-      totalPresentDays: 0);
+    firstName: firstNameController.text,
+    secondName: secondNameController.text,
+    classTeacher: teacher,
+    rollNo: rollNoController.text,
+    age: ageController.text,
+    registerNo: registrationNumberController.text,
+    email: emailController.text,
+    contactNo: contactController.text,
+    guardianName: guardianNameController.text,
+    password: passwordController.text,
+    gender: gender.toString(),
+    standard: standard,
+    totalAbsent: 0,
+    totalPresent: 0,
+  );
   if (gender == Gender.male) {
     totalBoys += 1;
   } else {
@@ -293,6 +295,7 @@ void onButtonTap(
       standard: standard);
 
   final feeObject = FeeModel(totalAmount: 0, amountPayed: 0, amountPending: 0);
+
   if (isTeacher) {
     isUpdate
         ? context.read<TeacherBloc>().add(

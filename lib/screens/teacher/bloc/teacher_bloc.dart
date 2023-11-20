@@ -128,8 +128,11 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
       final Stream<QuerySnapshot<Object?>> classDatas =
           DbFunctionsTeacher().getClassDetails(id);
+      final Stream<QuerySnapshot<Object?>> currentAttendanceDatas =
+          DbFunctionsTeacher().getCurrentAttendanceData(id);
 
-      emit(FetchClassDetailsState(classDatas: classDatas));
+      emit(FetchClassDetailsState(
+          classDatas: classDatas, todayAttendenceData: currentAttendanceDatas));
     } catch (e) {
       emit(FetchClassDetailsErrorState());
     }

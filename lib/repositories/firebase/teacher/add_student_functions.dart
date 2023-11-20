@@ -30,7 +30,9 @@ class StudentDbFunctions {
         'guardian_name': studentData.guardianName,
         'password': studentData.password,
         'gender': studentData.gender,
-        'standard': studentData.standard
+        'standard': studentData.standard,
+        'total_present_days': 0,
+        'total_missed_days': 0
       };
       final bool response = await DbFunctions().addStudentDetails(
         map: studentMap,
@@ -41,6 +43,7 @@ class StudentDbFunctions {
       final bool response2 = await DbFunctions()
           .addDetails(map: studentMap, collectionName: 'all_users');
       addClassAndFeeData(feeDatas, studentData.registerNo);
+
       return response && response2;
     } catch (e) {
       return false;
@@ -142,7 +145,7 @@ class StudentDbFunctions {
           'guardian_name': studentData.guardianName,
           'password': studentData.password,
           'gender': studentData.gender,
-          'standard': studentData.standard
+          'standard': studentData.standard,
         };
         responce = await DbFunctions().updateDetails(
             map: studentMap,

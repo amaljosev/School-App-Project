@@ -58,7 +58,9 @@ final class FetchStudentDatasState extends TeacherActionState {
 
 final class FetchClassDetailsState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> classDatas;
-  FetchClassDetailsState({required this.classDatas});
+  final Stream<QuerySnapshot<Object?>> todayAttendenceData;
+  FetchClassDetailsState(
+      {required this.classDatas, required this.todayAttendenceData}); 
 }
 
 final class FetchClassDetailsErrorState extends TeacherActionState {}
@@ -90,6 +92,6 @@ final class SearchStudentScreenState extends TeacherActionState {
 }
 
 final class PerformSearchState extends TeacherActionState {
-  final String searchContent; 
-  PerformSearchState({required this.searchContent}); 
+  final String searchContent;
+  PerformSearchState({required this.searchContent});
 }
