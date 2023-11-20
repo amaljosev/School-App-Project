@@ -34,9 +34,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
         if (state is FetchAllStudentsSuccessState) {
           studentListStream = state.studentDatas;
         } else if (state is FetchAllStudentsLoadingState) {
-          const CircularProgressIndicator(
-            color: Colors.amber,
-          );
+          const CircularProgressIndicator(); 
         } else if (state is FetchAllStudentsErrorState) {
           AlertMessages().alertMessageSnakebar(
               context, 'Something went wrong Try again', Colors.red);
@@ -52,7 +50,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
               ));
         }
         if (state is SearchStudentScreenState) {
-          Navigator.push( 
+          Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
@@ -71,8 +69,13 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
                       child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
+                } else if (snapshot.hasData) { 
                   List<DocumentSnapshot> students = snapshot.data!.docs;
+                  students.sort((a, b) {
+                    String nameA = "${a['first_name']} ${a['second_name']}";
+                    String nameB = "${b['first_name']} ${b['second_name']}";
+                    return nameA.compareTo(nameB);
+                  });
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(

@@ -66,7 +66,13 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) { 
-                var students = snapshot.data?.docs;
+                List<DocumentSnapshot> students = snapshot.data!.docs; 
+                  students.sort((a, b) {
+                    String nameA = "${a['first_name']} ${a['second_name']}";
+                    String nameB = "${b['first_name']} ${b['second_name']}";
+                    return nameA.compareTo(nameB);
+                  });
+                
                 return SizedBox(
                     height: 130,
                     child: Row(
@@ -100,7 +106,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                           child: ListView.separated(
                             padding: const EdgeInsets.all(8.0),
                             scrollDirection: Axis.horizontal,
-                            itemCount: students!.length,
+                            itemCount: students.length, 
                             itemBuilder: (context, index) {
                               var student = students[index].data()
                                   as Map<String, dynamic>;

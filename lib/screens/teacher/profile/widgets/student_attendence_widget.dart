@@ -7,9 +7,11 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
   const StudentAttendenceDetailsWidget({
     super.key,
     required this.size,
+    required this.studentsMap, 
   });
 
   final Size size;
+  final Map<String, dynamic>? studentsMap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,7 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
               style: titleTextStyle,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Card(
                 elevation: 5,
                 color: Colors.deepPurple.shade100,
@@ -50,8 +51,7 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Total working Days Completed ',
@@ -68,19 +68,18 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                   ],
                 ),
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       ': 140',
                       style: contentTextStyle,
                     ),
                     Text(
-                      ': 120',
+                      ': ${studentsMap?['total_present_days']}',  
                       style: contentTextStyle,
                     ),
                     Text(
-                      ': 20',
+                      ': ${studentsMap?['total_missed_days']}', 
                       style: contentTextStyle,
                     ),
                   ],

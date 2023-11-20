@@ -45,18 +45,21 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
           child: Column(
             children: [
               ProfileHeadWidget(
-                  image: 'lib/assets/images/student female.png',
+                  image: 'lib/assets/images/student female.png',  
                   name:
                       "${studentsMap['first_name']} ${studentsMap['second_name']}"),
               StudentDetailsWidget(
-                  isTeacher: true, students: studentsMap, studentId: studentId),
+                  isTeacher: true, students: studentsMap, studentId: studentId), 
               SizedBox(
                   height: size.height * 0.40,
                   child: ListView(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       scrollDirection: Axis.horizontal,
                       children: [
-                        StudentAttendenceDetailsWidget(size: size),
+                        StudentAttendenceDetailsWidget( 
+                          size: size,
+                          studentsMap: studentsMap, 
+                        ),
                         const SizedBox(
                           width: 10,
                         ),

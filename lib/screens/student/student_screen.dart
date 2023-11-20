@@ -14,6 +14,7 @@ import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
+
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});
 
@@ -112,7 +113,8 @@ class _ScreenStudentState extends State<ScreenStudent> {
                       children: <Widget>[
                         StudentHomeWidget(studentId: id, students: studentData),
                         const ApplicationWidget(isTeacher: false),
-                        StudentAttendenceDetailsWidget(size: size),
+                        StudentAttendenceDetailsWidget(
+                            size: size, studentsMap: null),
                       ],
                     ),
                     bottomNavigationBar: NavigationBar(
