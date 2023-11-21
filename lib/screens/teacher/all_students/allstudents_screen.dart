@@ -5,7 +5,6 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
-import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/widgets/search_student_widget.dart';
 
 class ScreenAllStudentsTeacher extends StatefulWidget {
@@ -23,7 +22,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
   @override
   void initState() {
     super.initState();
-     context.read<TeacherBloc>().add(FetchAllStudentsEvent()); 
+    context.read<TeacherBloc>().add(FetchAllStudentsEvent());
   }
 
   @override
@@ -37,17 +36,6 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
         } else if (state is FetchAllStudentsErrorState) {
           AlertMessages().alertMessageSnakebar(
               context, 'Something went wrong Try again', Colors.red);
-        } else if (state is StudentProfileState) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenStudentProfileTeacher(
-                  totalWorkingDays: state.totalWorkingDays,
-                  studentId: state.studentId,
-                  studentFee: state.studentFee,
-                  studentsMap: state.students,
-                ),
-              ));
         }
         if (state is SearchStudentScreenState) {
           Navigator.push(
@@ -64,7 +52,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox(
-                    child: Center(child: CircularProgressIndicator()));  
+                    child: Center(child: CircularProgressIndicator()));
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -84,8 +72,7 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
                     actions: [
                       IconButton(
                           onPressed: () => context.read<TeacherBloc>().add(
-                              SearchStudentScreenEvent(
-                                  studentList: students)),
+                              SearchStudentScreenEvent(studentList: students)),
                           icon: const Icon(Icons.search))
                     ],
                   ),
@@ -94,17 +81,15 @@ class _ScreenAllStudentsTeacherState extends State<ScreenAllStudentsTeacher> {
                         DocumentSnapshot student = students[index];
                         var studentMap =
                             students[index].data() as Map<String, dynamic>;
-                        final studentFee = students[index]
-                            .reference
-                            .collection('student_fee');
+                        final studentFee =
+                            students[index].reference.collection('student_fee');
                         final String studentId = students[index].id;
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             leading: CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage(student[
-                                            'gender'] ==
+                                backgroundImage: AssetImage(student['gender'] ==
                                         'Gender.male'
                                     ? 'lib/assets/images/student male.jpg'
                                     : 'lib/assets/images/student female.png')),

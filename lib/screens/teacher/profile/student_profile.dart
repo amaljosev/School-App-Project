@@ -41,13 +41,16 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
         ),
         backgroundColor: appbarColor,
       ),
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Column(
           children: [
             ProfileHeadWidget(
-                image: 'lib/assets/images/student female.png',
-                name:
-                    "${studentsMap['first_name']} ${studentsMap['second_name']}"),
+              image: "${studentsMap['gender']}" == 'Gender.male'
+                  ? 'lib/assets/images/student male.jpg'
+                  : 'lib/assets/images/student female.png',
+              name:
+                  "${studentsMap['first_name']} ${studentsMap['second_name']}",
+            ),
             StudentDetailsWidget(
                 isTeacher: true, students: studentsMap, studentId: studentId),
             SizedBox(

@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScreenStudentList extends StatelessWidget {
   const ScreenStudentList({
@@ -76,10 +79,38 @@ class ScreenStudentList extends StatelessWidget {
                                             "${student['class_Teacher']}",
                                             style: contentTextStyle,
                                           ),
-                                          Text(
-                                            'contact : '
-                                            "${student['contact_no']}",
-                                            style: contentTextStyle,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'contact : ',
+                                                style: contentTextStyle, 
+                                              ),
+                                              GestureDetector( 
+                                                onTap: () async {
+                                                  final Uri url = Uri(
+                                                      scheme: 'tel',
+                                                      path:
+                                                          "${student['contact_no']}");
+                                                  if (await canLaunchUrl(url)) {
+                                                    await launchUrl(url);
+                                                  } else {
+                                                    log("can't call");
+                                                  }
+                                                },
+                                                child: Text(
+                                                  "${student['contact_no']}",
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: contentColor,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      decorationColor:
+                                                          contentColor),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             'age : ' "${student['age']}",

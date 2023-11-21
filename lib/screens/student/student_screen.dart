@@ -116,7 +116,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                         const ApplicationWidget(isTeacher: false),
                         StudentAttendenceDetailsWidget(
                             size: size,
-                            studentsMap: null,
+                            studentsMap: studentData,
                             totalWorkingDaysCompleted: totalWorkingDays),
                       ],
                     ),

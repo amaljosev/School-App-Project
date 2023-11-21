@@ -17,7 +17,7 @@ class StudentHomeWidget extends StatelessWidget {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8.0), 
+          padding: const EdgeInsets.only(top: 10.0),  
           child: CircleAvatar(
             backgroundColor: headingColor,
             radius: 60,

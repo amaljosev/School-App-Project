@@ -84,7 +84,10 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
           if (state is UpdateStudentDataSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context, 'Data Updated Successfully', Colors.green);
-            Navigator.pop(context);
+            Navigator.popUntil(
+              context,
+              (route) => route.isFirst,
+            );
           } else if (state is UpdateStudentDataLoadingState) {
             ScaffoldMessenger.of(context).showSnackBar(
               loadingSnakebarWidget(),
