@@ -128,12 +128,19 @@ class StudentDbFunctions {
   Future<bool> checkRegNo(
       {required String regNo,
       required String email,
-      required String teacherId}) async {
+      required String teacherId,
+      required String rollNo}) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
         .collection('students')
         .where('register_no', isEqualTo: regNo)
+        .get();
+    final QuerySnapshot querySnapshot1 = await FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('students')
+        .where('roll_no', isEqualTo: rollNo)
         .get();
     final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
         .collection('all_users')
@@ -144,15 +151,17 @@ class StudentDbFunctions {
         .collection('teachers')
         .where('email', isEqualTo: email)
         .get();
+
     final QuerySnapshot teacherMailSnapshot2 = await FirebaseFirestore.instance
         .collection('all_users')
         .where('email', isEqualTo: email)
         .get();
 
-    return querySnapshot.docs.isNotEmpty ||
+    return querySnapshot.docs.isNotEmpty || 
         querySnapshot2.docs.isNotEmpty ||
         teacherMailSnapshot.docs.isNotEmpty ||
-        teacherMailSnapshot2.docs.isNotEmpty;
+        teacherMailSnapshot2.docs.isNotEmpty ||
+        querySnapshot1.docs.isNotEmpty;
   }
 
   Future<bool> updateStudentData(

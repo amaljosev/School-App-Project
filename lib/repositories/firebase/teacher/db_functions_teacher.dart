@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
@@ -92,7 +93,7 @@ class DbFunctionsTeacher {
       }
     } catch (e) {
       // Handle errors, e.g., print or log them
-      print('Error updating class data: $e'); 
+      log('Error updating class data: $e');  
     }
   }
 }

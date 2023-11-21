@@ -45,11 +45,14 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
       AddStudentEvent event, Emitter<TeacherState> emit) async {
     emit(AddStudentLoadingState());
     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    final bool isNotExist = await StudentDbFunctions().checkRegNo(
+    final bool isExist = await StudentDbFunctions().checkRegNo(
+        rollNo: event.studentData.rollNo,
         regNo: event.studentData.registerNo,
         email: event.studentData.email,
         teacherId: id as String);
-    if (isNotExist) {
+    if (isExist) {
+      emit(StudentExistState());
+    } else {
       final bool response = await StudentDbFunctions().addStudent(
         studentData: event.studentData,
         feeDatas: event.feeData,
@@ -61,8 +64,6 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
       } else {
         emit(AddStudentErrorState());
       }
-    } else {
-      emit(AddStudentErrorState());
     }
   }
 

@@ -16,6 +16,8 @@ final class AddStudentLoadingState extends TeacherActionState {}
 
 final class AddStudentErrorState extends TeacherActionState {}
 
+final class StudentExistState extends TeacherActionState {}
+
 final class AttendenceState extends TeacherActionState {}
 
 final class StudentProfileState extends TeacherActionState {

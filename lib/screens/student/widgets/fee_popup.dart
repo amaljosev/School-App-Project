@@ -4,12 +4,12 @@ import 'package:schoolapp/repositories/firebase/student/db_functions_student.dar
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_feedetails_widget.dart';
 
-Future<void> feePopupMessage(
-    {required BuildContext context}) async {
+Future<void> feePopupMessage({required BuildContext context}) async {
   final String? studentId = await DbFunctionsTeacher().getStudentIdFromPrefs();
-  final String? teacherId = await DbFunctionsTeacher().getTeacherIdFromPrefs(); 
+  final String? teacherId = await DbFunctionsTeacher().getTeacherIdFromPrefs();
   CollectionReference<Map<String, dynamic>> studentFee =
-      await DbFunctionsStudent().getFeeDetails(teacherId as String, studentId as String); 
+      await DbFunctionsStudent()
+          .getFeeDetails(teacherId as String, studentId as String);
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {

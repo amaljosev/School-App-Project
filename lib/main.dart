@@ -13,7 +13,6 @@ import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/first_screen.dart';
-import 'package:schoolapp/screens/welcome/login_screen.dart';
 import 'package:schoolapp/screens/welcome/splash_screen.dart';
 
 Future<void> main() async {
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
           create: (context) => TeacherBloc(),
         ),
         BlocProvider(
-          create: (context) => TeacherSecondBloc(), 
+          create: (context) => TeacherSecondBloc(),
         ),
         BlocProvider(
           create: (context) => StudentBloc(),
@@ -56,7 +55,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const ScreenTeacher(),      
+        home: const ScreenTeacher(),
       ),
     );
   }

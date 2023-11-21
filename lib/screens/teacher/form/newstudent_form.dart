@@ -63,79 +63,83 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
   Widget build(BuildContext context) {
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
-      body:  BlocConsumer<TeacherBloc, TeacherState>(
-          listener: (context, state) {
-            if (state is AddStudentLoadingState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                loadingSnakebarWidget(),
-              );
-            } else if (state is AddStudentSuccessState) {
-              AlertMessages().alertMessageSnakebar(
-                  context, 'Student Created Successfully', Colors.green);
-              Navigator.pop(context);
-            } else if (state is AddStudentErrorState) {
-              AlertMessages().alertMessageSnakebar(
-                  context, 'Student not Added', Colors.red);
-            } else if (state is RadioButtonState) {
-              gender = state.gender;
-            } else if (state is FetchTeacherDataState) {
-              teacherDatas = state.teacherDatas!;
-            }
-            if (state is UpdateStudentDataSuccessState) {
-              AlertMessages().alertMessageSnakebar(
-                  context, 'DataUpdated Successfully', Colors.green);
-              Navigator.pop(context);
-            } else if (state is UpdateStudentDataLoadingState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                loadingSnakebarWidget(),
-              );
-            } else if (state is AddStudentErrorState) {
-              AlertMessages().alertMessageSnakebar(
-                  context, 'Data not updated, Try again', Colors.red);
-            }
-          },
-          builder: (context, state) {
-            return StreamBuilder<DocumentSnapshot>(
-                stream: teacherDatas,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox(
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    DocumentSnapshot<Object?> documentSnapshot = snapshot.data!;
-                    Map<String, dynamic> data =
-                        documentSnapshot.data() as Map<String, dynamic>? ?? {};
-                    final String teacher = data['name'];
-                    final String standard = data['class'];
-                    if (widget.isTeacher) {
-                      totalStrength = classDatasGlobel?['total_students'] ?? 0;
-                      totalBoys = classDatasGlobel?['total_boys'] ?? 0;
-                      totalGirls = classDatasGlobel?['total_girls'] ?? 0;
-                    }
-                    return SafeArea(
-                      child: Form(
-                        key: studentFormKey,
-                        child: TextFieldTilesWidgetAddStudent(
-                            isTeacher: widget.isTeacher,
-                            gender: gender,
-                            studentId: widget.studentId,
-                            widget: widget,
-                            studentFormKey: studentFormKey,
-                            teacher: teacher,
-                            standard: standard),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox(
-                      child: Center(child: Text('Something went wrong')),
-                    );
+      body: BlocConsumer<TeacherBloc, TeacherState>(
+        listener: (context, state) {
+          if (state is AddStudentLoadingState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              loadingSnakebarWidget(),
+            );
+          } else if (state is AddStudentSuccessState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Student Added Successfully', Colors.green);
+            Navigator.pop(context);
+          } else if (state is AddStudentErrorState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Student not Added, Try again', Colors.red);
+          } else if (state is RadioButtonState) {
+            gender = state.gender;
+          } else if (state is FetchTeacherDataState) {
+            teacherDatas = state.teacherDatas!;
+          }
+          if (state is UpdateStudentDataSuccessState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Data Updated Successfully', Colors.green);
+            Navigator.pop(context);
+          } else if (state is UpdateStudentDataLoadingState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              loadingSnakebarWidget(),
+            );
+          } else if (state is UpdateStudentDataErrorState) {
+            AlertMessages().alertMessageSnakebar(
+                context, 'Data not updated, Try again', Colors.red);
+          } else if (state is StudentExistState) {
+            AlertMessages().alertMessageSnakebar(
+                context,
+                'Entered  Email or Roll-no or Register no already registerd',
+                Colors.red);
+          }
+        },
+        builder: (context, state) {
+          return StreamBuilder<DocumentSnapshot>(
+              stream: teacherDatas,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  DocumentSnapshot<Object?> documentSnapshot = snapshot.data!;
+                  Map<String, dynamic> data =
+                      documentSnapshot.data() as Map<String, dynamic>? ?? {};
+                  final String teacher = data['name'];
+                  final String standard = data['class'];
+                  if (widget.isTeacher) {
+                    totalStrength = classDatasGlobel?['total_students'] ?? 0;
+                    totalBoys = classDatasGlobel?['total_boys'] ?? 0;
+                    totalGirls = classDatasGlobel?['total_girls'] ?? 0;
                   }
-                });
-          },
-        ),
-      
+                  return SafeArea(
+                    child: Form(
+                      key: studentFormKey,
+                      child: TextFieldTilesWidgetAddStudent(
+                          isTeacher: widget.isTeacher,
+                          gender: gender,
+                          studentId: widget.studentId,
+                          widget: widget,
+                          studentFormKey: studentFormKey,
+                          teacher: teacher,
+                          standard: standard),
+                    ),
+                  );
+                } else {
+                  return const SizedBox(
+                    child: Center(child: Text('Something went wrong')),
+                  );
+                }
+              });
+        },
+      ),
     );
   }
 }
