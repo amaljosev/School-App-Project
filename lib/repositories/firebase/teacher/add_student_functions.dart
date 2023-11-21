@@ -125,6 +125,36 @@ class StudentDbFunctions {
     }
   }
 
+  Future<bool> checkRegNo(
+      {required String regNo,
+      required String email,
+      required String teacherId}) async {
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('students')
+        .where('register_no', isEqualTo: regNo)
+        .get();
+    final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('all_users')
+        .where('register_no', isEqualTo: regNo)
+        .get();
+
+    final QuerySnapshot teacherMailSnapshot = await FirebaseFirestore.instance
+        .collection('teachers')
+        .where('email', isEqualTo: email)
+        .get();
+    final QuerySnapshot teacherMailSnapshot2 = await FirebaseFirestore.instance
+        .collection('all_users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty ||
+        querySnapshot2.docs.isNotEmpty ||
+        teacherMailSnapshot.docs.isNotEmpty ||
+        teacherMailSnapshot2.docs.isNotEmpty;
+  }
+
   Future<bool> updateStudentData(
       StudentModel studentData, String studentId) async {
     bool responce = false;

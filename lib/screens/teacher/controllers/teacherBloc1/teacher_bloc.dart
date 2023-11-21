@@ -44,16 +44,25 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> addStudentEvent(
       AddStudentEvent event, Emitter<TeacherState> emit) async {
     emit(AddStudentLoadingState());
-    final bool response = await StudentDbFunctions().addStudent(
-      studentData: event.studentData,
-      feeDatas: event.feeData,
-    );
-    final bool updateResponse =
-        await StudentDbFunctions().updateClassData(event.classDatas);
-    if (response && updateResponse) {
-      emit(AddStudentSuccessState());
+    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    final bool isNotExist = await StudentDbFunctions().checkRegNo(
+        regNo: event.studentData.registerNo,
+        email: event.studentData.email,
+        teacherId: id as String);
+    if (isNotExist) {
+      final bool response = await StudentDbFunctions().addStudent(
+        studentData: event.studentData,
+        feeDatas: event.feeData,
+      );
+      final bool updateResponse =
+          await StudentDbFunctions().updateClassData(event.classDatas);
+      if (response && updateResponse) {
+        emit(AddStudentSuccessState());
+      } else {
+        emit(AddStudentErrorState());
+      }
     } else {
-      emit(AddStudentSuccessState());
+      emit(AddStudentErrorState());
     }
   }
 
@@ -122,10 +131,15 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> fetchStudentDatasEvent(
       FetchStudentDatasEvent event, Emitter<TeacherState> emit) async {
-    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    Stream<QuerySnapshot<Object?>>? studentDatas =
-        DbFunctionsTeacher().getStudentsDatas(id);
-    emit(FetchStudentDatasState(studetDatas: studentDatas));
+    emit(FetchStudentDataLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      Stream<QuerySnapshot<Object?>>? studentDatas =
+          DbFunctionsTeacher().getStudentsDatas(id);
+      emit(FetchStudentDataSuccessState(studetDatas: studentDatas));
+    } catch (e) {
+      emit(FetchStudentDataErrorState());
+    }
   }
 
   FutureOr<void> fetchClassDetailsEvent(
@@ -160,8 +174,14 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> updateStudentDataEvent(
       UpdateStudentDataEvent event, Emitter<TeacherState> emit) {
-    StudentDbFunctions().updateStudentData(event.studentData, event.studentId);
-    emit(UpdateStudentDataState());
+    emit(UpdateStudentDataLoadingState());
+    try {
+      StudentDbFunctions()
+          .updateStudentData(event.studentData, event.studentId);
+      emit(UpdateStudentDataSuccessState());
+    } catch (e) {
+      emit(UpdateStudentDataErrorState());
+    }
   }
 
   FutureOr<void> fetchAllStudentsEvent(

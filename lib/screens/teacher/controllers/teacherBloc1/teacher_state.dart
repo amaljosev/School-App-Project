@@ -53,10 +53,14 @@ final class RadioButtonState extends TeacherActionState {
   RadioButtonState({required this.gender});
 }
 
-final class FetchStudentDatasState extends TeacherActionState {
+final class FetchStudentDataSuccessState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> studetDatas;
-  FetchStudentDatasState({required this.studetDatas});
+  FetchStudentDataSuccessState({required this.studetDatas});
 }
+
+final class FetchStudentDataLoadingState extends TeacherActionState {}
+
+final class FetchStudentDataErrorState extends TeacherActionState {}
 
 final class FetchClassDetailsState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> classDatas;
@@ -77,7 +81,9 @@ final class UpdateFeeScreenState extends TeacherActionState {
 
 final class UpdateStudentFeeState extends TeacherActionState {}
 
-final class UpdateStudentDataState extends TeacherActionState {}
+final class UpdateStudentDataSuccessState extends TeacherActionState {}
+final class UpdateStudentDataErrorState extends TeacherActionState {}
+final class UpdateStudentDataLoadingState extends TeacherActionState {}
 
 final class FetchAllStudentsSuccessState extends TeacherActionState {
   final Stream<QuerySnapshot<Object?>> studentDatas;

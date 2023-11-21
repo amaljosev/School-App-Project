@@ -41,7 +41,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return isTeacher
                   ? const SizedBox(
-                      child: Center(child: CircularProgressIndicator()))
+                      child: Center(child: CircularProgressIndicator()))   
                   : const ShimmerLoadingForStudentFee(); 
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');

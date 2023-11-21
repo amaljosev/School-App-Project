@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/screens/teacher/profile/student_profile.dart';
@@ -29,6 +30,14 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherBloc, TeacherState>(
       listener: (context, state) {
+        if (state is FetchStudentDataSuccessState) {
+          studentDatasStream = state.studetDatas;
+        } else if (state is FetchAllStudentsLoadingState) {
+          const CircularProgressIndicator();
+        } else if (state is FetchAllStudentsErrorState) {
+          AlertMessages().alertMessageSnakebar(
+              context, 'Something went wrong', Colors.red);
+        }
         if (state is FormStudentState) {
           Navigator.push(
               context,
@@ -39,7 +48,8 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                     studentId: null,
                     isTeacher: true),
               ));
-        } else if (state is StudentProfileState) {
+        }
+        if (state is StudentProfileState) {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -48,14 +58,8 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                   studentId: state.studentId,
                   studentFee: state.studentFee,
                   studentsMap: state.students,
-                 
                 ),
               ));
-        } else if (state is FetchStudentDatasState) {
-          studentDatasStream = state.studetDatas;
-          context
-              .read<TeacherBloc>()
-              .add(BottomNavigationEvent(currentPageIndex: 0)); 
         }
       },
       builder: (context, state) {
@@ -156,7 +160,7 @@ class _TeacherStudentsListState extends State<TeacherStudentsList> {
                     ));
               } else {
                 return const SizedBox(
-                  child: Center(child: Text('error')),
+                  child: Center(child: Text('Data not found')),
                 );
               }
             });

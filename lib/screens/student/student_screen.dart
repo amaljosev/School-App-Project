@@ -84,7 +84,6 @@ class _ScreenStudentState extends State<ScreenStudent> {
         final size = MediaQuery.of(context).size;
         if (state is StudentBottomNavigationState) {
           int currentPageIndex = state.currentPageIndex;
-
           return StreamBuilder<DocumentSnapshot>(
               stream: studentstream,
               builder: (context, snapshot) {

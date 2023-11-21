@@ -61,18 +61,11 @@ class LoadingWidget {
                 )),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Shimmer.fromColors(
-                baseColor: appbarColor,
-                highlightColor: Colors.white,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  height: size.height * 0.3,
-                  width: double.infinity,
-                )),
-          ),
+              padding: const EdgeInsets.all(15.0),
+              child: SizedBox(
+                height: size.height * 0.25,
+                width: double.infinity,
+              )),
           Expanded(
             child: SizedBox(
               child: Column(
@@ -131,6 +124,9 @@ class LoadingWidget {
                             width: 120,
                           )),
                     ],
+                  ),
+                  Container(
+                    height: 50,
                   ),
                 ],
               ),

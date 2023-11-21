@@ -6,11 +6,11 @@ import 'package:schoolapp/screens/teacher/widgets/class_details.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_bottom.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_studentlist.dart';
 
-class HomePageWidget extends StatelessWidget {
+class HomePageWidget extends StatelessWidget { 
   const HomePageWidget({
     super.key,
     required this.size,
-  });
+  }); 
 
   final Size size;
 
@@ -26,7 +26,7 @@ class HomePageWidget extends StatelessWidget {
             child: ClassDetailsWidget(size: size),
           ),
           Padding(
-            padding: const EdgeInsets.only(
+            padding: const EdgeInsets.only( 
               left: 15,
             ),
             child: Row(

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
@@ -64,10 +63,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
   Widget build(BuildContext context) {
     final studentFormKey = GlobalKey<FormState>();
     return Scaffold(
-      body: WillPopScope(
-        onWillPop: () =>
-            widget.isTeacher ? toTeacherHome(context) : tostudentHome(context),
-        child: BlocConsumer<TeacherBloc, TeacherState>(
+      body:  BlocConsumer<TeacherBloc, TeacherState>(
           listener: (context, state) {
             if (state is AddStudentLoadingState) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +72,6 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
             } else if (state is AddStudentSuccessState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Student Created Successfully', Colors.green);
-              toTeacherHome(context);
               Navigator.pop(context);
             } else if (state is AddStudentErrorState) {
               AlertMessages().alertMessageSnakebar(
@@ -85,10 +80,18 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
               gender = state.gender;
             } else if (state is FetchTeacherDataState) {
               teacherDatas = state.teacherDatas!;
-            } else if (state is UpdateStudentDataState) {
+            }
+            if (state is UpdateStudentDataSuccessState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'DataUpdated Successfully', Colors.green);
               Navigator.pop(context);
+            } else if (state is UpdateStudentDataLoadingState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                loadingSnakebarWidget(),
+              );
+            } else if (state is AddStudentErrorState) {
+              AlertMessages().alertMessageSnakebar(
+                  context, 'Data not updated, Try again', Colors.red);
             }
           },
           builder: (context, state) {
@@ -132,7 +135,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                 });
           },
         ),
-      ),
+      
     );
   }
 }

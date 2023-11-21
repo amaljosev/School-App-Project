@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
@@ -11,11 +10,8 @@ class ScreenSchoolEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppbar('Upcoming Events'),
-      body: WillPopScope(
-        onWillPop: () => toTeacherHome(context),
-        child: const SafeArea(
-          child: ApplicationWidget(isTeacher: true),
-        ),
+      body: const SafeArea(
+        child: ApplicationWidget(isTeacher: true),
       ),
     );
   }
