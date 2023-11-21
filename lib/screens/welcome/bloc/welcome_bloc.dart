@@ -53,20 +53,20 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
 
   FutureOr<void> signUpButtonEvent(
       SignUpButtonEvent event, Emitter<WelcomeState> emit) async {
-        emit(SignUpLoadingState());  
+    emit(SignUpLoadingState());
 
-    final classExist =
-        await SignUpRequest().checkClass(event.teacherData.className);
+    final classExist = await SignUpRequest()
+        .checkClass(event.teacherData.className, event.teacherData.email);
 
     if (classExist) {
       emit(SignUpClassErrorState());
     } else {
-      emit(SignUpLoadingState());  
-     final response=await signUpRequest.addData(event.teacherData); 
+      emit(SignUpLoadingState());
+      final response = await signUpRequest.addData(event.teacherData);
       if (response) {
         emit(SignUpSuccessState());
       } else {
-        emit(SignUpErrorState()); 
+        emit(SignUpErrorState());
       }
     }
   }

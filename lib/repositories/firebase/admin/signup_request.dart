@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
@@ -31,16 +32,28 @@ class SignUpRequest {
     return teachersStream;
   }
 
-  Future<bool> checkClass(String value) async {
+  Future<bool> checkClass(String value, String email) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teachers')
         .where('class', isEqualTo: value)
         .get();
     final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
-        .collection('teacher_requests') 
-        .where('class', isEqualTo: value) 
+        .collection('teacher_requests')
+        .where('class', isEqualTo: value)
         .get();
 
-    return querySnapshot.docs.isNotEmpty || querySnapshot2.docs.isNotEmpty;
+    final QuerySnapshot teacherMailSnapshot = await FirebaseFirestore.instance
+        .collection('teachers')
+        .where('email', isEqualTo: email)
+        .get();
+    final QuerySnapshot teacherMailSnapshot2 = await FirebaseFirestore.instance
+        .collection('teacher_requests')
+        .where('email', isEqualTo: email)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty ||
+        querySnapshot2.docs.isNotEmpty ||
+        teacherMailSnapshot.docs.isNotEmpty ||
+        teacherMailSnapshot2.docs.isNotEmpty;
   }
 }

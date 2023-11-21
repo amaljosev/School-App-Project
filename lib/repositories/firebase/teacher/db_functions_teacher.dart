@@ -92,7 +92,7 @@ class DbFunctionsTeacher {
       }
     } catch (e) {
       // Handle errors, e.g., print or log them
-      print('Error updating class data: $e');
+      print('Error updating class data: $e'); 
     }
   }
 }

@@ -80,7 +80,7 @@ class StudentDbFunctions {
       }
     } catch (e) {
       // Handle errors, e.g., print or log them
-      print('Error updating class data: $e');
+      log('Error updating class data: $e');
     }
   }
 

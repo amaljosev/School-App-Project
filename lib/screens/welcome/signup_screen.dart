@@ -38,12 +38,12 @@ class ScreenSignUp extends StatelessWidget {
           } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
-                'Successfully Registered \nwait for resposnce from pricipal',
+                'Successfully Registered, Please wait for conform', 
                 Colors.green);
             Navigator.pop(context);
           } else if (state is SignUpClassErrorState) {
-            AlertMessages().alertMessageSnakebar(
-                context, 'Enterd Class already Registered', Colors.red);  
+            AlertMessages().alertMessageSnakebar( 
+                context, 'Enterd Class or Email already Registered', Colors.red);  
           }
           else if (state is SignUpErrorState) { 
             AlertMessages().alertMessageSnakebar(
