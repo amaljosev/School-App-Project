@@ -38,16 +38,15 @@ class ScreenSignUp extends StatelessWidget {
           } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
-                'Successfully Registered, Please wait for conform', 
+                'Successfully Registered, Please wait for conform',
                 Colors.green);
             Navigator.pop(context);
           } else if (state is SignUpClassErrorState) {
-            AlertMessages().alertMessageSnakebar( 
-                context, 'Enterd Class or Email already Registered', Colors.red);  
-          }
-          else if (state is SignUpErrorState) { 
+            AlertMessages().alertMessageSnakebar(context,
+                'Enterd Class or Email already Registered', Colors.red);
+          } else if (state is SignUpErrorState) {
             AlertMessages().alertMessageSnakebar(
-                context, 'Not registerd Please contact admin', Colors.red); 
+                context, 'Not registerd Please contact admin', Colors.red);
           } else if (state is DropdownMenuTapState) {
             value = state.dropdownValue;
             index = state.index;
@@ -79,7 +78,6 @@ class ScreenSignUp extends StatelessWidget {
                             icon: const Icon(Icons.person),
                             fillColor: loginTextfieldColor,
                             hintText: 'Teacher Name',
-                            labelText: 'Teacher Name',
                             controller: nameController,
                             keyboardType: TextInputType.name,
                             length: null,
@@ -96,7 +94,6 @@ class ScreenSignUp extends StatelessWidget {
                             icon: const Icon(Icons.email),
                             fillColor: loginTextfieldColor,
                             hintText: 'Email',
-                            labelText: 'Email',
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             length: null,
@@ -109,7 +106,6 @@ class ScreenSignUp extends StatelessWidget {
                             icon: const Icon(Icons.phone),
                             fillColor: loginTextfieldColor,
                             hintText: 'Contact Number',
-                            labelText: 'Contact Number',
                             controller: contactController,
                             keyboardType: TextInputType.phone,
                             length: 10,
@@ -119,7 +115,6 @@ class ScreenSignUp extends StatelessWidget {
                             icon: const Icon(Icons.remove_red_eye),
                             fillColor: loginTextfieldColor,
                             hintText: 'Password',
-                            labelText: 'Password',
                             obscureText: true,
                             controller: passwordController,
                             keyboardType: TextInputType.emailAddress,
@@ -188,7 +183,6 @@ class ScreenSignUp extends StatelessWidget {
       ),
     );
   }
-
 }
 
 onSignUp(BuildContext context) async {

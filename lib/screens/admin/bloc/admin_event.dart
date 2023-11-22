@@ -7,7 +7,7 @@ abstract class AdminActionEvent extends AdminEvent {}
 final class StudentCardTapEvent extends AdminActionEvent {
   final String teacherId;
   final String standard;
-  StudentCardTapEvent({required this.teacherId,required this.standard});  
+  StudentCardTapEvent({required this.teacherId, required this.standard});
 }
 
 final class TeacherCardTapEvent extends AdminActionEvent {
@@ -17,4 +17,16 @@ final class TeacherCardTapEvent extends AdminActionEvent {
 
 final class RequestTapEvent extends AdminActionEvent {}
 
+final class LogOutEvent extends AdminActionEvent {} 
 
+final class FloatingActionButtonTapEvent extends AdminActionEvent {}
+
+final class ShowAlertEvent extends AdminActionEvent {}
+
+final class CheckBoxTapEvent extends AdminActionEvent { 
+  final bool? isSelected;
+  CheckBoxTapEvent({required this.isSelected});
+}
+
+
+final class AcadamicYearCompleteEvent extends AdminActionEvent {}

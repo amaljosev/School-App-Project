@@ -44,9 +44,7 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
               checkMarks[state.index] = state.isChecked;
             }
             if (state is SubmitAttendanceLoadingState) {
-              const CircularProgressIndicator(
-                color: Colors.orange,
-              );
+              const CircularProgressIndicator();
             } else if (state is SubmitAttendanceSuccessState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Attendance Submitted Successfully', Colors.green);
@@ -154,7 +152,8 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                                       onChanged: (value) => context
                                           .read<TeacherSecondBloc>()
                                           .add(CheckBoxTapEvent(
-                                              index: index, isChecked: value)),
+                                              index: index,
+                                              isChecked: value)),
                                     ),
                                   );
                                 },

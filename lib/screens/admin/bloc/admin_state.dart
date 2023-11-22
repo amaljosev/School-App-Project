@@ -19,3 +19,20 @@ final class TeacherCardTapState extends AdminActionState {
 }
 
 final class RequestTapState extends AdminActionState {}
+
+final class LogOutState extends AdminActionState {}
+
+final class SettingsState extends AdminActionState {}
+
+final class ShowWarningPopUpState extends AdminActionState {}
+
+final class CheckboxSelectedState extends AdminActionState {
+  final bool? isSelected;
+  CheckboxSelectedState({required this.isSelected});
+}
+
+final class AcadamicYearUpdateSuccessState extends AdminActionState {}
+
+final class AcadamicYearUpdateErrorState extends AdminActionState {}
+
+final class AcadamicYearUpdateLoadingState extends AdminActionState {}

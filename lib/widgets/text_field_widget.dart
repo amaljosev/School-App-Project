@@ -6,7 +6,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
     required this.icon,
     required this.fillColor,
     required this.hintText,
-    required this.labelText,
+   
     required this.controller,
     required this.keyboardType,
     required this.length,  
@@ -15,7 +15,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
   final Widget icon;
   final Color fillColor;
   final String hintText;
-  final String labelText;
+
   final TextEditingController controller;
   final TextInputType keyboardType;
   final int? length;
@@ -31,7 +31,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
         fillColor: fillColor,
         suffixIcon: icon,
         hintText: hintText,
-        labelText: labelText,
+       
         
       ),
       obscureText: obscureText, 
@@ -39,7 +39,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       validator: (value) =>
-          controller.text.isEmpty ? 'Please enter $labelText' : null,
+          controller.text.isEmpty ? 'Please enter $hintText' : null, 
     );
   }
 }

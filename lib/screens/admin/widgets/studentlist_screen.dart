@@ -21,8 +21,9 @@ class ScreenStudentList extends StatelessWidget {
         stream: studentData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox(
-              child: Center(
+            return  Container(
+              color: scaffoldColor, 
+              child: const Center( 
                 child: CircularProgressIndicator(),
               ),
             );
@@ -71,49 +72,79 @@ class ScreenStudentList extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'class : ' "${student['standard']}",
+                                            "Gurdian's Name ",
                                             style: contentTextStyle,
                                           ),
                                           Text(
-                                            'class teacher : '
-                                            "${student['class_Teacher']}",
+                                            'class teacher ',
                                             style: contentTextStyle,
                                           ),
                                           Row(
                                             children: [
                                               Text(
-                                                'contact : ',
-                                                style: contentTextStyle, 
+                                                'contact ',
+                                                style: contentTextStyle,
                                               ),
-                                              GestureDetector( 
+                                            ],
+                                          ),
+                                          Text(
+                                            'Register No ',
+                                            style: contentTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            ": ${student['guardian_name']}",
+                                            style: contentTextStyle,
+                                          ),
+                                          Text(
+                                            ": ${student['class_Teacher']}",
+                                            style: contentTextStyle,
+                                          ),
+                                          Row(
+                                            children: [
+                                              GestureDetector(
                                                 onTap: () async {
                                                   final Uri url = Uri(
                                                       scheme: 'tel',
                                                       path:
-                                                          "${student['contact_no']}");
+                                                          ": ${student['contact_no']}");
                                                   if (await canLaunchUrl(url)) {
                                                     await launchUrl(url);
                                                   } else {
                                                     log("can't call");
                                                   }
                                                 },
-                                                child: Text(
-                                                  "${student['contact_no']}",
-                                                  style: const TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: contentColor,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      decorationColor:
-                                                          contentColor),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      ': ',
+                                                      style: contentTextStyle,
+                                                    ),
+                                                    Text(
+                                                      "${student['contact_no']}",
+                                                      style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: contentColor,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          decorationColor:
+                                                              contentColor),
+                                                    ),
+                                                  ],
                                                 ),
                                               )
                                             ],
                                           ),
                                           Text(
-                                            'age : ' "${student['age']}",
+                                            ": ${student['register_no']}",
                                             style: contentTextStyle,
                                           ),
                                         ],

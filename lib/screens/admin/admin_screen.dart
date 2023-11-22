@@ -5,11 +5,13 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/firebase/admin/signup_admin_functions.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
+import 'package:schoolapp/screens/admin/settings/settings_admin.dart';
 import 'package:schoolapp/screens/admin/widgets/classcard_widget.dart';
 import 'package:schoolapp/screens/admin/widgets/teachercard_widget.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
 import 'package:schoolapp/screens/admin/widgets/studentlist_screen.dart';
 import 'package:schoolapp/screens/admin/widgets/teacher_profile_screen.dart';
+
 
 class ScreenAdmin extends StatelessWidget {
   const ScreenAdmin({super.key});
@@ -38,8 +40,8 @@ class ScreenAdmin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ScreenStudentList(studentData: state.studentList,standard: state.standard ),
+                  builder: (context) => ScreenStudentList(
+                      studentData: state.studentList, standard: state.standard),
                 ));
           } else if (state is TeacherCardTapState) {
             Navigator.push(
@@ -55,7 +57,13 @@ class ScreenAdmin extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const ScreenAdminResquest(),
                 ));
-          }
+          } if (state is SettingsState) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ScreenSettingsAdmin(), 
+                  ));
+            }
         },
         builder: (context, state) {
           return Column(
@@ -131,6 +139,15 @@ class ScreenAdmin extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () =>
+              context.read<AdminBloc>().add(FloatingActionButtonTapEvent()), 
+          child: Icon(
+            Icons.settings,
+            color: buttonColor,
+          )),
     );
   }
+
+  
 }
