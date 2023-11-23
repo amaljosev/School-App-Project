@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
@@ -17,6 +18,7 @@ class ScreenAttendence extends StatefulWidget {
 class _ScreenAttendenceState extends State<ScreenAttendence> {
   Stream<QuerySnapshot<Object?>> studentListStream = const Stream.empty();
   List<bool?> checkMarks = [];
+  bool isLoading = false;
   @override
   void initState() {
     context.read<TeacherBloc>().add(FetchAllStudentsEvent());
@@ -44,7 +46,10 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
               checkMarks[state.index] = state.isChecked;
             }
             if (state is SubmitAttendanceLoadingState) {
-              const CircularProgressIndicator();
+              ScaffoldMessenger.of(context).showSnackBar(
+                loadingSnakebarWidget(),
+              );
+              isLoading = true;
             } else if (state is SubmitAttendanceSuccessState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Attendance Submitted Successfully', Colors.green);
@@ -93,11 +98,12 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                         ),
                         actions: [
                           TextButton.icon(
-                              onPressed: () => context
-                                  .read<TeacherSecondBloc>()
-                                  .add(SubmitAttendanceEvent(
-                                      checkMarks: checkMarks,
-                                      students: students)),
+                              onPressed: () => isLoading
+                                  ? null
+                                  : context.read<TeacherSecondBloc>().add(
+                                      SubmitAttendanceEvent(
+                                          checkMarks: checkMarks,
+                                          students: students)),
                               icon: const Icon(Icons.save),
                               label: const Text('Submit'))
                         ],
@@ -152,8 +158,7 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                                       onChanged: (value) => context
                                           .read<TeacherSecondBloc>()
                                           .add(CheckBoxTapEvent(
-                                              index: index,
-                                              isChecked: value)),
+                                              index: index, isChecked: value)),
                                     ),
                                   );
                                 },

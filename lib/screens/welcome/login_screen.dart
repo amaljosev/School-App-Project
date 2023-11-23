@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/admin/admin_screen.dart';
 import 'package:schoolapp/screens/student/student_screen.dart';
@@ -16,8 +17,10 @@ final passwordController = TextEditingController();
 class ScreenLogin extends StatelessWidget {
   const ScreenLogin({super.key, required this.isTeacher});
   final bool isTeacher;
+
   @override
   Widget build(BuildContext context) {
+    bool isLoading = false;
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: BlocConsumer<WelcomeBloc, WelcomeState>(
@@ -36,15 +39,22 @@ class ScreenLogin extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const ScreenTeacher(),
                 ));
+          } else if (state is TeacherSignInLoadingState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              loadingSnakebarWidget(),
+            );
+            isLoading = true;
           } else if (state is TeacherSignInErrorState) {
             AlertMessages()
                 .alertMessageSnakebar(context, 'Teacher not found', Colors.red);
+            isLoading = false;
           } else if (state is StudentSignInSuccessState) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ScreenStudent(),
                 ));
+            isLoading = false;
           } else if (state is StudentSignInErrorState) {
             AlertMessages()
                 .alertMessageSnakebar(context, 'Student not found', Colors.red);
@@ -58,7 +68,8 @@ class ScreenLogin extends StatelessWidget {
             child: Form(
               key: formKey,
               child: ListView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag, 
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   const SizedBox(
                     height: 40,
@@ -132,8 +143,12 @@ class ScreenLogin extends StatelessWidget {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  onSignIn(isTeacher, context);
+                                if (isLoading) {
+                                  null;
+                                } else {
+                                  if (formKey.currentState!.validate()) {
+                                    onSignIn(isTeacher, context);
+                                  }
                                 }
                               },
                               style: ElevatedButton.styleFrom(

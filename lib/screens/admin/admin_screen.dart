@@ -27,7 +27,7 @@ class ScreenAdmin extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => context.read<AdminBloc>().add(RequestTapEvent()),
-            icon: const Icon(Icons.notifications_none),
+            icon:  const Icon(Icons.notifications_none,color: contentColor,), 
           ),
         ],
         backgroundColor: appbarColor,

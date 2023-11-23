@@ -45,6 +45,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.notifications_none_outlined,
+                    color: contentColor,
                   ))
             ],
           ),

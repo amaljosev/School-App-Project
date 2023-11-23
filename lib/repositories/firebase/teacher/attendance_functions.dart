@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/attendance.dart';
+import 'package:schoolapp/repositories/firebase/database_functions.dart';
 
 class AttendenceFunctions {
   bool responce = false;
@@ -49,7 +50,8 @@ class AttendenceFunctions {
       final totalAttendance = AttendanceModel(
           totalWorkingDaysCompleted: totalWorkingDays += 1,
           todayPresents: presentCounter,
-          todayAbsents: absentCounter);
+          todayAbsents: absentCounter,
+          date: DateTime.now());
       responce = await updateClassAttendanceStatus(
           teacherId, totalAttendance, classAttendanceId);
       return responce;
@@ -74,7 +76,28 @@ class AttendenceFunctions {
           .collection('attendance')
           .doc(attendanceId)
           .update(studentFeeMap);
+      await addDailyAttendance(attendanceData, teacherId);
       return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> addDailyAttendance(
+      AttendanceModel attendanceData, String teacherId) async {
+    try {
+      Map<String, dynamic> attendanceMap = {
+        'total_absents': attendanceData.todayAbsents,
+        'total_presents': attendanceData.todayPresents,
+        'date': attendanceData.date,
+      };
+
+      final bool resopnse = await DbFunctions().addStudentDetails(
+          map: attendanceMap,
+          collectionName: 'teachers',
+          teacherId: teacherId,
+          subCollectionName: 'attendance_history');
+      return resopnse;
     } catch (e) {
       return false;
     }

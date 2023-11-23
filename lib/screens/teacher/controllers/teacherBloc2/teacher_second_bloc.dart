@@ -22,13 +22,17 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
 
   FutureOr<void> submitAttendanceEvent(
       SubmitAttendanceEvent event, Emitter<TeacherSecondState> emit) async {
-         id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
     emit(SubmitAttendanceLoadingState());
-    final responce = await AttendenceFunctions()
-        .submitAttendance(event.students, event.checkMarks,id as String); 
-    if (responce) {
-      emit(SubmitAttendanceSuccessState());
-    } else {
+    try {
+      final responce = await AttendenceFunctions()
+          .submitAttendance(event.students, event.checkMarks, id as String);
+      if (responce) {
+        emit(SubmitAttendanceSuccessState());
+      } else {
+        emit(SubmitAttendanceErrorState());
+      }
+    } catch (e) {
       emit(SubmitAttendanceErrorState());
     }
   }

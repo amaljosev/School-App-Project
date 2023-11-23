@@ -20,6 +20,8 @@ final class SignUpClassErrorState extends WelcomeActionState {}
 
 final class TeacherSignInSuccessState extends WelcomeActionState {}
 
+final class TeacherSignInLoadingState extends WelcomeActionState {}
+
 final class TeacherSignInErrorState extends WelcomeActionState {}
 
 final class StudentSignInSuccessState extends WelcomeActionState {}

@@ -20,11 +20,13 @@ String? value;
 int index = 0;
 String docId = '';
 
+
 class ScreenSignUp extends StatelessWidget {
   const ScreenSignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isLoading = false;
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: BlocConsumer<WelcomeBloc, WelcomeState>(
@@ -35,6 +37,7 @@ class ScreenSignUp extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               loadingSnakebarWidget(),
             );
+            isLoading = true;
           } else if (state is SignUpSuccessState) {
             AlertMessages().alertMessageSnakebar(
                 context,
@@ -125,8 +128,12 @@ class ScreenSignUp extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                onSignUp(context);
+                              if (isLoading) {
+                                null;
+                              } else {
+                                if (formKey.currentState!.validate()) {
+                                  onSignUp(context);
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(

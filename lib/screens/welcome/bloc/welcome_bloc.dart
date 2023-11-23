@@ -31,11 +31,16 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
 
   FutureOr<void> teacherSignInEvent(
       TeacherSignInEvent event, Emitter<WelcomeState> emit) async {
-    final userExist =
-        await LoginFunctions().teacherLogin(event.email, event.password);
-    if (userExist) {
-      emit(TeacherSignInSuccessState());
-    } else {
+    emit(TeacherSignInLoadingState());
+    try {
+      final userExist =
+          await LoginFunctions().teacherLogin(event.email, event.password);
+      if (userExist) {
+        emit(TeacherSignInSuccessState());
+      } else {
+        emit(TeacherSignInErrorState());
+      }
+    } catch (e) {
       emit(TeacherSignInErrorState());
     }
   }
