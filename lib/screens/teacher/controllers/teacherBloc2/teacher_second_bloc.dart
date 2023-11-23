@@ -13,6 +13,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
   TeacherSecondBloc() : super(TeacherSecondInitial()) {
     on<CheckBoxTapEvent>(checkBoxTapEvent);
     on<SubmitAttendanceEvent>(submitAttendanceEvent);
+    on<FetchAttendanceHistoryEvent>(fetchAttendanceHistoryEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -34,6 +35,19 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       }
     } catch (e) {
       emit(SubmitAttendanceErrorState());
+    }
+  }
+
+  FutureOr<void> fetchAttendanceHistoryEvent(FetchAttendanceHistoryEvent event,
+      Emitter<TeacherSecondState> emit) async {
+    emit(FetchAttendanceHistoryLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final attendanceHistory = DbFunctionsTeacher().getAttendanceHistory(id);
+      emit(FetchAttendanceHistorySuccessState(
+          attendenceHistory: attendanceHistory));
+    } catch (e) {
+      emit(FetchAttendanceHistoryErrorState());
     }
   }
 }

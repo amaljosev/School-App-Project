@@ -14,5 +14,7 @@ final titleTextStyle = GoogleFonts.teko(
 final teacherAddStudentTextStyle = GoogleFonts.ubuntu(
     fontSize: 14, fontWeight: FontWeight.bold, color: contentColor);
 
-final studentProfileTextStyle = GoogleFonts.ubuntu( 
+final studentProfileTextStyle = GoogleFonts.ubuntu(
     fontSize: 15, fontWeight: FontWeight.bold, color: contentColor);
+final listViewTextStyle = GoogleFonts.ubuntu(
+    fontSize: 15, fontWeight: FontWeight.bold, color: contentColor); 

@@ -11,7 +11,9 @@ final class CheckBoxTapEvent extends TeacherSecondActionEvent {
 }
 
 final class SubmitAttendanceEvent extends TeacherSecondActionEvent {
- final List<DocumentSnapshot> students;
- final List<bool?> checkMarks;
-  SubmitAttendanceEvent({required this.checkMarks,required this.students});
+  final List<DocumentSnapshot> students;
+  final List<bool?> checkMarks;
+  SubmitAttendanceEvent({required this.checkMarks, required this.students});
 }
+
+final class FetchAttendanceHistoryEvent extends TeacherSecondActionEvent{} 

@@ -17,3 +17,14 @@ final class SubmitAttendanceSuccessState extends TeacherSecondActionState {}
 final class SubmitAttendanceLoadingState extends TeacherSecondActionState {}
 
 final class SubmitAttendanceErrorState extends TeacherSecondActionState {}
+
+final class FetchAttendanceHistorySuccessState
+    extends TeacherSecondActionState {
+  final Stream<QuerySnapshot<Object?>> attendenceHistory;
+  FetchAttendanceHistorySuccessState({required this.attendenceHistory});
+}
+
+final class FetchAttendanceHistoryLoadingState
+    extends TeacherSecondActionState {}
+
+final class FetchAttendanceHistoryErrorState extends TeacherSecondActionState {}

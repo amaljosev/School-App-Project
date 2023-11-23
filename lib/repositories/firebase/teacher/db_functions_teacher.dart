@@ -96,4 +96,14 @@ class DbFunctionsTeacher {
       log('Error updating class data: $e');  
     }
   }
+  Stream<QuerySnapshot<Object?>> getAttendanceHistory(teacherId) {  
+    
+    final CollectionReference studentCollection = FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('attendance_history');  
+    final studentsStream = studentCollection.snapshots();
+    
+    return studentsStream;
+  }
 }
