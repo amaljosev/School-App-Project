@@ -53,25 +53,28 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
             ),
             StudentDetailsWidget(
                 isTeacher: true, students: studentsMap, studentId: studentId),
-            SizedBox(
-                height: size.height * 0.40,
-                child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      StudentAttendenceDetailsWidget(
-                        totalWorkingDaysCompleted: totalWorkingDays,
-                        size: size,
-                        studentsMap: studentsMap,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      StudentFeeDetailsWidget(
-                          isTeacher: true,
-                          studentFee: studentFee,
-                          studentId: studentId),
-                    ]))
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:8.0),
+              child: SizedBox(
+                  height:
+                      MediaQuery.of(context).orientation == Orientation.landscape
+                          ? 0.9 * MediaQuery.of(context).size.height
+                          : 0.40 * MediaQuery.of(context).size.height,
+                  child: ListView(scrollDirection: Axis.horizontal, children: [
+                    StudentAttendenceDetailsWidget(
+                      totalWorkingDaysCompleted: totalWorkingDays,
+                      size: size,
+                      studentsMap: studentsMap,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    StudentFeeDetailsWidget(
+                        isTeacher: true,
+                        studentFee: studentFee,
+                        studentId: studentId),
+                  ])),
+            )
           ],
         ),
       ),

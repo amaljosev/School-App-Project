@@ -13,7 +13,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     Key? key,
     required this.isTeacher,
     required this.studentFee,
-    required this.studentId, 
+    required this.studentId,
   }) : super(key: key);
   final String studentId;
   final bool isTeacher;
@@ -41,85 +41,101 @@ class StudentFeeDetailsWidget extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return isTeacher
                   ? const SizedBox(
-                      child: Center(child: CircularProgressIndicator()))   
-                  : const ShimmerLoadingForStudentFee(); 
+                      child: Center(child: CircularProgressIndicator()))
+                  : const ShimmerLoadingForStudentFee();
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {
               final feeData = snapshot.data!.docs.first.data();
-              return Container(
-                decoration: BoxDecoration(
-                  color: isTeacher ? appbarColor : null,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Fee Details',
-                        style: titleTextStyle,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+              return Column(
+                children: [
+                  Container(
+                    height: isTeacher
+                        ? MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? 0.9 * MediaQuery.of(context).size.height
+                            : 0.4 * MediaQuery.of(context).size.height
+                        : 0.2 * MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? 0.5 * MediaQuery.of(context).size.width
+                        : 0.4 * MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                        color: isTeacher ? appbarColor : null,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Fee Details',
+                            style: titleTextStyle,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Total Amount :',
-                                  style: contentTextStyle,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Total Amount :',
+                                      style: contentTextStyle,
+                                    ),
+                                    Text(
+                                      'Amount Paid :',
+                                      style: contentTextStyle,
+                                    ),
+                                    Text(
+                                      'Amount Pending :',
+                                      style: contentTextStyle,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  'Amount Paid :',
-                                  style: contentTextStyle,
-                                ),
-                                Text(
-                                  'Amount Pending :',
-                                  style: contentTextStyle,
-                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ' ₹${feeData['total_amount']}',
+                                      style: contentTextStyle,
+                                    ),
+                                    Text(
+                                      ' ₹${feeData['amount_paid']}',
+                                      style: contentTextStyle,
+                                    ),
+                                    Text(
+                                      ' ₹${feeData['amount_pending']}',
+                                      style: contentTextStyle,
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  ' ₹${feeData['total_amount']}',
-                                  style: contentTextStyle,
-                                ),
-                                Text(
-                                  ' ₹${feeData['amount_paid']}',
-                                  style: contentTextStyle,
-                                ),
-                                Text(
-                                  ' ₹${feeData['amount_pending']}',
-                                  style: contentTextStyle,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                          ),
+                          isTeacher
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ButtonSubmissionWidget(
+                                    label: 'Edit',
+                                    icon: Icons.edit,
+                                    onTap: () => context
+                                        .read<TeacherBloc>()
+                                        .add(UpdateFeeScreenEvent(
+                                            feeData: feeData,
+                                            studentId: studentId)),
+                                  ),
+                                )
+                              : const Row(),
+                        ],
                       ),
-                      isTeacher
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ButtonSubmissionWidget(
-                                label: 'Edit',
-                                icon: Icons.edit,
-                                onTap: () => context.read<TeacherBloc>().add(
-                                    UpdateFeeScreenEvent(
-                                        feeData: feeData,
-                                        studentId: studentId)),
-                              ),
-                            )
-                          : const Row(),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               );
             } else {
               return const SizedBox(
@@ -132,4 +148,3 @@ class StudentFeeDetailsWidget extends StatelessWidget {
     );
   }
 }
-

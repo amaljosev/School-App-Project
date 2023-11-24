@@ -24,8 +24,4 @@ final class FetchStudentDatasSuccessState extends StudentActionState {
       {required this.studentstream, required this.studentId,required this.totalWorkingDaysCompleted});
 }
 
-final class UpdateStudentDataSuccessState extends StudentActionState {}
 
-final class UpdateStudentDataErrorState extends StudentActionState {}
-
-final class UpdateStudentDataLoadingState extends StudentActionState {}

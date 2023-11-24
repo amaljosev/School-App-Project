@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/student/db_functions_student.dart';
-import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 
 part 'student_event.dart';
@@ -15,7 +13,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentBottomNavigationEvent>(bottomNavigationEvent);
     on<StudentActionsEvent>(studentActionsEvent);
     on<FetchStudentDataEvent>(fetchStudentDataEvent);
-    on<UpdateStudentDataStudentEvent>(updateStudentDataEvent);
+    
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -47,16 +45,5 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         studentId: studentId,
         totalWorkingDaysCompleted: totalWorkingDays));
   }
-
-  FutureOr<void> updateStudentDataEvent(
-      UpdateStudentDataStudentEvent event, Emitter<StudentState> emit) async {
-    emit(UpdateStudentDataLoadingState());
-    final bool responce = await StudentDbFunctions()
-        .updateStudentData(event.studentData, event.studentId);
-    if (responce) {
-      emit(UpdateStudentDataSuccessState());
-    } else {
-      emit(UpdateStudentDataErrorState());
-    }
-  }
 }
+

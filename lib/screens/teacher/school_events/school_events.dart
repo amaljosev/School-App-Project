@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
@@ -27,7 +28,6 @@ class ApplicationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -39,6 +39,13 @@ class ApplicationWidget extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      isTeacher ? 'Event Form' : 'Leave Application',
+                      style: titleTextStyle,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -64,11 +71,10 @@ class ApplicationWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                   ButtonSubmissionWidget(
+                  ButtonSubmissionWidget(
                     label: 'Share',
-                    icon: Icons.send,onTap: () {
-                      
-                    },
+                    icon: Icons.send,
+                    onTap: () {},
                   ),
                 ],
               ),

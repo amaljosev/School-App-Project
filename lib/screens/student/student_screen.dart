@@ -5,8 +5,6 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
-import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/widgets/fee_popup.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
@@ -45,20 +43,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
               .read<StudentBloc>()
               .add(StudentBottomNavigationEvent(currentPageIndex: 0));
         }
-        if (state is UpdateStudentDataLoadingState) {
-          ScaffoldMessenger.of(context).showSnackBar(loadingSnakebarWidget());
-        }
-        if (state is UpdateStudentDataSuccessState) {
-          AlertMessages().alertMessageSnakebar(
-              context, 'Successfully Updated', Colors.green);
-          Navigator.pop(context);
-          context.read<StudentBloc>().add(FetchStudentDataEvent());
-          tostudentHome(context);
-        }
-        if (state is UpdateStudentDataErrorState) {
-          AlertMessages().alertMessageSnakebar(
-              context, 'Something went wrong! Plese try again', Colors.red);
-        }
+
         if (state is StudentActionsState) {
           if (state.index == 1) {
             tostudentHome(context);
@@ -113,7 +98,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                       index: currentPageIndex,
                       children: <Widget>[
                         StudentHomeWidget(studentId: id, students: studentData),
-                        const ApplicationWidget(isTeacher: false),
+                        const ApplicationWidget(isTeacher: false), 
                         StudentAttendenceDetailsWidget(
                             size: size,
                             studentsMap: studentData,
@@ -175,12 +160,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                 }
               });
         } else {
-          return const SizedBox(
-            child: Center(
-                child: CircularProgressIndicator(
-              color: Colors.red,
-            )),
-          );
+          return LoadingWidget().studentHomeLoading(size);
         }
       },
     );

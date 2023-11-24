@@ -4,7 +4,6 @@ import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
@@ -85,7 +84,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
             icon: const Icon(Icons.person_outline_rounded, color: headingColor),
             fillColor: appbarColor,
             hintText: 'First Name',
-            controller: firstNameController, 
+            controller: firstNameController,
             keyboardType: TextInputType.name,
             length: null,
             obscureText: false),
@@ -150,7 +149,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
         SignUpTextFieldWidget(
             icon: const Icon(Icons.phone_iphone_rounded, color: headingColor),
             fillColor: appbarColor,
-            hintText: 'Contact Number',            controller: contactController,
+            hintText: 'Contact Number',
+            controller: contactController,
             keyboardType: TextInputType.number,
             length: 10,
             obscureText: false),
@@ -294,9 +294,6 @@ void onButtonTap(
             studentData: studentObject,
             classDatas: classObject,
             feeData: feeObject));
-  } else {
-    context.read<StudentBloc>().add(UpdateStudentDataStudentEvent(
-        studentData: studentObject, studentId: id));
   }
 
   firstNameController.text = '';

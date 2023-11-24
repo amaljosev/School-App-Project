@@ -16,8 +16,4 @@ final class StudentActionsEvent extends StudentActionEvent {
 
 final class FetchStudentDataEvent extends StudentActionEvent {}
 
-final class UpdateStudentDataStudentEvent extends StudentActionEvent {
-  final StudentModel studentData;
-  final String studentId; 
-  UpdateStudentDataStudentEvent({required this.studentData, required this.studentId});
-}
+
