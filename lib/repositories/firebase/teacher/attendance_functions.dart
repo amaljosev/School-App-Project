@@ -92,7 +92,7 @@ class AttendenceFunctions {
         'date': attendanceData.date,
       };
 
-      final bool resopnse = await DbFunctions().addStudentDetails(
+      final bool resopnse = await DbFunctions().addSubCollection(
           map: attendanceMap,
           collectionName: 'teachers',
           teacherId: teacherId,

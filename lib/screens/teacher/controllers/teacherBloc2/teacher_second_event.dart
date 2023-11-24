@@ -16,4 +16,29 @@ final class SubmitAttendanceEvent extends TeacherSecondActionEvent {
   SubmitAttendanceEvent({required this.checkMarks, required this.students});
 }
 
-final class FetchAttendanceHistoryEvent extends TeacherSecondActionEvent{} 
+final class FetchAttendanceHistoryEvent extends TeacherSecondActionEvent {}
+
+final class HomeWorkSendEvent extends TeacherSecondActionEvent {
+  String task;
+  String subject;
+  HomeWorkSendEvent({required this.task, required this.subject});
+}
+
+final class DateSelectedEvent extends TeacherSecondActionEvent {
+  final DateTime selectedDate;
+  DateSelectedEvent({required this.selectedDate});
+}
+
+final class AssignmentSendEvent extends TeacherSecondActionEvent {
+  String task;
+  String subject;
+  DateTime selectedDate;
+  AssignmentSendEvent(
+      {required this.task, required this.subject, required this.selectedDate});
+}
+
+final class TaskDropDownEvent extends TeacherSecondActionEvent {
+  int index;
+  String? value;
+  TaskDropDownEvent({required this.index, required this.value});
+}

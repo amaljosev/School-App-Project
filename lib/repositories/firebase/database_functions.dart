@@ -32,7 +32,7 @@ class DbFunctions {
         .set(map);
   }
 
-  Future<bool> addStudentDetails({
+  Future<bool> addSubCollection({
     required Map<String, dynamic> map,
     required String collectionName,
     required String teacherId,

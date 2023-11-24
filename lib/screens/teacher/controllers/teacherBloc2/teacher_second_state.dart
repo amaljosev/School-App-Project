@@ -28,3 +28,26 @@ final class FetchAttendanceHistoryLoadingState
     extends TeacherSecondActionState {}
 
 final class FetchAttendanceHistoryErrorState extends TeacherSecondActionState {}
+
+final class HomeWorkSendSuccessState extends TeacherSecondActionState {}
+
+final class HomeWorkSendLoadingState extends TeacherSecondActionState {}
+
+final class HomeWorkSendErrorState extends TeacherSecondActionState {}
+
+final class HomeWorkDropDownState extends TeacherSecondActionState {
+  int index;
+  String? value;
+  HomeWorkDropDownState({required this.index, required this.value});
+}
+
+final class DateSelectedState extends TeacherSecondActionState {
+  final DateTime selectedDate;
+  DateSelectedState({required this.selectedDate});
+}
+
+final class AssignmentSendSuccessState extends TeacherSecondActionState {}
+
+final class AssignmentSendLoadingState extends TeacherSecondActionState {}
+
+final class AssignmentSendErrorState extends TeacherSecondActionState {}

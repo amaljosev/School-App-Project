@@ -34,7 +34,7 @@ class StudentDbFunctions {
         'total_present_days': 0,
         'total_missed_days': 0
       };
-      final bool response = await DbFunctions().addStudentDetails(
+      final bool response = await DbFunctions().addSubCollection(
         map: studentMap,
         collectionName: 'teachers',
         teacherId: id as String,
@@ -157,7 +157,7 @@ class StudentDbFunctions {
         .where('email', isEqualTo: email)
         .get();
 
-    return querySnapshot.docs.isNotEmpty || 
+    return querySnapshot.docs.isNotEmpty ||
         querySnapshot2.docs.isNotEmpty ||
         teacherMailSnapshot.docs.isNotEmpty ||
         teacherMailSnapshot2.docs.isNotEmpty ||
