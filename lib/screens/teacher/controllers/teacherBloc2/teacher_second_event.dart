@@ -42,3 +42,5 @@ final class TaskDropDownEvent extends TeacherSecondActionEvent {
   String? value;
   TaskDropDownEvent({required this.index, required this.value});
 }
+
+final class LogoutEvent extends TeacherSecondActionEvent{}

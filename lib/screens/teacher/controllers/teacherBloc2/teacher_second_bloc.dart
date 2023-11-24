@@ -18,7 +18,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<HomeWorkSendEvent>(homeWorkSendEvent);
     on<TaskDropDownEvent>(taskDropDownEvent);
     on<DateSelectedEvent>(dateSelectedEvent);
-
+    on<LogoutEvent>(logoutEvent);
     on<AssignmentSendEvent>(assignmentSendEvent);
   }
 
@@ -99,5 +99,9 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
   FutureOr<void> dateSelectedEvent( 
       DateSelectedEvent event, Emitter<TeacherSecondState> emit) {
     emit(DateSelectedState(selectedDate: event.selectedDate));
+  }
+
+  FutureOr<void> logoutEvent(LogoutEvent event, Emitter<TeacherSecondState> emit) {
+    emit(LogoutState());
   }
 }
