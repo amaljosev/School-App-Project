@@ -41,13 +41,16 @@ class ClassCardWidget extends StatelessWidget {
                             color: headingColor),
                       ),
                     ),
-                    title: Text('Class : $standard', style: contentTextStyle),
+                    title: Text('Class : $standard-${data["division"]}',
+                        style: contentTextStyle),
                     subtitle: Text('Class Teacher: ${data['name']} ',
                         overflow: TextOverflow.ellipsis,
                         style: contentTextStyle),
                     onTap: () => context.read<AdminBloc>().add(
                         StudentCardTapEvent(
-                            teacherId: teacherId, standard: standard)),
+                            teacherId: teacherId,
+                            standard: standard,
+                            division: data["division"])),
                   ),
                 ),
               );

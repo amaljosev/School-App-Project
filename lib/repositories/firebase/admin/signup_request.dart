@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
@@ -12,7 +11,8 @@ class SignUpRequest {
       Map<String, dynamic> teacherMap = {
         'name': teacherObject.name,
         'class': teacherObject.className,
-        'class_id': teacherObject.classId,
+        'division': teacherObject.division,
+        'class_name': teacherObject.className + teacherObject.division,
         'email': teacherObject.email,
         'contact': teacherObject.contact,
         'password': teacherObject.password,
@@ -35,13 +35,12 @@ class SignUpRequest {
   Future<bool> checkClass(String value, String email) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teachers')
-        .where('class', isEqualTo: value)
+        .where('class_name', isEqualTo: value) 
         .get();
     final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
         .collection('teacher_requests')
-        .where('class', isEqualTo: value)
+        .where('class_name', isEqualTo: value)
         .get();
-
     final QuerySnapshot teacherMailSnapshot = await FirebaseFirestore.instance
         .collection('teachers')
         .where('email', isEqualTo: email)
@@ -50,7 +49,6 @@ class SignUpRequest {
         .collection('teacher_requests')
         .where('email', isEqualTo: email)
         .get();
-
     return querySnapshot.docs.isNotEmpty ||
         querySnapshot2.docs.isNotEmpty ||
         teacherMailSnapshot.docs.isNotEmpty ||

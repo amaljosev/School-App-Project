@@ -58,9 +58,6 @@ class ScreenLogin extends StatelessWidget {
           } else if (state is StudentSignInErrorState) {
             AlertMessages()
                 .alertMessageSnakebar(context, 'Student not found', Colors.red);
-          } else if (state is DropdownMenuTapState) {
-            value = state.dropdownValue;
-            index = state.index;
           }
         },
         builder: (context, state) {

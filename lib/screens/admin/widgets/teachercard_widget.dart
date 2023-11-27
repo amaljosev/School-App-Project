@@ -76,7 +76,7 @@ class TeacherCardWidget extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "Class : ${data['class']}",
+                                "Class : ${data['class']}-${data['division']}",
                                 style: const TextStyle(
                                     color: headingColor,
                                     fontWeight: FontWeight.bold),

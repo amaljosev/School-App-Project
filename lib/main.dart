@@ -51,11 +51,11 @@ class MyApp extends StatelessWidget {
         title: 'School App',
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), 
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: const ScreenTeacher(),                 
+        home: const ScreenFirst(),
       ),
     );
   }

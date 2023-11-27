@@ -26,12 +26,16 @@ class ScreenTeacherProfileAdmin extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text("Class Teacher of : ${teacherData['class']}",
-                        overflow: TextOverflow.ellipsis, style: contentTextStyle),
+                    Text(
+                        "Class Teacher of : ${teacherData['class']}-${teacherData['division']}",
+                        overflow: TextOverflow.ellipsis,
+                        style: contentTextStyle),
                     Text('Email : ${teacherData['email']}',
-                        overflow: TextOverflow.ellipsis, style: contentTextStyle),
+                        overflow: TextOverflow.ellipsis,
+                        style: contentTextStyle),
                     Text('Mobile No : ${teacherData['contact']}',
-                        overflow: TextOverflow.ellipsis, style: contentTextStyle),
+                        overflow: TextOverflow.ellipsis,
+                        style: contentTextStyle),
                   ],
                 ),
               ),
@@ -45,7 +49,7 @@ class ScreenTeacherProfileAdmin extends StatelessWidget {
           //         separatorBuilder: (context, index) => const Divider(),
           //         itemCount: 10),
           //   ),
-          // ), 
+          // ),
         ],
       ),
     );

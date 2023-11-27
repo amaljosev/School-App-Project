@@ -11,10 +11,11 @@ class ScreenStudentList extends StatelessWidget {
   const ScreenStudentList({
     super.key,
     required this.studentData,
-    required this.standard,
+    required this.standard, required this.division,
   });
   final Stream<QuerySnapshot<Object?>> studentData;
   final String standard;
+  final String division;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -32,7 +33,7 @@ class ScreenStudentList extends StatelessWidget {
           } else if (snapshot.hasData) {
             List<DocumentSnapshot> students = snapshot.data!.docs;
             return Scaffold(
-              appBar: myAppbar('class $standard'),
+              appBar: myAppbar('class $standard-$division'),
               body: SafeArea(
                 child: SizedBox.expand(
                   child: ListView.builder(

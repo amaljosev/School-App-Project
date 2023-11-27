@@ -9,7 +9,8 @@ final class AdminInitial extends AdminState {}
 final class StudentCardTapState extends AdminActionState {
   final Stream<QuerySnapshot> studentList;
   final String standard;
-  StudentCardTapState({required this.studentList, required this.standard});
+  final String division;
+  StudentCardTapState({required this.studentList, required this.standard,required this.division});
 }
 
 final class TeacherCardTapState extends AdminActionState {

@@ -22,7 +22,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     final Stream<QuerySnapshot<Object?>> studentList =
         AdminDb().getStudentsDatas(event.teacherId);
     emit(StudentCardTapState(
-        studentList: studentList, standard: event.standard));
+        studentList: studentList,
+        standard: event.standard,
+        division: event.division));
   }
 
   FutureOr<void> teacherCardTapEvent(
@@ -51,6 +53,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   }
 
   FutureOr<void> logOutEvent(LogOutEvent event, Emitter<AdminState> emit) {
-    emit(LogOutState()); 
+    emit(LogOutState());
   }
 }

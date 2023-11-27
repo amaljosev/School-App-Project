@@ -8,14 +8,14 @@ import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 class DropDownWidget extends StatelessWidget {
   DropDownWidget({
     super.key,
-    required this.classNames,
     required this.index,
   });
 
-  final List<String> classNames;
+  
   int index;
   @override
   Widget build(BuildContext context) {
+    final List<String> classNames=['1','2','3','4','5','6','7','8','9','10'];
     return DropdownMenu<String>(
       hintText: 'Class',
       menuHeight: 200,
