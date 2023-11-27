@@ -10,7 +10,7 @@ final class SplashState extends WelcomeState {}
 
 final class NavigateToSignUpState extends WelcomeActionState {}
 
-final class SignUpLoadingState extends WelcomeActionState{}
+final class SignUpLoadingState extends WelcomeActionState {}
 
 final class SignUpSuccessState extends WelcomeActionState {}
 
@@ -44,13 +44,14 @@ final class AdminLoginState extends WelcomeActionEvent {}
 
 final class NewUserState extends WelcomeActionState {}
 
-final class TeacherLoginState extends WelcomeActionState{
+final class ToHomeState extends WelcomeActionState {}
+
+final class TeacherLoginState extends WelcomeActionState {
   final bool isTeacher;
   TeacherLoginState({required this.isTeacher});
 }
 
-final class StudentLoginState extends WelcomeActionState{
+final class StudentLoginState extends WelcomeActionState {
   final bool isTeacher;
   StudentLoginState({required this.isTeacher});
 }
-

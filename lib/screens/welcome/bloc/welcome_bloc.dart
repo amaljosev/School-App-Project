@@ -4,6 +4,7 @@ import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/admin/signup_request.dart';
 import 'package:schoolapp/repositories/firebase/login/login_functions.dart';
 
+
 part 'welcome_event.dart';
 part 'welcome_state.dart';
 
@@ -87,9 +88,9 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   }
 
   FutureOr<void> splashCompleteEvent(
-      SplashCompleteEvent event, Emitter<WelcomeState> emit) {
+      SplashCompleteEvent event, Emitter<WelcomeState> emit) async {
     emit(NewUserState());
-  }
+  } 
 
   FutureOr<void> teacherLoginEvent(
       TeacherLoginEvent event, Emitter<WelcomeState> emit) {

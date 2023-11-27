@@ -1,8 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:schoolapp/screens/student/student_screen.dart';
+import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/first_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class ScreenSplash extends StatefulWidget {
@@ -36,6 +43,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     await videoController.play();
     await Future.delayed(const Duration(seconds: 4)).then(
         (value) => context.read<WelcomeBloc>().add(SplashCompleteEvent()));
+    checkUserSignedUp();
   }
 
   @override
@@ -45,6 +53,11 @@ class _ScreenSplashState extends State<ScreenSplash> {
       buildWhen: (previous, current) => current is! WelcomeActionState,
       listener: (context, state) {
         if (state is NewUserState) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ScreenFirst()),
+          );
+        } else if (state is ToHomeState) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const ScreenFirst()),
@@ -78,5 +91,38 @@ class _ScreenSplashState extends State<ScreenSplash> {
         }
       },
     );
+  }
+
+  Future<void> checkUserSignedUp() async {
+    final sharedPrefsForLogin = await SharedPreferences.getInstance();
+    final userSignedUp = sharedPrefsForLogin.getBool('user_login');
+    log('$userSignedUp');
+        log('$userSignedUp');
+
+    log('$userSignedUp');
+
+    if (userSignedUp == null || userSignedUp == false) { 
+       
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ScreenFirst()),
+      );
+    } else {
+      final sharedPrefsIsTeacher = await SharedPreferences.getInstance();
+      final isTeacher = sharedPrefsIsTeacher.getBool('is_teacher');
+log('$isTeacher');
+        log('$isTeacher'); 
+      if (isTeacher != null && isTeacher) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ScreenTeacher()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ScreenStudent()),
+        );
+      }
+    }
   }
 }

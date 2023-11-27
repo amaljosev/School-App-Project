@@ -20,6 +20,10 @@ class LoginFunctions {
         SharedPreferences prefsTeacherId =
             await SharedPreferences.getInstance();
         prefsTeacherId.setString('teacherId', teacherId);
+        final sharedPrefsIsTeacher = await SharedPreferences.getInstance();
+        await sharedPrefsIsTeacher.setBool('is_teacher', true);
+        final sharedPrefs = await SharedPreferences.getInstance();
+        await sharedPrefs.setBool('user_login', true);
 
         return true;
       }
@@ -46,18 +50,24 @@ class LoginFunctions {
         SharedPreferences prefsTeacherId =
             await SharedPreferences.getInstance();
 
-            final String studentRgNo = studentDoc.get('register_no');
+        final String studentRgNo = studentDoc.get('register_no');
         prefsTeacherId.setString('teacherId', teacherId);
         final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
-        .collection('teachers').doc(teacherId).collection('students')
-        .where('register_no', isEqualTo: studentRgNo)
-        .get();
-        final DocumentSnapshot newStudentDoc = querySnapshot2.docs.first; 
-        final String studentId = newStudentDoc.id; 
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('students')
+            .where('register_no', isEqualTo: studentRgNo)
+            .get();
+        final DocumentSnapshot newStudentDoc = querySnapshot2.docs.first;
+        final String studentId = newStudentDoc.id;
         SharedPreferences prefsStudentId =
             await SharedPreferences.getInstance();
         prefsStudentId.setString('studentId', studentId);
-        return true; 
+        final sharedPrefsIsTeacher = await SharedPreferences.getInstance();
+        await sharedPrefsIsTeacher.setBool('is_teacher', false);
+        final sharedPrefs = await SharedPreferences.getInstance();
+        await sharedPrefs.setBool('user_login', true);
+        return true;
       }
     }
     // Username doesn't exist or the password doesn't match.

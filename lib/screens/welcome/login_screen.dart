@@ -34,11 +34,14 @@ class ScreenLogin extends StatelessWidget {
                   builder: (context) => const ScreenSignUp(),
                 ));
           } else if (state is TeacherSignInSuccessState) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScreenTeacher(),
-                ));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScreenTeacher(),
+              ), 
+              (route) =>
+                  false, 
+            );
           } else if (state is TeacherSignInLoadingState) {
             ScaffoldMessenger.of(context).showSnackBar(
               loadingSnakebarWidget(),
@@ -49,11 +52,14 @@ class ScreenLogin extends StatelessWidget {
                 .alertMessageSnakebar(context, 'Teacher not found', Colors.red);
             isLoading = false;
           } else if (state is StudentSignInSuccessState) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ScreenStudent(),
-                ));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScreenStudent(), 
+              ), 
+              (route) =>
+                  false, 
+            );
             isLoading = false;
           } else if (state is StudentSignInErrorState) {
             AlertMessages()
