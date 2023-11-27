@@ -106,7 +106,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "class  ${data['standard']}",
+                                        "class  ${data['standard']}",  
                                         style: appbarTextStyle,
                                       ),
                                       Text(

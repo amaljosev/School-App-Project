@@ -31,6 +31,7 @@ class StudentDbFunctions {
         'password': studentData.password,
         'gender': studentData.gender,
         'standard': studentData.standard,
+        'division': studentData.division, 
         'total_present_days': 0,
         'total_missed_days': 0
       };

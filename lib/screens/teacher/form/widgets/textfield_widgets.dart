@@ -19,6 +19,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
     required this.studentId,
     required this.gender,
     required this.isTeacher,
+    required this.division,
   });
 
   final ScreenStudentForm widget;
@@ -28,6 +29,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
   final String? studentId;
   final Gender? gender;
   final bool isTeacher;
+  final String division;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +227,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                   teacher: teacher,
                   standard: standard,
                   gender: gender,
-                  isTeacher: widget.isTeacher);
+                  isTeacher: widget.isTeacher,division: division);
             }
           },
           style: ElevatedButton.styleFrom(
@@ -253,6 +255,7 @@ void onButtonTap(
     required BuildContext context,
     required String teacher,
     required String standard,
+    required String division,
     required String id,
     required Gender? gender,
     required isTeacher}) {
@@ -269,6 +272,7 @@ void onButtonTap(
     password: passwordController.text,
     gender: gender.toString(),
     standard: standard,
+    division: division,
     totalAbsent: 0,
     totalPresent: 0,
   );

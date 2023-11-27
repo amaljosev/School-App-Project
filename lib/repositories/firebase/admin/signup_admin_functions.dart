@@ -25,13 +25,15 @@ class AdminActions {
 
       String classTeacherName = teacherData['name'] ?? '';
       String standard = teacherData['class'] ?? '';
+      String standardAndDiv = teacherData['class_name'] ?? ''; 
+
 
       Map<String, dynamic> classData = {
         'total_students': 0,
         'total_boys': 0,
         'total_girls': 0,
         'class_teacher': classTeacherName,
-        'standard': standard,
+        'standard': standardAndDiv, 
       };
 
       // Add the data to the "teachers" collection

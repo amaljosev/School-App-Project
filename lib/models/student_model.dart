@@ -11,6 +11,7 @@ class StudentModel {
   final String password;
   final String gender;
   final String standard;
+  final String division;
   final int totalPresent;
   final int totalAbsent;
 
@@ -27,6 +28,7 @@ class StudentModel {
       required this.password,
       required this.gender,
       required this.standard,
+      required this.division,
       required this.totalPresent,
       required this.totalAbsent});
 }

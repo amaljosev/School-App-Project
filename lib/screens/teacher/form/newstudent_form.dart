@@ -117,6 +117,7 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                       documentSnapshot.data() as Map<String, dynamic>? ?? {};
                   final String teacher = data['name'];
                   final String standard = data['class'];
+                  final String division = data['division'];
                   if (widget.isTeacher) {
                     totalStrength = classDatasGlobel?['total_students'] ?? 0;
                     totalBoys = classDatasGlobel?['total_boys'] ?? 0;
@@ -132,7 +133,8 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
                           widget: widget,
                           studentFormKey: studentFormKey,
                           teacher: teacher,
-                          standard: standard),
+                          standard: standard,
+                          division: division),
                     ),
                   );
                 } else {

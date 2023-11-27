@@ -101,7 +101,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Class Teacher of : ${data["class"]}",
+                                Text("Class Teacher of : ${data["class"]}-${data["division"]}", 
                                     overflow: TextOverflow.ellipsis,
                                     style: contentTextStyle),
                                 Text('Email : ${data["email"]}',

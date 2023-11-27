@@ -61,7 +61,7 @@ class StudentDetailsWidget extends StatelessWidget {
                         style: studentProfileTextStyle),
                     Text(": ${students['age']} ",
                         style: studentProfileTextStyle),
-                    Text(": ${students['standard']} ",
+                    Text(": ${students['standard']}-${students['division']}",
                         style: studentProfileTextStyle),
                     Text(": ${students['register_no']} ",
                         style: studentProfileTextStyle),
