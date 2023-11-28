@@ -23,6 +23,7 @@ class ClassDetailsWidget extends StatefulWidget {
 }
 
 class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
+  bool isVisitedToday = false;
   Stream<QuerySnapshot<Object?>> classDatas = const Stream.empty();
   Stream<QuerySnapshot<Object?>> attendenceData = const Stream.empty();
   @override
@@ -55,6 +56,9 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
           classDatas = state.classDatas;
           attendenceData = state.todayAttendenceData;
         }
+        if (state is SameDateState) {
+          isVisitedToday = state.isVisited;
+        }
       },
       builder: (context, state) {
         return StreamBuilder<QuerySnapshot>(
@@ -75,12 +79,12 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                       attendanceSnapshot.hasData) {
                     List<QueryDocumentSnapshot> documents =
                         classSnapshot.data!.docs;
-                    QueryDocumentSnapshot document = documents.first; 
+                    QueryDocumentSnapshot document = documents.first;
                     Map<String, dynamic>? data =
                         document.data() as Map<String, dynamic>;
                     classDatasGlobel = data;
                     List<QueryDocumentSnapshot> attendanceDocuments =
-                        attendanceSnapshot.data!.docs; 
+                        attendanceSnapshot.data!.docs;
                     QueryDocumentSnapshot attendanceDoc =
                         attendanceDocuments.first;
                     Map<String, dynamic>? attendanceData =
@@ -106,7 +110,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "class  ${data['standard']}",  
+                                        "class  ${data['standard']}",
                                         style: appbarTextStyle,
                                       ),
                                       Text(
@@ -152,7 +156,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         style: contentTextStyle,
                                       ),
                                       Text(
-                                        ': ${attendanceData['total_presents']}',  
+                                        ': ${attendanceData['total_presents']}',
                                         style: contentTextStyle,
                                       ),
                                       Text(
@@ -170,7 +174,9 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                   onPressed: () => context
                                       .read<TeacherBloc>()
                                       .add(AttendenceEvent()),
-                                  child: const Text('Take Attendence')),
+                                  child: Text(isVisitedToday
+                                      ? 'Update Attendance'
+                                      : 'Take Attendence')),
                             ),
                           ],
                         ),

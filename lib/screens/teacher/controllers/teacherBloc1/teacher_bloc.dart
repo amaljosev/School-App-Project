@@ -7,6 +7,7 @@ import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/add_student_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'teacher_event.dart';
 part 'teacher_state.dart';
@@ -148,7 +149,18 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
     emit(FetchClassDetailsLoadingState());
     try {
       final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-
+      final prefs = await SharedPreferences.getInstance();
+      final String? date = prefs.getString('last_updated_date');
+      if (date != null) {
+        final currentDate = DateTime.now();
+        final formattedDate =
+            DateTime(currentDate.year, currentDate.month, currentDate.day);
+        date == formattedDate.toString()
+            ? emit(SameDateState(isVisited: true))
+            : emit(SameDateState(isVisited: false));
+      } else {
+        emit(SameDateState(isVisited: false));
+      }
       final Stream<QuerySnapshot<Object?>> classDatas =
           DbFunctionsTeacher().getClassDetails(id);
       final Stream<QuerySnapshot<Object?>> currentAttendanceDatas =

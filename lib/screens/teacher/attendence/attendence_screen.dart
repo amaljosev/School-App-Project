@@ -53,6 +53,7 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
             } else if (state is SubmitAttendanceSuccessState) {
               AlertMessages().alertMessageSnakebar(
                   context, 'Attendance Submitted Successfully', Colors.green);
+              context.read<TeacherBloc>().add(FetchClassDetailsEvent());
               Navigator.pop(context);
             } else if (state is SubmitAttendanceSuccessState) {
               AlertMessages().alertMessageSnakebar(context,
@@ -178,4 +179,7 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
       },
     );
   }
+
+  // toTeacherHome(BuildContext context) =>{};
+  // context.read<TeacherBloc>().add(FetchClassDetailsEvent());
 }

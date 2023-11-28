@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/attendance.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendenceFunctions {
   bool responce = false;
@@ -91,6 +92,11 @@ class AttendenceFunctions {
         'total_presents': attendanceData.todayPresents,
         'date': attendanceData.date,
       };
+      final prefsDate = await SharedPreferences.getInstance();
+      final currentDate = DateTime.now();
+      final formattedDate =
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
+      prefsDate.setString('last_updated_date', formattedDate.toString());
 
       final bool resopnse = await DbFunctions().addSubCollection(
           map: attendanceMap,
