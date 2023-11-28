@@ -70,7 +70,7 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
 
   FutureOr<void> attendenceEvent(
       AttendenceEvent event, Emitter<TeacherState> emit) {
-    emit(AttendenceState());
+    emit(AttendenceState(isVisited: event.isVisited)); 
   }
 
   FutureOr<void> studentProfileEvent(

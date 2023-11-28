@@ -7,11 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendenceFunctions {
   bool responce = false;
-  Future<bool> submitAttendance(
-    List<DocumentSnapshot> students,
-    List<bool?> checkMarks,
-    String teacherId,
-  ) async {
+  Future<bool> submitAttendance({
+    required List<DocumentSnapshot> students,
+    required List<bool?> checkMarks,
+    required String teacherId,
+    required bool isUpdate,
+  }) async {
     CollectionReference<Map<String, dynamic>> studentsCollection =
         FirebaseFirestore.instance
             .collection('teachers')
@@ -54,7 +55,7 @@ class AttendenceFunctions {
           todayAbsents: absentCounter,
           date: DateTime.now());
       responce = await updateClassAttendanceStatus(
-          teacherId, totalAttendance, classAttendanceId);
+          teacherId, totalAttendance, classAttendanceId, isUpdate);
       return responce;
     } catch (e) {
       log('udation error $e');
@@ -62,8 +63,11 @@ class AttendenceFunctions {
     }
   }
 
-  Future<bool> updateClassAttendanceStatus(String teacherId,
-      AttendanceModel attendanceData, String attendanceId) async {
+  Future<bool> updateClassAttendanceStatus(
+      String teacherId,
+      AttendanceModel attendanceData,
+      String attendanceId,
+      bool isUpdate) async {
     try {
       Map<String, dynamic> studentFeeMap = {
         'toatal_working_days_completed':
@@ -77,7 +81,9 @@ class AttendenceFunctions {
           .collection('attendance')
           .doc(attendanceId)
           .update(studentFeeMap);
-      await addDailyAttendance(attendanceData, teacherId);
+      isUpdate
+          ? await updateDailyAttendance(attendanceData, teacherId)
+          : await addDailyAttendance(attendanceData, teacherId);
       return true;
     } catch (e) {
       return false;
@@ -98,11 +104,38 @@ class AttendenceFunctions {
           DateTime(currentDate.year, currentDate.month, currentDate.day);
       prefsDate.setString('last_updated_date', formattedDate.toString());
 
-      final bool resopnse = await DbFunctions().addSubCollection(
+      final bool resopnse = await DbFunctions().addAttendance(
           map: attendanceMap,
           collectionName: 'teachers',
           teacherId: teacherId,
-          subCollectionName: 'attendance_history');
+          subCollectionName: 'attendance_history',
+          subCollectionId: formattedDate.toString());
+      return resopnse;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateDailyAttendance(
+      AttendanceModel attendanceData, String teacherId) async {
+    try {
+      Map<String, dynamic> attendanceMap = {
+        'total_absents': attendanceData.todayAbsents,
+        'total_presents': attendanceData.todayPresents,
+        'date': attendanceData.date,
+      };
+      final prefsDate = await SharedPreferences.getInstance();
+      final currentDate = DateTime.now();
+      final formattedDate =
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
+      prefsDate.setString('last_updated_date', formattedDate.toString());
+
+      final bool resopnse = await DbFunctions().updateDetails(
+          map: attendanceMap,
+          collectionName: 'teachers',
+          teacherId: teacherId,
+          subCollectionName: 'attendance_history',
+          classId: formattedDate.toString());
       return resopnse;
     } catch (e) {
       return false;

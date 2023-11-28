@@ -20,6 +20,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<DateSelectedEvent>(dateSelectedEvent);
     on<LogoutEvent>(logoutEvent);
     on<AssignmentSendEvent>(assignmentSendEvent);
+    on<UpdateAttendanceEvent>(updateAttendanceEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -32,8 +33,11 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
     emit(SubmitAttendanceLoadingState());
     try {
-      final responce = await AttendenceFunctions()
-          .submitAttendance(event.students, event.checkMarks, id as String);
+      final responce = await AttendenceFunctions().submitAttendance(
+          students: event.students,
+          checkMarks: event.checkMarks,
+          teacherId: id as String,
+          isUpdate: false);
       if (responce) {
         emit(SubmitAttendanceSuccessState());
       } else {
@@ -96,12 +100,33 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     }
   }
 
-  FutureOr<void> dateSelectedEvent( 
+  FutureOr<void> dateSelectedEvent(
       DateSelectedEvent event, Emitter<TeacherSecondState> emit) {
     emit(DateSelectedState(selectedDate: event.selectedDate));
   }
 
-  FutureOr<void> logoutEvent(LogoutEvent event, Emitter<TeacherSecondState> emit) {
+  FutureOr<void> logoutEvent(
+      LogoutEvent event, Emitter<TeacherSecondState> emit) {
     emit(LogoutState());
+  }
+
+  FutureOr<void> updateAttendanceEvent(
+      UpdateAttendanceEvent event, Emitter<TeacherSecondState> emit) async {
+    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+    emit(UpdateAttendanceLoadingState());
+    try {
+      final responce = await AttendenceFunctions().submitAttendance(
+          students: event.students,
+          checkMarks: event.checkMarks,
+          teacherId: id as String,
+          isUpdate: true);
+      if (responce) {
+        emit(UpdateAttendanceSuccessState());
+      } else {
+        emit(UpdateAttendanceErrorState());
+      }
+    } catch (e) {
+      emit(UpdateAttendanceErrorState());
+    }
   }
 }

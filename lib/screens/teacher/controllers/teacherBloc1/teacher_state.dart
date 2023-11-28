@@ -18,7 +18,10 @@ final class AddStudentErrorState extends TeacherActionState {}
 
 final class StudentExistState extends TeacherActionState {}
 
-final class AttendenceState extends TeacherActionState {}
+final class AttendenceState extends TeacherActionState {
+  final bool isVisited;
+  AttendenceState({required this.isVisited});
+}
 
 final class StudentProfileState extends TeacherActionState {
   final Map<String, dynamic> students;

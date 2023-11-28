@@ -20,7 +20,10 @@ final class AddStudentEvent extends TeacherActionEvent {
   });
 }
 
-final class AttendenceEvent extends TeacherActionEvent {}
+final class AttendenceEvent extends TeacherActionEvent {
+  final bool isVisited;
+  AttendenceEvent({required this.isVisited}); 
+}
 
 final class StudentProfileEvent extends TeacherActionEvent {
   final Map<String, dynamic> students;

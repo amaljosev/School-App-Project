@@ -16,6 +16,12 @@ final class SubmitAttendanceEvent extends TeacherSecondActionEvent {
   SubmitAttendanceEvent({required this.checkMarks, required this.students});
 }
 
+final class UpdateAttendanceEvent extends TeacherSecondActionEvent {
+  final List<DocumentSnapshot> students;
+  final List<bool?> checkMarks;
+  UpdateAttendanceEvent({required this.checkMarks, required this.students});
+}
+
 final class FetchAttendanceHistoryEvent extends TeacherSecondActionEvent {}
 
 final class HomeWorkSendEvent extends TeacherSecondActionEvent {
@@ -43,4 +49,4 @@ final class TaskDropDownEvent extends TeacherSecondActionEvent {
   TaskDropDownEvent({required this.index, required this.value});
 }
 
-final class LogoutEvent extends TeacherSecondActionEvent{}
+final class LogoutEvent extends TeacherSecondActionEvent {}

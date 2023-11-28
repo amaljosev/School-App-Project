@@ -42,7 +42,8 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ScreenAttendence(),
+                builder: (context) =>
+                    ScreenAttendence(isVisited: state.isVisited),
               ));
         }
         if (state is FetchClassDetailsLoadingState) {
@@ -173,7 +174,8 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                               child: ElevatedButton(
                                   onPressed: () => context
                                       .read<TeacherBloc>()
-                                      .add(AttendenceEvent()),
+                                      .add(AttendenceEvent(
+                                          isVisited: isVisitedToday)),
                                   child: Text(isVisitedToday
                                       ? 'Update Attendance'
                                       : 'Take Attendence')),

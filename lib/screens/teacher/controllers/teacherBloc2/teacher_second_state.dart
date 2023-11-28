@@ -18,6 +18,12 @@ final class SubmitAttendanceLoadingState extends TeacherSecondActionState {}
 
 final class SubmitAttendanceErrorState extends TeacherSecondActionState {}
 
+final class UpdateAttendanceSuccessState extends TeacherSecondActionState {}
+
+final class UpdateAttendanceLoadingState extends TeacherSecondActionState {}
+
+final class UpdateAttendanceErrorState extends TeacherSecondActionState {}
+
 final class FetchAttendanceHistorySuccessState
     extends TeacherSecondActionState {
   final Stream<QuerySnapshot<Object?>> attendenceHistory;
@@ -52,4 +58,4 @@ final class AssignmentSendLoadingState extends TeacherSecondActionState {}
 
 final class AssignmentSendErrorState extends TeacherSecondActionState {}
 
-final class LogoutState extends TeacherSecondActionState{} 
+final class LogoutState extends TeacherSecondActionState {}

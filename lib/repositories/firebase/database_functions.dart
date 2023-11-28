@@ -40,16 +40,15 @@ class DbFunctions {
   }) async {
     try {
       await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(teacherId)
-        .collection(subCollectionName)
-        .doc()
-        .set(map);
-        return true;
+          .collection(collectionName)
+          .doc(teacherId)
+          .collection(subCollectionName)
+          .doc()
+          .set(map);
+      return true;
     } catch (e) {
       return false;
     }
-     
   }
 
   Future<bool> updateDetails(
@@ -60,15 +59,15 @@ class DbFunctions {
       required String classId}) async {
     try {
       await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(teacherId)
-        .collection(subCollectionName)
-        .doc(classId)
-        .update(map);
-        return true;
+          .collection(collectionName)
+          .doc(teacherId)
+          .collection(subCollectionName)
+          .doc(classId)
+          .update(map);
+      return true;
     } catch (e) {
-      return false; 
-    } 
+      return false;
+    }
   }
 
   Future<void> addStudentFeeDetails(
@@ -104,6 +103,25 @@ class DbFunctions {
         .doc(feeId)
         .update(map);
   }
+  Future<bool> addAttendance({ 
+    required Map<String, dynamic> map,
+    required String collectionName,
+    required String teacherId,
+    required String subCollectionName,
+    required String subCollectionId,
+  }) async {
+    try {
+      await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(teacherId)
+        .collection(subCollectionName)
+        .doc(subCollectionId)
+        .set(map);
+        return true;
+    } catch (e) {
+      return false;
+    }
+    
+     
+  }
 }
-
-

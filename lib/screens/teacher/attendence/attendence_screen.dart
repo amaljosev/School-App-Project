@@ -9,8 +9,8 @@ import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 
 class ScreenAttendence extends StatefulWidget {
-  const ScreenAttendence({super.key});
-
+  const ScreenAttendence({super.key, required this.isVisited});
+  final bool isVisited;
   @override
   State<ScreenAttendence> createState() => _ScreenAttendenceState();
 }
@@ -59,6 +59,20 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
               AlertMessages().alertMessageSnakebar(context,
                   'Attendance not Submitted Please try again', Colors.red);
             }
+            if (state is UpdateAttendanceLoadingState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                loadingSnakebarWidget(),
+              );
+              isLoading = true;
+            } else if (state is UpdateAttendanceSuccessState) {
+              AlertMessages().alertMessageSnakebar(
+                  context, 'Attendance Updated Successfully', Colors.green);
+              context.read<TeacherBloc>().add(FetchClassDetailsEvent());
+              Navigator.pop(context);
+            } else if (state is UpdateAttendanceSuccessState) { 
+              AlertMessages().alertMessageSnakebar(context,
+                  'Attendance not Updated Please try again', Colors.red); 
+            }
           },
           builder: (context, state) {
             return StreamBuilder<QuerySnapshot>(
@@ -101,10 +115,15 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                           TextButton.icon(
                               onPressed: () => isLoading
                                   ? null
-                                  : context.read<TeacherSecondBloc>().add(
-                                      SubmitAttendanceEvent(
-                                          checkMarks: checkMarks,
-                                          students: students)),
+                                  : widget.isVisited
+                                      ? context.read<TeacherSecondBloc>().add(
+                                          UpdateAttendanceEvent(
+                                              checkMarks: checkMarks,
+                                              students: students))
+                                      : context.read<TeacherSecondBloc>().add(
+                                          SubmitAttendanceEvent(
+                                              checkMarks: checkMarks,
+                                              students: students)),
                               icon: const Icon(Icons.save),
                               label: const Text('Submit'))
                         ],
