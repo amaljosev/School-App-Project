@@ -18,9 +18,14 @@ final divisionController = TextEditingController();
 String? value;
 int index = 0;
 
-class ScreenSignUp extends StatelessWidget {
-  const ScreenSignUp({super.key});
+class ScreenSignUp extends StatefulWidget {
+  const ScreenSignUp({super.key, required this.isUpdate});
+  final bool isUpdate;
+  @override
+  State<ScreenSignUp> createState() => _ScreenSignUpState();
+}
 
+class _ScreenSignUpState extends State<ScreenSignUp> {
   @override
   Widget build(BuildContext context) {
     bool isLoading = false;

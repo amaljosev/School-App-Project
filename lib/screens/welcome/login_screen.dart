@@ -31,16 +31,15 @@ class ScreenLogin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenSignUp(),
+                  builder: (context) => const ScreenSignUp(isUpdate: false),
                 ));
           } else if (state is TeacherSignInSuccessState) {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) => const ScreenTeacher(),
-              ), 
-              (route) =>
-                  false, 
+              ),
+              (route) => false,
             );
           } else if (state is TeacherSignInLoadingState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -55,10 +54,9 @@ class ScreenLogin extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const ScreenStudent(), 
-              ), 
-              (route) =>
-                  false, 
+                builder: (context) => const ScreenStudent(),
+              ),
+              (route) => false,
             );
             isLoading = false;
           } else if (state is StudentSignInErrorState) {

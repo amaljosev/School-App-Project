@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/attendance_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/repositories/firebase/teacher/task_db_functions.dart';

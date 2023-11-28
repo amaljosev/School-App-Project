@@ -59,3 +59,9 @@ final class AssignmentSendLoadingState extends TeacherSecondActionState {}
 final class AssignmentSendErrorState extends TeacherSecondActionState {}
 
 final class LogoutState extends TeacherSecondActionState {}
+
+final class EditTeacherSuccessState extends TeacherSecondActionEvent {}
+
+final class EditTeacherLoadingState extends TeacherSecondActionEvent {}
+
+final class EditTeacherErrorState extends TeacherSecondActionEvent {}

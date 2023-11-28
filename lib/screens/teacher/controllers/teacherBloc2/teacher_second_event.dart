@@ -50,3 +50,8 @@ final class TaskDropDownEvent extends TeacherSecondActionEvent {
 }
 
 final class LogoutEvent extends TeacherSecondActionEvent {}
+
+final class EditTeacherEvent extends TeacherSecondActionEvent {
+  final TeacherModel teacherData;
+  EditTeacherEvent({required this.teacherData});
+}

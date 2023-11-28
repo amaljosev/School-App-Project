@@ -157,11 +157,15 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         style: contentTextStyle,
                                       ),
                                       Text(
-                                        ': ${attendanceData['total_presents']}',
+                                        isVisitedToday
+                                            ? ': ${attendanceData['total_presents']}'
+                                            : ': 0',
                                         style: contentTextStyle,
                                       ),
                                       Text(
-                                        ': ${attendanceData['total_absents']}',
+                                        isVisitedToday
+                                            ? ': ${attendanceData['total_absents']}'
+                                            : ': 0',
                                         style: contentTextStyle,
                                       ),
                                     ],

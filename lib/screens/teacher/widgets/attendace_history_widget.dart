@@ -50,13 +50,20 @@ class _AttendenceHistoryWidgetState extends State<AttendenceHistoryWidget> {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
                 List<DocumentSnapshot> attendanceHistory = snapshot.data!.docs;
-                return ListView.separated(
+                attendanceHistory.sort((a, b) {
+                  DateTime dateA = (a['date'] as Timestamp).toDate();
+                  DateTime dateB = (b['date'] as Timestamp).toDate();
+                  return dateB.compareTo(
+                      dateA); 
+                });
+                if (attendanceHistory.isNotEmpty) {
+                  return ListView.separated(
                     itemBuilder: (context, index) {
                       DocumentSnapshot attendance = attendanceHistory[index];
                       DateTime date =
                           (attendance['date'] as Timestamp).toDate();
                       String formattedDate =
-                          DateFormat('dd MMM yyyy').format(date); 
+                          DateFormat('dd MMM yyyy').format(date);
                       return ListTile(
                         leading: Text(
                           "${index + 1}",
@@ -81,8 +88,11 @@ class _AttendenceHistoryWidgetState extends State<AttendenceHistoryWidget> {
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => const Divider(), 
+                    separatorBuilder: (context, index) => const Divider(),
                     itemCount: attendanceHistory.length);
+                } else {
+                 return const SizedBox(child: Center(child: Text('Attendance History')),);  
+                }
               } else {
                 return const SizedBox(
                     child: Center(child: Text('Something went wrong')));
