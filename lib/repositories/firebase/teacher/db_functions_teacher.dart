@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/fee_model.dart';
+import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,13 +19,14 @@ class DbFunctionsTeacher {
   Future<String?> getTeacherIdFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getString('teacherId');
-    
+
     return prefs.getString('teacherId');
   }
+
   Future<String?> getStudentIdFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getString('studentId');
-    return prefs.getString('studentId'); 
+    return prefs.getString('studentId');
   }
 
   Stream<QuerySnapshot<Object?>> getStudentsDatas(teacherId) {
@@ -37,23 +39,22 @@ class DbFunctionsTeacher {
   }
 
   Stream<QuerySnapshot<Object?>> getClassDetails(teacherId) {
-    
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
         .collection('class');
     final studentsStream = studentCollection.snapshots();
-    
+
     return studentsStream;
   }
+
   Stream<QuerySnapshot<Object?>> getCurrentAttendanceData(teacherId) {
-    
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
-        .collection('attendance'); 
+        .collection('attendance');
     final studentsStream = studentCollection.snapshots();
-    
+
     return studentsStream;
   }
 
@@ -73,7 +74,7 @@ class DbFunctionsTeacher {
             .collection('student_fee')
             .get();
         final feeId = querySnapshot.docs.first.id;
-        // Reference to the specific document within the subcollection 
+        // Reference to the specific document within the subcollection
 
         // Creating a map of fields you want to update
         Map<String, dynamic> studentFeeMap = {
@@ -93,17 +94,37 @@ class DbFunctionsTeacher {
       }
     } catch (e) {
       // Handle errors, e.g., print or log them
-      log('Error updating class data: $e');  
+      log('Error updating class data: $e');
     }
   }
-  Stream<QuerySnapshot<Object?>> getAttendanceHistory(teacherId) {  
-    
+
+  Stream<QuerySnapshot<Object?>> getAttendanceHistory(teacherId) {
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
-        .collection('attendance_history');  
+        .collection('attendance_history');
     final studentsStream = studentCollection.snapshots();
-    
+
     return studentsStream;
+  }
+
+  Future<bool> updateTeacherData(
+      TeacherModel teacherObject, String teacherId) async {
+    try {
+      Map<String, dynamic> teacherMap = {
+        'name': teacherObject.name,
+        'class': teacherObject.className,
+        'division': teacherObject.division,
+        'class_name': teacherObject.className + teacherObject.division,
+        'email': teacherObject.email,
+        'contact': teacherObject.contact,
+        'password': teacherObject.password,
+      };
+      final resopnse = await DbFunctions().updateSingleCollection(
+          map: teacherMap, collectionName: 'teachers', teacherId: teacherId);
+      return resopnse;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -31,7 +31,8 @@ class ScreenLogin extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ScreenSignUp(isUpdate: false),
+                  builder: (context) =>
+                      const ScreenSignUp(isUpdate: false, teacherData: null),
                 ));
           } else if (state is TeacherSignInSuccessState) {
             Navigator.pushAndRemoveUntil(

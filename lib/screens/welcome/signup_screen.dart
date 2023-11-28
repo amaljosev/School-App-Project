@@ -19,13 +19,28 @@ String? value;
 int index = 0;
 
 class ScreenSignUp extends StatefulWidget {
-  const ScreenSignUp({super.key, required this.isUpdate});
+  const ScreenSignUp(
+      {super.key, required this.isUpdate, required this.teacherData});
   final bool isUpdate;
+  final TeacherModel? teacherData;
   @override
   State<ScreenSignUp> createState() => _ScreenSignUpState();
 }
 
 class _ScreenSignUpState extends State<ScreenSignUp> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isUpdate && widget.teacherData != null) {
+      nameController.text = widget.teacherData!.name;
+      emailController.text = widget.teacherData!.email;
+      contactController.text = widget.teacherData!.contact.toString();
+      passwordController.text = widget.teacherData!.password;
+      divisionController.text = widget.teacherData!.division;
+      value = widget.teacherData!.className;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isLoading = false;
@@ -59,6 +74,21 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                 value = state.dropdownValue;
                 index = state.index;
               }
+              if (state is TeacherUpdatedLoadingState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  loadingSnakebarWidget(),
+                );
+                isLoading = true;
+              } else if (state is TeacherUpdatedSuccessState) {
+                AlertMessages().alertMessageSnakebar(
+                    context, 'Successfully Updated', Colors.green);
+                isLoading = false;
+                Navigator.pop(context);
+              } else if (state is TeacherUpdatedErrorState) {
+                AlertMessages().alertMessageSnakebar(context,
+                    'Something went wrong, Please try again', Colors.red);
+                isLoading = false;
+              }
             },
             builder: (context, state) {
               return SafeArea(
@@ -69,7 +99,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   children: [
-                    const TitleCardWidget(),
+                    TitleCardWidget(isUpdate: widget.isUpdate),
                     SignUpTextFieldWidget(
                       icon: const Icon(Icons.person),
                       fillColor: loginTextfieldColor,
@@ -104,10 +134,10 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       obscureText: false,
                     ),
                     SignUpTextFieldWidget(
-                      icon: const Icon(Icons.remove_red_eye),
+                      icon: const Icon(Icons.lock_outline_rounded),
                       fillColor: loginTextfieldColor,
                       hintText: 'Password',
-                      obscureText: true,
+                      obscureText: widget.isUpdate ? false : true,
                       controller: passwordController,
                       keyboardType: TextInputType.emailAddress,
                       length: null,
@@ -120,7 +150,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       height: 15,
                     ),
                     SignUpTextFieldWidget(
-                      icon: const Icon(Icons.email),
+                      icon: const Icon(Icons.diversity_1),
                       fillColor: loginTextfieldColor,
                       hintText: 'Division',
                       controller: divisionController,
@@ -144,7 +174,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                                   'Division can only contain letters',
                                   Colors.red);
                             } else {
-                              onSignUp(context);
+                              onSignUp(context, widget.isUpdate);
                             }
                           }
                         }
@@ -156,32 +186,34 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                           ),
                           fixedSize: const Size(150, 50),
                           elevation: 10),
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(color: whiteTextColor),
+                      child: Text(
+                        widget.isUpdate ? 'Update' : 'Sign Up',
+                        style: const TextStyle(color: whiteTextColor),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Already have an account',
-                            style: GoogleFonts.aBeeZee(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Sign In',
-                              style: GoogleFonts.farro(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.black)),
-                        ),
-                      ],
-                    ),
+                    widget.isUpdate
+                        ? const SizedBox()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Already have an account',
+                                  style: GoogleFonts.aBeeZee(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('Sign In',
+                                    style: GoogleFonts.farro(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black)),
+                              ),
+                            ],
+                          ),
                     const SizedBox(
                       height: 40,
                     ),
@@ -192,7 +224,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
   }
 }
 
-onSignUp(BuildContext context) async {
+onSignUp(BuildContext context, bool isUpdate) async {
   final teacherObject = TeacherModel(
       name: nameController.text,
       className: value as String,
@@ -200,10 +232,13 @@ onSignUp(BuildContext context) async {
       contact: int.parse(contactController.text),
       password: passwordController.text.toString(),
       division: divisionController.text.toUpperCase());
-
-  context.read<WelcomeBloc>().add(
-        SignUpButtonEvent(teacherData: teacherObject),
-      );
+  isUpdate
+      ? context.read<WelcomeBloc>().add(
+            UpdateButtonEvent(teacherData: teacherObject),
+          )
+      : context.read<WelcomeBloc>().add(
+            SignUpButtonEvent(teacherData: teacherObject),
+          );
 
   nameController.text = "";
   emailController.text = "";

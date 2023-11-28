@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
+import 'package:schoolapp/screens/welcome/signup_screen.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 
 class TeacherProfileWidget extends StatefulWidget {
@@ -44,6 +46,14 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
           listener: (context, state) {
             if (state is LogoutState) {
               logOut(context);
+            }
+            if (state is EditTeacherSuccessState) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ScreenSignUp(
+                        isUpdate: true, teacherData: state.teacherData),
+                  ));
             }
           },
           builder: (context, state) {
@@ -101,7 +111,8 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Class Teacher of : ${data["class"]}-${data["division"]}", 
+                                Text(
+                                    "Class Teacher of : ${data["class"]}-${data["division"]}",
                                     overflow: TextOverflow.ellipsis,
                                     style: contentTextStyle),
                                 Text('Email : ${data["email"]}',
@@ -120,7 +131,17 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                             ButtonSubmissionWidget(
                               label: 'Edit',
                               icon: Icons.edit,
-                              onTap: () {},
+                              onTap: () {
+                                final teacherData = TeacherModel(
+                                    name: data["name"],
+                                    className: data["class"],
+                                    email: data["email"],
+                                    contact: data["contact"],
+                                    password: data["password"],
+                                    division: data["division"]);
+                                context.read<TeacherSecondBloc>().add(
+                                    EditTeacherEvent(teacherData: teacherData));
+                              },
                             ),
                             ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(

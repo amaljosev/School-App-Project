@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/admin/signup_request.dart';
 import 'package:schoolapp/repositories/firebase/login/login_functions.dart';
-
+import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 
 part 'welcome_event.dart';
 part 'welcome_state.dart';
@@ -21,6 +21,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
     on<SplashCompleteEvent>(splashCompleteEvent);
     on<TeacherLoginEvent>(teacherLoginEvent);
     on<StudentLoginEvent>(studentLoginEvent);
+    on<UpdateButtonEvent>(updateButtonEvent);
   }
   FutureOr<void> splashEvent(SplashEvent event, Emitter<WelcomeState> emit) {
     emit(SplashState());
@@ -90,7 +91,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   FutureOr<void> splashCompleteEvent(
       SplashCompleteEvent event, Emitter<WelcomeState> emit) async {
     emit(NewUserState());
-  } 
+  }
 
   FutureOr<void> teacherLoginEvent(
       TeacherLoginEvent event, Emitter<WelcomeState> emit) {
@@ -100,5 +101,22 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   FutureOr<void> studentLoginEvent(
       StudentLoginEvent event, Emitter<WelcomeState> emit) {
     emit(StudentLoginState(isTeacher: event.isTeacher));
+  }
+
+  FutureOr<void> updateButtonEvent(
+      UpdateButtonEvent event, Emitter<WelcomeState> emit) async {
+    emit(TeacherUpdatedLoadingState());
+    try {
+      final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final bool response = await DbFunctionsTeacher()
+          .updateTeacherData(event.teacherData, id as String);
+      if (response) {
+        emit(TeacherUpdatedSuccessState());
+      } else {
+        emit(TeacherUpdatedErrorState());
+      }
+    } catch (e) {
+      emit(TeacherUpdatedErrorState());
+    }
   }
 }

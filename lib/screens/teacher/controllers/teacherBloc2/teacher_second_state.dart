@@ -60,8 +60,9 @@ final class AssignmentSendErrorState extends TeacherSecondActionState {}
 
 final class LogoutState extends TeacherSecondActionState {}
 
-final class EditTeacherSuccessState extends TeacherSecondActionEvent {}
+final class EditTeacherSuccessState extends TeacherSecondActionState {
+  final TeacherModel teacherData;
+  EditTeacherSuccessState({required this.teacherData});
+}
 
-final class EditTeacherLoadingState extends TeacherSecondActionEvent {}
 
-final class EditTeacherErrorState extends TeacherSecondActionEvent {}

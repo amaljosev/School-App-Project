@@ -11,16 +11,15 @@ final class SplashEvent extends WelcomeActionEvent {}
 final class TeacherSignInEvent extends WelcomeActionEvent {
   final String email;
   final String password;
-  
-  TeacherSignInEvent(
-      { required this.email, required this.password});
+
+  TeacherSignInEvent({required this.email, required this.password});
 }
+
 final class StudentSignInEvent extends WelcomeActionEvent {
   final String email;
   final String password;
-  
-  StudentSignInEvent( 
-      { required this.email, required this.password});
+
+  StudentSignInEvent({required this.email, required this.password});
 }
 
 final class SignUpButtonEvent extends WelcomeActionEvent {
@@ -40,12 +39,17 @@ final class DropdownMenuTapEvent extends WelcomeActionEvent {
 
 final class SplashCompleteEvent extends WelcomeEvent {}
 
-final class TeacherLoginEvent extends WelcomeActionEvent{
+final class TeacherLoginEvent extends WelcomeActionEvent {
   final bool isTeacher;
-  TeacherLoginEvent({required this.isTeacher}); 
+  TeacherLoginEvent({required this.isTeacher});
 }
 
-final class StudentLoginEvent extends WelcomeActionEvent{
+final class StudentLoginEvent extends WelcomeActionEvent {
   final bool isTeacher;
-  StudentLoginEvent({required this.isTeacher}); 
-} 
+  StudentLoginEvent({required this.isTeacher});
+}
+
+final class UpdateButtonEvent extends WelcomeActionEvent {
+  final TeacherModel teacherData;
+  UpdateButtonEvent({required this.teacherData});
+}

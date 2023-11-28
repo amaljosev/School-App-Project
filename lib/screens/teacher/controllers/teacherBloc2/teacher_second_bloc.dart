@@ -22,6 +22,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<LogoutEvent>(logoutEvent);
     on<AssignmentSendEvent>(assignmentSendEvent);
     on<UpdateAttendanceEvent>(updateAttendanceEvent);
+    on<EditTeacherEvent>(editTeacherEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -129,5 +130,10 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     } catch (e) {
       emit(UpdateAttendanceErrorState());
     }
+  }
+
+  FutureOr<void> editTeacherEvent(
+      EditTeacherEvent event, Emitter<TeacherSecondState> emit) {
+    emit(EditTeacherSuccessState(teacherData: event.teacherData));
   }
 }

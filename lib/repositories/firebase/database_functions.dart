@@ -19,6 +19,22 @@ class DbFunctions {
     }
   }
 
+  Future<bool> updateSingleCollection({
+    required Map<String, dynamic> map,
+    required String collectionName,
+    required String teacherId,
+  }) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(teacherId)
+          .update(map);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> addClassDetails(
       {required Map<String, dynamic> map,
       required String collectionName,
@@ -103,7 +119,8 @@ class DbFunctions {
         .doc(feeId)
         .update(map);
   }
-  Future<bool> addAttendance({ 
+
+  Future<bool> addAttendance({
     required Map<String, dynamic> map,
     required String collectionName,
     required String teacherId,
@@ -112,16 +129,14 @@ class DbFunctions {
   }) async {
     try {
       await FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(teacherId)
-        .collection(subCollectionName)
-        .doc(subCollectionId)
-        .set(map);
-        return true;
+          .collection(collectionName)
+          .doc(teacherId)
+          .collection(subCollectionName)
+          .doc(subCollectionId)
+          .set(map);
+      return true;
     } catch (e) {
       return false;
     }
-    
-     
   }
 }
