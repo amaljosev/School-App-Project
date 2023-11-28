@@ -80,6 +80,11 @@ flutter:
     - lib/assets/images/student male.jpg 
     - lib/assets/images/student female.png 
     - lib/assets/videos/splash-light.mp4   
+    - lib/assets/images/calender_bg.png 
+    - lib/assets/images/assgnment.webp
+    - lib/assets/images/hw.png   
+    - lib/assets/images/fee.webp 
+    - lib/assets/images/notice.webp  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -173,16 +173,33 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
-                              child: ElevatedButton(
-                                  onPressed: () => context
-                                      .read<TeacherBloc>()
-                                      .add(AttendenceEvent(
-                                          isVisited: isVisitedToday)),
-                                  child: Text(isVisitedToday
-                                      ? 'Update Attendance'
-                                      : 'Take Attendence')),
+                            Expanded(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        "lib/assets/images/calender_bg.png"),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 30),
+                                      child: ElevatedButton(
+                                          onPressed: () => context
+                                              .read<TeacherBloc>()
+                                              .add(AttendenceEvent(
+                                                  isVisited: isVisitedToday)),
+                                          child: Text(isVisitedToday
+                                              ? 'Update Attendance'
+                                              : 'Take Attendence')),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),

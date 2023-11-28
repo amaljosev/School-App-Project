@@ -17,7 +17,7 @@ class StudentHomeWidget extends StatelessWidget {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10.0),  
+          padding: const EdgeInsets.only(top: 10.0),
           child: CircleAvatar(
             backgroundColor: headingColor,
             radius: 60,
@@ -39,20 +39,32 @@ class StudentHomeWidget extends StatelessWidget {
           children: [
             Column(
               children: [
-                StudentFeeWidget(name: 'HW', index: 0),
+                StudentFeeWidget(
+                    name: 'Home Works',
+                    index: 0,
+                    assetPath: "lib/assets/images/hw.png"),
                 SizedBox(
                   height: 20,
                 ),
-                StudentFeeWidget(name: 'Fee Details', index: 1),
+                StudentFeeWidget(
+                    name: 'Fee Details',
+                    index: 1,
+                    assetPath: "lib/assets/images/fee.webp"),
               ],
             ),
             Column(
               children: [
-                StudentFeeWidget(name: 'Assignments', index: 2),
+                StudentFeeWidget(
+                    name: 'Assignments',
+                    index: 2,
+                    assetPath: "lib/assets/images/assgnment.webp"),
                 SizedBox(
                   height: 20,
                 ),
-                StudentFeeWidget(name: 'Events', index: 3),
+                StudentFeeWidget(
+                    name: 'Events',
+                    index: 3,
+                    assetPath: "lib/assets/images/notice.webp"),
               ],
             ),
           ],
