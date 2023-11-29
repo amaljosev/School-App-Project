@@ -17,4 +17,4 @@ final teacherAddStudentTextStyle = GoogleFonts.ubuntu(
 final studentProfileTextStyle = GoogleFonts.ubuntu(
     fontSize: 15, fontWeight: FontWeight.bold, color: contentColor);
 final listViewTextStyle = GoogleFonts.ubuntu(
-    fontSize: 15, fontWeight: FontWeight.bold, color: contentColor); 
+    fontSize: 15, fontWeight: FontWeight.bold, color: contentColor);

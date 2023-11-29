@@ -4,7 +4,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
-import 'package:schoolapp/screens/teacher/widgets/works_widget.dart';
+import 'package:schoolapp/screens/teacher/tasks/works_widget.dart';
 
 class TeacherActions extends StatelessWidget {
   const TeacherActions({

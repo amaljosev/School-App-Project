@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
@@ -67,7 +69,7 @@ class AddTaskWidget extends StatelessWidget {
               context, 'Assignment Send Successfully', Colors.green);
           index = 0;
           dropDownValue = subjectList.first;
-          selectedDate = DateTime.now(); 
+          selectedDate = DateTime.now();
         } else if (state is AssignmentSendErrorState) {
           AlertMessages()
               .alertMessageSnakebar(context, 'Try again', Colors.red);

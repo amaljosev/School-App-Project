@@ -55,3 +55,5 @@ final class EditTeacherEvent extends TeacherSecondActionEvent {
   final TeacherModel teacherData;
   EditTeacherEvent({required this.teacherData});
 }
+
+final class FetchHomeWorkDatasEvent extends TeacherSecondActionEvent{}

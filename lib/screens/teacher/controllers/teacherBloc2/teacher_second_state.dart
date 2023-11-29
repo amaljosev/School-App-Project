@@ -65,4 +65,11 @@ final class EditTeacherSuccessState extends TeacherSecondActionState {
   EditTeacherSuccessState({required this.teacherData});
 }
 
+final class FetchHomeWorkErrorDatas extends TeacherSecondActionState {}
 
+final class FetchHomeWorkSuccessDatas extends TeacherSecondActionState {
+  final Stream<QuerySnapshot<Object?>> homeWorksData;
+  FetchHomeWorkSuccessDatas({required this.homeWorksData});
+}
+
+final class FetchHomeWorkLoadingDatas extends TeacherSecondActionState {}
