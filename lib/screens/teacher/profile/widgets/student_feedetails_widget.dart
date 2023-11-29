@@ -22,6 +22,8 @@ class StudentFeeDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherBloc, TeacherState>(
+      listenWhen: (previous, current) => current is TeacherActionState,
+      buildWhen: (previous, current) => current is! TeacherActionState,
       listener: (context, state) {
         if (state is UpdateFeeScreenState) {
           Navigator.push(

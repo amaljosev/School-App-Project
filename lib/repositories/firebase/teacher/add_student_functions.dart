@@ -33,7 +33,8 @@ class StudentDbFunctions {
         'standard': studentData.standard,
         'division': studentData.division,
         'total_present_days': 0,
-        'total_missed_days': 0
+        'total_missed_days': 0,
+        'last_attendance':false
       };
       final bool response = await DbFunctions().addSubCollection(
         map: studentMap,

@@ -45,32 +45,36 @@ class TeacherBloc extends Bloc<TeacherEvent, TeacherState> {
   FutureOr<void> addStudentEvent(
       AddStudentEvent event, Emitter<TeacherState> emit) async {
     emit(AddStudentLoadingState());
-    id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-    final bool isExist = await StudentDbFunctions().checkRegNo(
-        rollNo: event.studentData.rollNo,
-        regNo: event.studentData.registerNo,
-        email: event.studentData.email,
-        teacherId: id as String);
-    if (isExist) {
-      emit(StudentExistState());
-    } else {
-      final bool response = await StudentDbFunctions().addStudent(
-        studentData: event.studentData,
-        feeDatas: event.feeData,
-      );
-      final bool updateResponse =
-          await StudentDbFunctions().updateClassData(event.classDatas);
-      if (response && updateResponse) {
-        emit(AddStudentSuccessState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final bool isExist = await StudentDbFunctions().checkRegNo(
+          rollNo: event.studentData.rollNo,
+          regNo: event.studentData.registerNo,
+          email: event.studentData.email,
+          teacherId: id as String);
+      if (isExist) {
+        emit(StudentExistState());
       } else {
-        emit(AddStudentErrorState());
+        final bool response = await StudentDbFunctions().addStudent(
+          studentData: event.studentData,
+          feeDatas: event.feeData,
+        );
+        final bool updateResponse =
+            await StudentDbFunctions().updateClassData(event.classDatas);
+        if (response && updateResponse) {
+          emit(AddStudentSuccessState());
+        } else {
+          emit(AddStudentErrorState());
+        }
       }
+    } catch (e) {
+      emit(AddStudentErrorState());
     }
   }
 
   FutureOr<void> attendenceEvent(
       AttendenceEvent event, Emitter<TeacherState> emit) {
-    emit(AttendenceState(isVisited: event.isVisited)); 
+    emit(AttendenceState(isVisited: event.isVisited));
   }
 
   FutureOr<void> studentProfileEvent(

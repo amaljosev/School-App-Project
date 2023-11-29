@@ -17,16 +17,18 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String totalpresentDays = "${studentsMap?['total_present_days']}";
+    final int totalPresentDays = int.parse(totalpresentDays);
     return SingleChildScrollView(
       child: Column(
         children: [
           Container(
             height: MediaQuery.of(context).orientation == Orientation.landscape
-                ? 0.9 * MediaQuery.of(context).size.height   
-                : 0.4 * MediaQuery.of(context).size.height, 
-                width: MediaQuery.of(context).orientation == Orientation.landscape
-                ? 0.5 * MediaQuery.of(context).size.width     
-                : 0.4 * MediaQuery.of(context).size.height,     
+                ? 0.9 * MediaQuery.of(context).size.height
+                : 0.4 * MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).orientation == Orientation.landscape
+                ? 0.5 * MediaQuery.of(context).size.width
+                : 0.4 * MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 color: appbarColor,
                 borderRadius: const BorderRadius.all(Radius.circular(5))),
@@ -53,8 +55,12 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                           animateFromLastPercent: true,
                           radius: 60.0,
                           lineWidth: 9.0,
-                          percent: 0.70,
-                          center: const Text("75%"),
+                          percent: totalWorkingDaysCompleted != 0
+                              ? totalPresentDays / totalWorkingDaysCompleted
+                              : 0.0,
+                          center: Text(
+                            "${(totalWorkingDaysCompleted != 0 ? (totalPresentDays / totalWorkingDaysCompleted * 100).toStringAsFixed(0) : 0)}%",
+                          ),
                           progressColor: buttonColor,
                         ),
                       ),

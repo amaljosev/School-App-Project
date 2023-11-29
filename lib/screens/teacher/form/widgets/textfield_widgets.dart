@@ -134,7 +134,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                 length: 6,
                 obscureText: false)
             : const Row(),
-        widget.isUpdate
+        widget.isUpdate  
             ? const Row()
             : SignUpTextFieldWidget(
                 icon:
@@ -145,8 +145,9 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 length: null,
                 obscureText: false),
-        const SizedBox(
-          height: 20,
+         SizedBox( 
+          height:widget.isUpdate  
+            ?0: 20,
         ),
         SignUpTextFieldWidget(
             icon: const Icon(Icons.phone_iphone_rounded, color: headingColor),

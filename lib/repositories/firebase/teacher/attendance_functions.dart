@@ -25,34 +25,61 @@ class AttendenceFunctions {
         .get();
     final DocumentSnapshot classDoc = querySnapshot.docs.first;
     int totalWorkingDays = classDoc.get('toatal_working_days_completed');
+
     final String classAttendanceId = classDoc.id;
 
     try {
       int presentCounter = 0;
       int absentCounter = 0;
+      int totalPresentDaysCounter = classDoc.get('total_presents');
+      int totalAbsentDaysCounter = classDoc.get('total_absents');
+
       for (int i = 0; i < students.length; i++) {
         DocumentSnapshot student = students[i];
         bool? isPresent = checkMarks[i];
         int totalPresentDays = student['total_present_days'] ?? 0;
         int totalAbsentDays = student['total_missed_days'] ?? 0;
+        bool lastAttendance = student['last_attendance'] ?? 0;
 
-        if (isPresent == true) {
-          totalPresentDays += 1;
-          presentCounter += 1;
+        if (isUpdate) {
+          if (lastAttendance == false) {
+            if (isPresent == true) {
+              totalPresentDays += 1;
+              totalAbsentDays -= 1;
+              totalPresentDaysCounter += 1;
+              totalAbsentDaysCounter != 0 ? totalAbsentDaysCounter -= 1 : 0;
+            
+            }
+          } else {
+            if (isPresent == false) {
+              totalPresentDays -= 1;
+              totalAbsentDays += 1;
+              totalPresentDaysCounter != 0 ? totalPresentDaysCounter -= 1 : 0;
+              totalAbsentDaysCounter += 1;
+            }
+          }
         } else {
-          totalAbsentDays += 1;
-          absentCounter += 1;
+          if (isPresent == true) {
+            totalPresentDays += 1;
+            presentCounter += 1;
+          } else {
+            totalAbsentDays += 1;
+            absentCounter += 1;
+          }
         }
 
         await studentsCollection.doc(student.id).update({
           'total_present_days': totalPresentDays,
           'total_missed_days': totalAbsentDays,
+          'last_attendance': isPresent
         });
       }
+
       final totalAttendance = AttendanceModel(
-          totalWorkingDaysCompleted: totalWorkingDays += 1,
-          todayPresents: presentCounter,
-          todayAbsents: absentCounter,
+          totalWorkingDaysCompleted:
+              isUpdate ? totalWorkingDays : totalWorkingDays += 1,
+          todayPresents: isUpdate ? totalPresentDaysCounter : presentCounter,
+          todayAbsents: isUpdate ? totalAbsentDaysCounter : absentCounter,
           date: DateTime.now());
       responce = await updateClassAttendanceStatus(
           teacherId, totalAttendance, classAttendanceId, isUpdate);
