@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/teacher/attendance_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
-import 'package:schoolapp/repositories/firebase/teacher/home_works_functions.dart';
+import 'package:schoolapp/repositories/firebase/teacher/teacher_actions_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/task_db_functions.dart';
 
 part 'teacher_second_event.dart';
@@ -25,6 +25,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<EditTeacherEvent>(editTeacherEvent);
     on<FetchTaskDatasEvent>(fetchTaskDatasEvent);
     on<TeacherNoticeEvent>(teacherNoticeEvent);
+    on<FetchFormDatasEvent>(fetchFormDatasEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -169,6 +170,20 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       }
     } catch (e) {
       emit(TeacherNoticeErrorState());
+    }
+  }
+
+  FutureOr<void> fetchFormDatasEvent(
+      FetchFormDatasEvent event, Emitter<TeacherSecondState> emit) async {
+    emit(FetchFormDatasLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      Stream<QuerySnapshot<Object?>> formsStream = DbFunctionsTeacherHomeWork()
+          .getFormDatas(teacherId: id as String, collection: 'events');
+
+      emit(FetchFormDatasSuccessDatas(formData: formsStream));
+    } catch (e) {
+      emit(FetchFormDatasErrorState());
     }
   }
 }

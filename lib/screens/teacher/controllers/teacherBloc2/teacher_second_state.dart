@@ -79,3 +79,12 @@ final class TeacherNoticeSuccessState extends TeacherSecondActionState {}
 final class TeacherNoticeLoadingState extends TeacherSecondActionState {}
 
 final class TeacherNoticeErrorState extends TeacherSecondActionState {}
+
+final class FetchFormDatasSuccessDatas extends TeacherSecondActionState {
+  final Stream<QuerySnapshot<Object?>> formData;
+  FetchFormDatasSuccessDatas({required this.formData});
+}
+
+final class FetchFormDatasLoadingState extends TeacherSecondActionState {}
+
+final class FetchFormDatasErrorState extends TeacherSecondActionState {}

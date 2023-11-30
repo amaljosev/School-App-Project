@@ -10,7 +10,7 @@ import 'package:schoolapp/widgets/button_widget.dart';
 final titileController = TextEditingController();
 final topicController = TextEditingController();
 
-class ApplicationWidget extends StatelessWidget {
+class ApplicationWidget extends StatelessWidget { 
   const ApplicationWidget({
     super.key,
     required this.isTeacher,
@@ -25,6 +25,7 @@ class ApplicationWidget extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(loadingSnakebarWidget());
         } else if (state is TeacherNoticeSuccessState) {
           AlertMessages().alertMessageSnakebar(context, 'Done', Colors.green);
+          context.read<TeacherSecondBloc>().add(FetchFormDatasEvent()); 
         } else if (state is TeacherNoticeErrorState) {
           AlertMessages()
               .alertMessageSnakebar(context, 'Try Again', Colors.red);
@@ -49,7 +50,7 @@ class ApplicationWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            isTeacher ? 'Event Form' : 'Leave Application',
+                            isTeacher ? 'Create an Event or Notice' : 'Leave Application',   
                             style: titleTextStyle,
                           ),
                         ),

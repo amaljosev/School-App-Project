@@ -53,7 +53,7 @@ class _ScreenWorksState extends State<ScreenWorks> {
             tasks.sort((a, b) {
               DateTime dateA = (a['date'] as Timestamp).toDate();
               DateTime dateB = (b['date'] as Timestamp).toDate();
-              return dateA.compareTo(dateB);
+              return dateB.compareTo(dateA);
             });
             return Scaffold(
               appBar: myAppbar(widget.workName),
@@ -91,8 +91,8 @@ class _ScreenWorksState extends State<ScreenWorks> {
               ),
             );
           } else {
-            return SizedBox(
-                child: Center(child: Text('Error: ${snapshot.error}')));
+            return const SizedBox(
+                child: Center(child: Text('Something went wrong')));
           }
         },
       );

@@ -67,3 +67,5 @@ final class TeacherNoticeEvent extends TeacherSecondActionEvent {
   TeacherNoticeEvent({required this.title, required this.topic}); 
 }
 
+final class FetchFormDatasEvent extends TeacherSecondActionEvent{} 
+

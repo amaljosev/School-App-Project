@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbFunctionsTeacherHomeWork {
@@ -18,6 +17,17 @@ class DbFunctionsTeacherHomeWork {
         .collection('assignments');
 
     final studentsStream = assignmentCollection.snapshots();
+
+    return studentsStream;
+  }
+
+  Stream<QuerySnapshot<Object?>> getFormDatas(
+      {required String teacherId, required String collection}) {
+    final CollectionReference studentCollection = FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection(collection);
+    final studentsStream = studentCollection.snapshots();
 
     return studentsStream;
   }
