@@ -78,3 +78,6 @@ final class FetchFormDatasEvent extends TeacherSecondActionEvent {
     final bool isTeacher;
   FetchFormDatasEvent({required this.isTeacher}); 
 }
+
+
+final class FetchLeaveApplicationsEvent extends TeacherSecondActionEvent {}

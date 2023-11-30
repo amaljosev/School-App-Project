@@ -27,6 +27,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<FetchTaskDatasEvent>(fetchTaskDatasEvent);
     on<TeacherNoticeEvent>(teacherNoticeEvent);
     on<FetchFormDatasEvent>(fetchFormDatasEvent);
+    on<FetchLeaveApplicationsEvent>(fetchLeaveApplicationsEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -185,14 +186,31 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       FetchFormDatasEvent event, Emitter<TeacherSecondState> emit) async {
     emit(FetchFormDatasLoadingState());
     try {
-       final bool isTeacher = event.isTeacher;
+      final bool isTeacher = event.isTeacher;
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
       Stream<QuerySnapshot<Object?>> formsStream = DbFunctionsTeacherHomeWork()
-          .getFormDatas(teacherId: id as String, collection:isTeacher? 'events': 'leave_applications'); 
+          .getDatasFromTeacherSubCollection(
+              teacherId: id as String,
+              collection: isTeacher ? 'events' : 'leave_applications');
 
       emit(FetchFormDatasSuccessDatas(formData: formsStream));
     } catch (e) {
       emit(FetchFormDatasErrorState());
+    }
+  }
+
+  FutureOr<void> fetchLeaveApplicationsEvent(FetchLeaveApplicationsEvent event,
+      Emitter<TeacherSecondState> emit) async {
+    emit(FetchLeaveApplicationsLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      Stream<QuerySnapshot<Object?>> leavesStream = DbFunctionsTeacherHomeWork()
+          .getDatasFromTeacherSubCollection(
+              teacherId: id as String, collection: 'leave_applications');
+
+      emit(FetchLeaveApplicationsSuccessDatas(leaveData: leavesStream));
+    } catch (e) {
+      emit(FetchLeaveApplicationsErrorState());
     }
   }
 }

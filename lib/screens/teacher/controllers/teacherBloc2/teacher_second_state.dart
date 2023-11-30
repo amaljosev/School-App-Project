@@ -65,7 +65,7 @@ final class EditTeacherSuccessState extends TeacherSecondActionState {
   EditTeacherSuccessState({required this.teacherData});
 }
 
-final class FetchTaskErrorDatas extends TeacherSecondActionState {} 
+final class FetchTaskErrorDatas extends TeacherSecondActionState {}
 
 final class FetchTaskSuccessDatas extends TeacherSecondActionState {
   final Stream<QuerySnapshot<Object?>> taskData;
@@ -88,3 +88,14 @@ final class FetchFormDatasSuccessDatas extends TeacherSecondActionState {
 final class FetchFormDatasLoadingState extends TeacherSecondActionState {}
 
 final class FetchFormDatasErrorState extends TeacherSecondActionState {}
+
+final class FetchLeaveApplicationsSuccessDatas
+    extends TeacherSecondActionState {
+  final Stream<QuerySnapshot<Object?>> leaveData;
+  FetchLeaveApplicationsSuccessDatas({required this.leaveData});
+}
+
+final class FetchLeaveApplicationsLoadingState
+    extends TeacherSecondActionState {}
+
+final class FetchLeaveApplicationsErrorState extends TeacherSecondActionState {}

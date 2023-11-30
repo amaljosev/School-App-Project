@@ -21,7 +21,7 @@ class DbFunctionsTeacherHomeWork {
     return studentsStream;
   }
 
-  Stream<QuerySnapshot<Object?>> getFormDatas(
+  Stream<QuerySnapshot<Object?>> getDatasFromTeacherSubCollection(
       {required String teacherId, required String collection}) {
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
