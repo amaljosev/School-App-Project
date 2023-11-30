@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/teacher_model.dart';
@@ -24,7 +23,9 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<AssignmentSendEvent>(assignmentSendEvent);
     on<UpdateAttendanceEvent>(updateAttendanceEvent);
     on<EditTeacherEvent>(editTeacherEvent);
-    on<FetchHomeWorkDatasEvent>(fetchHomeWorkDatas);
+    // on<FetchHomeWorkDatasEvent>(fetchHomeWorkDatas);
+    // on<FetchAssignmentDatasEvent>(fetchAssignmentDatasEvent);
+    on<FetchTaskDatasEvent>(fetchTaskDatasEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -139,16 +140,46 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(EditTeacherSuccessState(teacherData: event.teacherData));
   }
 
-  FutureOr<void> fetchHomeWorkDatas(
-      FetchHomeWorkDatasEvent event, Emitter<TeacherSecondState> emit) async {
-    emit(FetchHomeWorkLoadingDatas());
+  // FutureOr<void> fetchHomeWorkDatas(
+  //     FetchHomeWorkDatasEvent event, Emitter<TeacherSecondState> emit) async {
+  //   emit(FetchHomeWorkLoadingDatas());
+  //   try {
+  //     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+  //     Stream<QuerySnapshot<Object?>> homeWorksListStream =
+  //         DbFunctionsTeacherHomeWork().getHomeWorksDatas(id as String);
+  //     emit(FetchHomeWorkSuccessDatas(homeWorksData: homeWorksListStream));
+  //   } catch (e) {
+  //     emit(FetchHomeWorkErrorDatas());
+  //   }
+  // }
+
+  // FutureOr<void> fetchAssignmentDatasEvent(
+  //     FetchAssignmentDatasEvent event, Emitter<TeacherSecondState> emit) async {
+  //   emit(FetchAssignmentLoadingDatas());
+  //   try {
+  //     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+  //     Stream<QuerySnapshot<Object?>> assignmentsStream =
+  //         DbFunctionsTeacherHomeWork().getAssignmentDatas(id as String);
+
+  //     emit(FetchAssignmentSuccessDatas(assignmentsData: assignmentsStream));
+  //   } catch (e) {
+  //     emit(FetchAssignmentErrorDatas());
+  //   }
+  // }
+
+  FutureOr<void> fetchTaskDatasEvent(
+      FetchTaskDatasEvent event, Emitter<TeacherSecondState> emit) async {
+    emit(FetchTaskLoadingDatas());
     try {
+      final bool isHw = event.isHw;
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      Stream<QuerySnapshot<Object?>> homeWorksListStream =
-          DbFunctionsTeacherHomeWork().getHomeWorksDatas(id as String);
-      emit(FetchHomeWorkSuccessDatas(homeWorksData: homeWorksListStream));
+      Stream<QuerySnapshot<Object?>> tasksStream = isHw
+          ? DbFunctionsTeacherHomeWork().getHomeWorksDatas(id as String)
+          : DbFunctionsTeacherHomeWork().getAssignmentDatas(id as String);
+
+      emit(FetchTaskSuccessDatas(taskData: tasksStream));
     } catch (e) {
-      emit(FetchHomeWorkErrorDatas());
+      emit(FetchTaskErrorDatas());
     }
   }
 }

@@ -103,7 +103,11 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(
+                                top: 18.0,
+                                right: 8.0,
+                                left: 20.0,
+                              ),
                               child: Row(
                                 children: [
                                   Column(

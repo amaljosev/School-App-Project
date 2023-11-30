@@ -65,11 +65,34 @@ final class EditTeacherSuccessState extends TeacherSecondActionState {
   EditTeacherSuccessState({required this.teacherData});
 }
 
-final class FetchHomeWorkErrorDatas extends TeacherSecondActionState {}
+// final class FetchHomeWorkErrorDatas extends TeacherSecondActionState {}
 
-final class FetchHomeWorkSuccessDatas extends TeacherSecondActionState {
-  final Stream<QuerySnapshot<Object?>> homeWorksData;
-  FetchHomeWorkSuccessDatas({required this.homeWorksData});
+// final class FetchHomeWorkSuccessDatas extends TeacherSecondActionState {
+//   final Stream<QuerySnapshot<Object?>> homeWorksData;
+//   FetchHomeWorkSuccessDatas({required this.homeWorksData});
+// }
+
+// final class FetchHomeWorkLoadingDatas extends TeacherSecondActionState {}
+
+// final class FetchAssignmentErrorDatas extends TeacherSecondActionState {}
+
+// final class FetchAssignmentSuccessDatas extends TeacherSecondActionState {
+//   final Stream<QuerySnapshot<Object?>> assignmentsData;
+//   FetchAssignmentSuccessDatas({required this.assignmentsData});
+// }
+
+// final class FetchAssignmentLoadingDatas extends TeacherSecondActionState {}
+
+
+
+
+
+
+final class FetchTaskErrorDatas extends TeacherSecondActionState {}
+
+final class FetchTaskSuccessDatas extends TeacherSecondActionState {
+  final Stream<QuerySnapshot<Object?>> taskData;
+  FetchTaskSuccessDatas({required this.taskData});
 }
 
-final class FetchHomeWorkLoadingDatas extends TeacherSecondActionState {}
+final class FetchTaskLoadingDatas extends TeacherSecondActionState {}
