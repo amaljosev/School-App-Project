@@ -84,7 +84,7 @@ class _ScreenEventsStudentState extends State<ScreenEventsStudent> {
                         },
                         itemCount: events.length);
                   } else {
-                    return const Text('Something went wrong Try again'); 
+                    return const Text('Something went wrong Try again');
                   }
                 }),
           ),

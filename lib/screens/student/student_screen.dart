@@ -11,7 +11,7 @@ import 'package:schoolapp/screens/student/events/event_screen_student.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
-import 'package:schoolapp/widgets/application_form.dart';
+import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
 
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});
@@ -79,10 +79,11 @@ class _ScreenStudentState extends State<ScreenStudent> {
                 } else if (snapshot.hasData) {
                   Map<String, dynamic> studentData =
                       snapshot.data!.data() as Map<String, dynamic>;
+                      final String name=studentData['first_name']; 
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(
-                        "Student", 
+                        "Student",
                         style: appbarTextStyle,
                       ),
                       backgroundColor: appbarColor,
@@ -98,7 +99,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                       index: currentPageIndex,
                       children: <Widget>[
                         StudentHomeWidget(studentId: id, students: studentData),
-                        const ApplicationWidget(isTeacher: false), 
+                         ScreenSchoolEvents(isTeacher: false,name: name),   
                         StudentAttendenceDetailsWidget(
                             size: size,
                             studentsMap: studentData,

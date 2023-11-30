@@ -9,23 +9,27 @@ import 'package:schoolapp/widgets/button_widget.dart';
 
 final titileController = TextEditingController();
 final topicController = TextEditingController();
+final _formFormKey = GlobalKey<FormState>();
 
-class ApplicationWidget extends StatelessWidget { 
+class ApplicationWidget extends StatelessWidget {
   const ApplicationWidget({
     super.key,
     required this.isTeacher,
+    required this.name,
   });
   final bool isTeacher;
+  final String name;
   @override
   Widget build(BuildContext context) {
-    final formFormKey = GlobalKey<FormState>();
     return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
       listener: (context, state) {
         if (state is TeacherNoticeLoadingState) {
           ScaffoldMessenger.of(context).showSnackBar(loadingSnakebarWidget());
         } else if (state is TeacherNoticeSuccessState) {
           AlertMessages().alertMessageSnakebar(context, 'Done', Colors.green);
-          context.read<TeacherSecondBloc>().add(FetchFormDatasEvent()); 
+          context
+              .read<TeacherSecondBloc>()
+              .add(FetchFormDatasEvent(isTeacher: isTeacher));
         } else if (state is TeacherNoticeErrorState) {
           AlertMessages()
               .alertMessageSnakebar(context, 'Try Again', Colors.red);
@@ -33,7 +37,7 @@ class ApplicationWidget extends StatelessWidget {
       },
       builder: (context, state) {
         return Form(
-          key: formFormKey,
+          key: _formFormKey,
           child: Column(
             children: [
               Padding(
@@ -50,7 +54,9 @@ class ApplicationWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            isTeacher ? 'Create an Event or Notice' : 'Leave Application',   
+                            isTeacher
+                                ? 'Create an Event or Notice'
+                                : 'Leave Application',
                             style: titleTextStyle,
                           ),
                         ),
@@ -70,7 +76,9 @@ class ApplicationWidget extends StatelessWidget {
                                     controller: titileController,
                                     validator: (value) =>
                                         titileController.text.isEmpty
-                                            ? 'Please enter a title'
+                                            ? isTeacher
+                                                ? 'Please enter a title'
+                                                : 'Please enter date'
                                             : null,
                                   ),
                                   TextFormField(
@@ -83,7 +91,9 @@ class ApplicationWidget extends StatelessWidget {
                                     controller: topicController,
                                     validator: (value) =>
                                         topicController.text.isEmpty
-                                            ? 'Please enter a topic'
+                                            ? isTeacher
+                                                ? 'Please enter a topic'
+                                                : 'Please enter the reason'
                                             : null,
                                     maxLines: 5,
                                   ),
@@ -96,8 +106,8 @@ class ApplicationWidget extends StatelessWidget {
                           label: 'Share',
                           icon: Icons.send,
                           onTap: () {
-                            if (formFormKey.currentState!.validate()) {
-                              onShare(context);
+                            if (_formFormKey.currentState!.validate()) {
+                              onShare(context, isTeacher, name);
                             }
                           },
                         ),
@@ -113,9 +123,12 @@ class ApplicationWidget extends StatelessWidget {
     );
   }
 
-  onShare(BuildContext context) {
+  onShare(BuildContext context, bool isTeacher, String name) {
     context.read<TeacherSecondBloc>().add(TeacherNoticeEvent(
-        title: titileController.text, topic: topicController.text));
+        titleOrDate: titileController.text,
+        topicOrReason: topicController.text,
+        studentName: name,
+        isTeacher: isTeacher));
     titileController.text = '';
     topicController.text = '';
   }

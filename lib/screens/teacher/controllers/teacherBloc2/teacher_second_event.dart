@@ -62,10 +62,19 @@ final class FetchTaskDatasEvent extends TeacherSecondActionEvent {
 }
 
 final class TeacherNoticeEvent extends TeacherSecondActionEvent {
-  final String title; 
-  final String topic;
-  TeacherNoticeEvent({required this.title, required this.topic}); 
+  final String titleOrDate;
+  final String topicOrReason;
+  final String studentName;
+  final bool isTeacher;
+
+  TeacherNoticeEvent(
+      {required this.titleOrDate,
+      required this.topicOrReason,
+      required this.isTeacher,
+      required this.studentName});
 }
 
-final class FetchFormDatasEvent extends TeacherSecondActionEvent{} 
-
+final class FetchFormDatasEvent extends TeacherSecondActionEvent {
+    final bool isTeacher;
+  FetchFormDatasEvent({required this.isTeacher}); 
+}

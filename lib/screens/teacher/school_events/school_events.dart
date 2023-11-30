@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +11,10 @@ import 'package:schoolapp/widgets/application_form.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenSchoolEvents extends StatefulWidget {
-  const ScreenSchoolEvents({super.key});
-
+  const ScreenSchoolEvents(
+      {super.key, required this.isTeacher, required this.name});
+  final bool isTeacher;
+  final String name;
   @override
   State<ScreenSchoolEvents> createState() => _ScreenSchoolEventsState();
 }
@@ -21,89 +24,107 @@ class _ScreenSchoolEventsState extends State<ScreenSchoolEvents> {
 
   @override
   void initState() {
-    context.read<TeacherSecondBloc>().add(FetchFormDatasEvent());
+    context
+        .read<TeacherSecondBloc>()
+        .add(FetchFormDatasEvent(isTeacher: widget.isTeacher));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
-      listener: (context, state) {
-        if (state is FetchFormDatasLoadingState) {
-          const CircularProgressIndicator();
-        } else if (state is FetchFormDatasSuccessDatas) {
-          formStream = state.formData;
-        } else if (state is FetchFormDatasErrorState) {
-          AlertMessages()
-              .alertMessageSnakebar(context, 'Please try again', Colors.red);
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-            appBar: myAppbar('Upcoming Events'),
-            body: StreamBuilder<QuerySnapshot<Object?>>(
-                stream: formStream,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox(
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    List<DocumentSnapshot> formDatas = snapshot.data!.docs;
-                    formDatas.sort((a, b) {
-                      DateTime dateA = (a['date'] as Timestamp).toDate();
-                      DateTime dateB = (b['date'] as Timestamp).toDate();
-                      return dateB.compareTo(dateA);
-                    });
+        listener: (context, state) {
+      if (state is FetchFormDatasLoadingState) {
+        const CircularProgressIndicator();
+      } else if (state is FetchFormDatasSuccessDatas) {
+        formStream = state.formData;
+      } else if (state is FetchFormDatasErrorState) {
+        AlertMessages()
+            .alertMessageSnakebar(context, 'Please try again', Colors.red);
+      }
+    }, builder: (context, state) {
+      return StreamBuilder<QuerySnapshot<Object?>>(
+          stream: formStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox(
+                  child: Center(child: CircularProgressIndicator()));
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              List<DocumentSnapshot> formDatas = snapshot.data!.docs;
+              formDatas.sort((a, b) {
+                DateTime dateA = (a['date'] as Timestamp).toDate();
+                DateTime dateB = (b['date'] as Timestamp).toDate();
+                return dateB.compareTo(dateA);
+              });
 
-                    return SafeArea(
-                      child: Column(
-                        children: [
-                          const ApplicationWidget(isTeacher: true),
-                          Expanded(
-                              child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: ListView.builder(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 5, right: 5),
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot data = formDatas[index];
-                                  DateTime date =
-                                      (data['date'] as Timestamp).toDate();
-                                  String formattedDate =
-                                      DateFormat('dd MMM yyyy').format(date);
-                                  String title = '${data['title']}';
-                                  String topic = '${data['topic']}';
-                                  return Card(
-                                    color: appbarColor,
-                                    child: ListTile(
-                                      title:
-                                          Text(title, style: listViewTextStyle),
-                                      subtitle: Text(
-                                        topic,
-                                        style: const TextStyle(
-                                            color: contentColor),
-                                      ),
-                                      trailing: Text(
-                                        formattedDate,
-                                        style: const TextStyle(
-                                            color: contentColor),
-                                      ),
+              return Scaffold(
+                  appBar: widget.isTeacher ? myAppbar('Upcoming Events') : null,
+                  body: SafeArea(
+                    child: Column(
+                      children: [
+                        ApplicationWidget(
+                            isTeacher: widget.isTeacher, name: widget.name),
+                        Expanded(
+                            child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: ListView.builder(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 5, right: 5),
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot data = formDatas[index];
+                                String name = '';
+                                if (widget.isTeacher==false) { 
+                                  name = '${data['name']}'; 
+                                }
+                                DateTime date =
+                                    (data['date'] as Timestamp).toDate();
+                                String formattedDate =
+                                    DateFormat('dd MMM yyyy').format(date);
+                                String title =
+                                    '${data[widget.isTeacher ? 'title' : 'absent_date']}';  
+                                String topic =
+                                    '${data[widget.isTeacher ? 'topic' : 'reason']}';
+                                
+                                return Card(
+                                  color: appbarColor,
+                                  child: ListTile(
+                                    title:
+                                        Text(title, style: listViewTextStyle),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start, 
+                                      children: [
+                                       widget.isTeacher ? const SizedBox(): Text(
+                                          name, 
+                                          style:
+                                              const TextStyle(color: contentColor,fontWeight: FontWeight.bold),
+                                        ),
+                                       Text(
+                                          topic,
+                                          style:
+                                              const TextStyle(color: contentColor), 
+                                        ), 
+                                      ],
                                     ),
-                                  );
-                                },
-                                itemCount: formDatas.length),
-                          )),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return SizedBox(
-                        child: Center(child: Text('Error: ${snapshot.error}')));
-                  }
-                }));
-      },
-    );
+                                    trailing: Text(
+                                      formattedDate,
+                                      style:
+                                          const TextStyle(color: contentColor),
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: formDatas.length),
+                        )),
+                      ],
+                    ),
+                  ));
+            } else {
+              return SizedBox(
+                  child: Center(child: Text('Error: ${snapshot.error}')));
+            }
+          });
+    });
   }
 }

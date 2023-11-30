@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/teacher_model.dart';
+import 'package:schoolapp/repositories/firebase/student/tasks_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/attendance_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/repositories/firebase/teacher/teacher_actions_functions.dart';
@@ -160,9 +161,16 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       TeacherNoticeEvent event, Emitter<TeacherSecondState> emit) async {
     emit(TeacherNoticeLoadingState());
     try {
+      final bool isTeacher = event.isTeacher;
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      final bool responce = await TaskTeacherDbFunctions()
-          .addEvents(id as String, event.title, event.topic);
+      final bool responce = isTeacher
+          ? await TaskTeacherDbFunctions()
+              .addEvents(id as String, event.titleOrDate, event.topicOrReason)
+          : await TasksDbFunctionsStudent().addLeaveApplicationWork(
+              id as String,
+              event.titleOrDate,
+              event.topicOrReason,
+              event.studentName);
       if (responce) {
         emit(TeacherNoticeSuccessState());
       } else {
@@ -177,9 +185,10 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       FetchFormDatasEvent event, Emitter<TeacherSecondState> emit) async {
     emit(FetchFormDatasLoadingState());
     try {
+       final bool isTeacher = event.isTeacher;
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
       Stream<QuerySnapshot<Object?>> formsStream = DbFunctionsTeacherHomeWork()
-          .getFormDatas(teacherId: id as String, collection: 'events');
+          .getFormDatas(teacherId: id as String, collection:isTeacher? 'events': 'leave_applications'); 
 
       emit(FetchFormDatasSuccessDatas(formData: formsStream));
     } catch (e) {

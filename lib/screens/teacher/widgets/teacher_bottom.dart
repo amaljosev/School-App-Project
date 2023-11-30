@@ -25,7 +25,8 @@ class TeacherActions extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ScreenSchoolEvents(),
+                builder: (context) =>
+                    const ScreenSchoolEvents(isTeacher: true, name: ''),
               ));
         } else if (state is TeacherAssignmetState) {
           Navigator.push(
@@ -44,8 +45,7 @@ class TeacherActions extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    const ScreenLeaveApplications(), 
+                builder: (context) => const ScreenLeaveApplications(),
               ));
         }
       },
@@ -81,8 +81,9 @@ class TeacherActions extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   GestureDetector(
-                    onTap: () =>
-                        context.read<TeacherBloc>().add(TeacherLeaveApplicationEvent()), 
+                    onTap: () => context
+                        .read<TeacherBloc>()
+                        .add(TeacherLeaveApplicationEvent()),
                     child: Card(
                       elevation: 8,
                       child: Container(
@@ -133,7 +134,7 @@ class TeacherActions extends StatelessWidget {
                   const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () =>
-                        context.read<TeacherBloc>().add(TeacherHomeWorkEvent()), 
+                        context.read<TeacherBloc>().add(TeacherHomeWorkEvent()),
                     child: Card(
                       elevation: 8,
                       child: Container(
