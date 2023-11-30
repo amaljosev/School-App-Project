@@ -11,7 +11,7 @@ import 'package:schoolapp/screens/student/events/event_screen_student.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/student_attendence_widget.dart';
-import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
+import 'package:schoolapp/widgets/application_form.dart';
 
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});

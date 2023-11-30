@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +50,11 @@ class _ScreenWorksState extends State<ScreenWorks> {
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.hasData) {
             List<DocumentSnapshot> tasks = snapshot.data!.docs;
-
+            tasks.sort((a, b) {
+              DateTime dateA = (a['date'] as Timestamp).toDate();
+              DateTime dateB = (b['date'] as Timestamp).toDate();
+              return dateA.compareTo(dateB);
+            });
             return Scaffold(
               appBar: myAppbar(widget.workName),
               body: Padding(
@@ -80,7 +82,8 @@ class _ScreenWorksState extends State<ScreenWorks> {
                         formattedDate: formattedDate,
                         task: topic,
                         subject: subject,
-                        deadline: assignmentDeadline,isHw: isHw,
+                        deadline: assignmentDeadline,
+                        isHw: isHw,
                       );
                     }
                   }),

@@ -23,9 +23,8 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<AssignmentSendEvent>(assignmentSendEvent);
     on<UpdateAttendanceEvent>(updateAttendanceEvent);
     on<EditTeacherEvent>(editTeacherEvent);
-    // on<FetchHomeWorkDatasEvent>(fetchHomeWorkDatas);
-    // on<FetchAssignmentDatasEvent>(fetchAssignmentDatasEvent);
     on<FetchTaskDatasEvent>(fetchTaskDatasEvent);
+    on<TeacherNoticeEvent>(teacherNoticeEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -140,33 +139,6 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(EditTeacherSuccessState(teacherData: event.teacherData));
   }
 
-  // FutureOr<void> fetchHomeWorkDatas(
-  //     FetchHomeWorkDatasEvent event, Emitter<TeacherSecondState> emit) async {
-  //   emit(FetchHomeWorkLoadingDatas());
-  //   try {
-  //     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-  //     Stream<QuerySnapshot<Object?>> homeWorksListStream =
-  //         DbFunctionsTeacherHomeWork().getHomeWorksDatas(id as String);
-  //     emit(FetchHomeWorkSuccessDatas(homeWorksData: homeWorksListStream));
-  //   } catch (e) {
-  //     emit(FetchHomeWorkErrorDatas());
-  //   }
-  // }
-
-  // FutureOr<void> fetchAssignmentDatasEvent(
-  //     FetchAssignmentDatasEvent event, Emitter<TeacherSecondState> emit) async {
-  //   emit(FetchAssignmentLoadingDatas());
-  //   try {
-  //     id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-  //     Stream<QuerySnapshot<Object?>> assignmentsStream =
-  //         DbFunctionsTeacherHomeWork().getAssignmentDatas(id as String);
-
-  //     emit(FetchAssignmentSuccessDatas(assignmentsData: assignmentsStream));
-  //   } catch (e) {
-  //     emit(FetchAssignmentErrorDatas());
-  //   }
-  // }
-
   FutureOr<void> fetchTaskDatasEvent(
       FetchTaskDatasEvent event, Emitter<TeacherSecondState> emit) async {
     emit(FetchTaskLoadingDatas());
@@ -180,6 +152,23 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       emit(FetchTaskSuccessDatas(taskData: tasksStream));
     } catch (e) {
       emit(FetchTaskErrorDatas());
+    }
+  }
+
+  FutureOr<void> teacherNoticeEvent(
+      TeacherNoticeEvent event, Emitter<TeacherSecondState> emit) async {
+    emit(TeacherNoticeLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final bool responce = await TaskTeacherDbFunctions()
+          .addEvents(id as String, event.title, event.topic);
+      if (responce) {
+        emit(TeacherNoticeSuccessState());
+      } else {
+        emit(TeacherNoticeErrorState());
+      }
+    } catch (e) {
+      emit(TeacherNoticeErrorState());
     }
   }
 }

@@ -56,19 +56,14 @@ final class EditTeacherEvent extends TeacherSecondActionEvent {
   EditTeacherEvent({required this.teacherData});
 }
 
-// final class FetchHomeWorkDatasEvent extends TeacherSecondActionEvent {}
-
-// final class FetchAssignmentDatasEvent extends TeacherSecondActionEvent {}
-
-
-
-
-
-
-
-
-
 final class FetchTaskDatasEvent extends TeacherSecondActionEvent {
   final bool isHw;
   FetchTaskDatasEvent({required this.isHw});
 }
+
+final class TeacherNoticeEvent extends TeacherSecondActionEvent {
+  final String title; 
+  final String topic;
+  TeacherNoticeEvent({required this.title, required this.topic}); 
+}
+

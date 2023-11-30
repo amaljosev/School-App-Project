@@ -206,7 +206,7 @@ class AddTaskWidget extends StatelessWidget {
                                           value: value, label: value);
                                     }).toList(),
                                   ),
-                                ],
+                                ], 
                               ),
                               const SizedBox(
                                 height: 20,

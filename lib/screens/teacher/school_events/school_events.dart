@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
+import 'package:schoolapp/widgets/application_form.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenSchoolEvents extends StatelessWidget {
@@ -11,77 +9,23 @@ class ScreenSchoolEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppbar('Upcoming Events'),
-      body: const SafeArea(
-        child: ApplicationWidget(isTeacher: true),
-      ),
-    );
-  }
-}
-
-class ApplicationWidget extends StatelessWidget {
-  const ApplicationWidget({
-    super.key,
-    required this.isTeacher,
-  });
-  final bool isTeacher;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: appbarColor,
-                borderRadius: const BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      isTeacher ? 'Event Form' : 'Leave Application',
-                      style: titleTextStyle,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      elevation: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: InputDecoration(
-                                hintText: isTeacher ? 'Title' : 'Date of Leave',
-                              ),
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                  hintText: isTeacher ? 'Topic' : 'Reason',
-                                  border: InputBorder.none,
-                                  hintStyle: const TextStyle(fontSize: 20)),
-                              maxLines: 5,
-                            ),
-                          ],
-                        ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const ApplicationWidget(isTeacher: true),
+            Expanded(
+                child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: ListView.separated(
+                  itemBuilder: (context, index) => const ListTile(
+                        title: Text('data'),
                       ),
-                    ),
-                  ),
-                  ButtonSubmissionWidget(
-                    label: 'Share',
-                    icon: Icons.send,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-          ),
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: 10),
+            )),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

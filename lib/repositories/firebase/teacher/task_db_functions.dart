@@ -41,5 +41,24 @@ class TaskTeacherDbFunctions {
       return false;
     }
   }
-}
 
+  Future<bool> addEvents(
+      String teacherId, String title, String topic) async { 
+    try {
+      Map<String, dynamic> eventsMap = {
+        'title': title,
+        'topic': topic,
+        'date': DateTime.now()
+      };
+
+      final bool resopnse = await DbFunctions().addSubCollection(
+          map: eventsMap,
+          collectionName: 'teachers',
+          teacherId: teacherId,
+          subCollectionName: 'events');
+      return resopnse;
+    } catch (e) {
+      return false;
+    }
+  }
+}
