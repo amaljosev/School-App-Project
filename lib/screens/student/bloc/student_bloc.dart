@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/firebase/student/db_functions_student.dart';
+import 'package:schoolapp/repositories/firebase/student/tasks_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 
 part 'student_event.dart';
@@ -13,7 +14,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentBottomNavigationEvent>(bottomNavigationEvent);
     on<StudentActionsEvent>(studentActionsEvent);
     on<FetchStudentDataEvent>(fetchStudentDataEvent);
-    
+    on<FetchEventsDataEvent>(fetchEventsDataEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -45,5 +46,19 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         studentId: studentId,
         totalWorkingDaysCompleted: totalWorkingDays));
   }
-}
 
+  FutureOr<void> fetchEventsDataEvent(
+      FetchEventsDataEvent event, Emitter<StudentState> emit) async {
+    emit(FetchEventsDatasLoadingState());
+    try {
+      final String? teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      Stream<QuerySnapshot<Object?>> eventsStream = TasksDbFunctionsStudent()
+          .getEventsDatas(teacherId: teacherId as String, collection: 'events');
+
+      emit(FetchEventsDatasSuccessDatas(eventsData: eventsStream));
+    } catch (e) {
+      emit(FetchEventsDatasErrorState());
+    }
+  }
+}

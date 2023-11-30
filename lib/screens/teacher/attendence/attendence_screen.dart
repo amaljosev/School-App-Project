@@ -199,6 +199,5 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
     );
   }
 
-  // toTeacherHome(BuildContext context) =>{};
-  // context.read<TeacherBloc>().add(FetchClassDetailsEvent());
+ 
 }

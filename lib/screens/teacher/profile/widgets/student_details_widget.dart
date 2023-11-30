@@ -16,6 +16,7 @@ class StudentDetailsWidget extends StatelessWidget {
   final String studentId;
   @override
   Widget build(BuildContext context) {
+    final studentName="${students['first_name']} ${students['second_name']}";
     return Padding(
       padding: isTeacher
           ? const EdgeInsets.all(8)
@@ -33,7 +34,7 @@ class StudentDetailsWidget extends StatelessWidget {
               child: Text(
                   isTeacher
                       ? ""
-                      : "${students['first_name']} ${students['second_name']}",
+                      : studentName.toUpperCase(), 
                   style: appbarTextStyle),
             ),
             Row(

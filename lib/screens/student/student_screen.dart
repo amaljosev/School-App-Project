@@ -82,7 +82,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(
-                        "${studentData['first_name']} ${studentData['second_name']}",
+                        "Student", 
                         style: appbarTextStyle,
                       ),
                       backgroundColor: appbarColor,

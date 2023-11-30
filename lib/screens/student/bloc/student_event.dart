@@ -16,4 +16,7 @@ final class StudentActionsEvent extends StudentActionEvent {
 
 final class FetchStudentDataEvent extends StudentActionEvent {}
 
+final class FetchEventsDataEvent extends StudentActionEvent {}
+
+
 

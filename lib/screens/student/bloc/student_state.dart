@@ -21,7 +21,16 @@ final class FetchStudentDatasSuccessState extends StudentActionState {
   final String studentId;
   final int totalWorkingDaysCompleted;
   FetchStudentDatasSuccessState(
-      {required this.studentstream, required this.studentId,required this.totalWorkingDaysCompleted});
+      {required this.studentstream,
+      required this.studentId,
+      required this.totalWorkingDaysCompleted});
 }
 
+final class FetchEventsDatasSuccessDatas extends StudentActionState {
+  final Stream<QuerySnapshot<Object?>> eventsData;
+  FetchEventsDatasSuccessDatas({required this.eventsData});
+}
 
+final class FetchEventsDatasLoadingState extends StudentActionState {}
+
+final class FetchEventsDatasErrorState extends StudentActionState {}

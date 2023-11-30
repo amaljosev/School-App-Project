@@ -62,7 +62,7 @@ class StudentHomeWidget extends StatelessWidget {
                   height: 20,
                 ),
                 StudentFeeWidget(
-                    name: 'Events',
+                    name: 'Notice Board', 
                     index: 3,
                     assetPath: "lib/assets/images/notice.webp"),
               ],
