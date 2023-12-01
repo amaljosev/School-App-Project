@@ -4,8 +4,8 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 
-class StudentFeeWidget extends StatelessWidget {
-  const StudentFeeWidget({
+class StudentActionWidget extends StatelessWidget {
+  const StudentActionWidget({
     super.key,
     required this.name,
     required this.index,

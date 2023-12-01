@@ -39,14 +39,14 @@ class StudentHomeWidget extends StatelessWidget {
           children: [
             Column(
               children: [
-                StudentFeeWidget(
+                StudentActionWidget(
                     name: 'Home Works',
                     index: 0,
                     assetPath: "lib/assets/images/hw.png"),
                 SizedBox(
                   height: 20,
                 ),
-                StudentFeeWidget(
+                StudentActionWidget(
                     name: 'Fee Details',
                     index: 1,
                     assetPath: "lib/assets/images/fee.webp"),
@@ -54,15 +54,15 @@ class StudentHomeWidget extends StatelessWidget {
             ),
             Column(
               children: [
-                StudentFeeWidget(
+                StudentActionWidget(
                     name: 'Assignments',
                     index: 2,
                     assetPath: "lib/assets/images/assgnment.webp"),
                 SizedBox(
                   height: 20,
                 ),
-                StudentFeeWidget(
-                    name: 'Notice Board', 
+                StudentActionWidget(
+                    name: 'Notice Board',
                     index: 3,
                     assetPath: "lib/assets/images/notice.webp"),
               ],
