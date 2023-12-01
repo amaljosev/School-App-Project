@@ -163,15 +163,19 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(TeacherNoticeLoadingState());
     try {
       final bool isTeacher = event.isTeacher;
-      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final String? teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final String? studentId =
+          await DbFunctionsTeacher().getStudentIdFromPrefs();
       final bool responce = isTeacher
           ? await TaskTeacherDbFunctions()
               .addEvents(id as String, event.titleOrDate, event.topicOrReason)
           : await TasksDbFunctionsStudent().addLeaveApplicationWork(
-              id as String,
-              event.titleOrDate,
-              event.topicOrReason,
-              event.studentName);
+              teacherId: teacherId as String,
+              date: event.titleOrDate,
+              reason: event.topicOrReason,
+              name: event.studentName,
+              studentId: studentId as String);
       if (responce) {
         emit(TeacherNoticeSuccessState());
       } else {
@@ -187,13 +191,17 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(FetchFormDatasLoadingState());
     try {
       final bool isTeacher = event.isTeacher;
-      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      Stream<QuerySnapshot<Object?>> formsStream = DbFunctionsTeacherHomeWork()
-          .getDatasFromTeacherSubCollection(
-              teacherId: id as String,
-              collection: isTeacher ? 'events' : 'leave_applications');
+      final String? teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final String? studentId =
+          await DbFunctionsTeacher().getStudentIdFromPrefs();
+      Stream<QuerySnapshot<Object?>> formsStream = isTeacher
+          ? DbFunctionsTeacherHomeWork().getDatasFromTeacherSubCollection(
+              teacherId: id as String, collection: 'events')
+          : TasksDbFunctionsStudent().getStudentLeaveDatas(
+              teacherId: teacherId as String, studentId: studentId as String);
 
-      emit(FetchFormDatasSuccessDatas(formData: formsStream));
+      emit(FetchFormDatasSuccessDatas(formData: formsStream));  
     } catch (e) {
       emit(FetchFormDatasErrorState());
     }

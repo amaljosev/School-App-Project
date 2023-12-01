@@ -14,10 +14,14 @@ class TasksDbFunctionsStudent {
   }
 
   Future<bool> addLeaveApplicationWork(
-      String teacherId, String date, String reason, String name) async {
+      {required String teacherId,
+      required String date,
+      required String reason,
+      required String name,
+      required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
-        'absent_date': date, 
+        'absent_date': date,
         'reason': reason,
         'name': name,
         'date': DateTime.now()
@@ -28,9 +32,29 @@ class TasksDbFunctionsStudent {
           collectionName: 'teachers',
           teacherId: teacherId,
           subCollectionName: 'leave_applications');
-      return resopnse;
+      final bool resopnse2 = await DbFunctions().addSubCollectionInStudent(
+          map: homeWorkMap,
+          teacherCollectionName: 'teachers',
+          teacherId: teacherId,
+          studentCollectionName: 'students',
+          studentId: studentId,
+          newCollectionName: 'leave_applications_student');
+      return resopnse && resopnse2;
     } catch (e) {
       return false;
     }
+  }
+
+  Stream<QuerySnapshot<Object?>> getStudentLeaveDatas(
+      {required String teacherId, required String studentId}) {
+    final CollectionReference studentCollection = FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(teacherId)
+        .collection('students')
+        .doc(studentId)
+        .collection('leave_applications_student');
+    final studentsStream = studentCollection.snapshots();
+
+    return studentsStream;
   }
 }
