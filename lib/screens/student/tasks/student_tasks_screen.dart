@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
+import 'package:schoolapp/screens/student/tasks/widgets/dropdown_widget.dart';
+import 'package:schoolapp/screens/student/tasks/widgets/students_taskslist_widget.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
-import 'package:schoolapp/screens/teacher/tasks/widgets/task_card_widget.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 
 class ScreenStudentTasks extends StatefulWidget {
@@ -19,6 +21,8 @@ class ScreenStudentTasks extends StatefulWidget {
 }
 
 bool isHw = false;
+String? dropDownValue;
+int index = 0;
 
 class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
   Stream<QuerySnapshot<Object?>> taskListStream = const Stream.empty();
@@ -32,17 +36,13 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
 
   @override
   Widget build(BuildContext context) {
-    const List<String> subjectList = <String>[
-      'English',
-      'Physics',
-      'Maths',
-      'Chemistry',
-      'Hindi',
-      'Social Science',
-      'Science'
-    ];
     return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
       listener: (context, state) {
+        if (state is HomeWorkDropDownState) {
+          index = state.index;
+          dropDownValue = state.value;
+          log('$dropDownValue');
+        }
         if (state is FetchTaskLoadingDatas) {
           const CircularProgressIndicator();
         } else if (state is FetchTaskSuccessDatas) {
@@ -80,11 +80,9 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
                         bottom: TabBar(
                           tabs: <Widget>[
                             Tab(
-                              icon: const Icon(Icons.assignment),
                               text: widget.taskName,
                             ),
                             Tab(
-                              icon: const Icon(Icons.save_as_sharp),
                               text: 'Submit ${widget.taskName}',
                             ),
                           ],
@@ -92,48 +90,7 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
                       ),
                       body: TabBarView(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10.0,
-                              left: 5.0,
-                              right: 5.0,
-                            ),
-                            child: SizedBox(
-                              child: ListView(
-                                children: List.generate(tasks.length, (index) {
-                                  if (tasks.isEmpty) {
-                                    return Text(
-                                        'Given ${widget.taskName} are list here');
-                                  } else {
-                                    DocumentSnapshot work = tasks[index];
-                                    DateTime date =
-                                        (work['date'] as Timestamp).toDate();
-                                    String formattedDate =
-                                        DateFormat('dd MMM yyyy').format(date);
-                                    String topic = '${work['task']}';
-                                    String subject = '${work['subject']}';
-                                    String assignmentDeadline = '';
-                                    if (isHw == false) {
-                                      DateTime date =
-                                          (work['deadline'] as Timestamp)
-                                              .toDate();
-                                      assignmentDeadline =
-                                          DateFormat('dd MMM yyyy')
-                                              .format(date);
-                                    }
-
-                                    return TaskCardWidget(
-                                      formattedDate: formattedDate,
-                                      task: topic,
-                                      subject: subject,
-                                      deadline: assignmentDeadline,
-                                      isHw: isHw,
-                                    );
-                                  }
-                                }),
-                              ),
-                            ),
-                          ),
+                          TaskListWidget(tasks: tasks, widget: widget),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -151,21 +108,7 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
                                     'Select Subject',
                                     style: contentTextStyle,
                                   ),
-                                  DropdownMenu<String>(
-                                    initialSelection: subjectList.first,
-                                    onSelected: (String? value) {
-                                      // This is called when the user selects an item.
-                                      // setState(() {
-                                      //   // dropdownValue = value!;
-                                      // });
-                                    },
-                                    dropdownMenuEntries: subjectList
-                                        .map<DropdownMenuEntry<String>>(
-                                            (String value) {
-                                      return DropdownMenuEntry<String>(
-                                          value: value, label: value);
-                                    }).toList(),
-                                  ),
+                                  DropDownStudentWidget(index: index),
                                 ],
                               ),
                               const SizedBox(

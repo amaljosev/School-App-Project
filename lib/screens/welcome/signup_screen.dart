@@ -155,7 +155,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       hintText: 'Division',
                       controller: divisionController,
                       keyboardType: TextInputType.name,
-                      length: null,
+                      length: 1, 
                       obscureText: false,
                     ),
                     const SizedBox(
