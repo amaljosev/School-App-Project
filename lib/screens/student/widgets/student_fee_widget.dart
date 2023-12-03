@@ -17,8 +17,9 @@ class StudentActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          context.read<StudentBloc>().add(StudentActionsEvent(index: index)),
+      onTap: () => context
+          .read<StudentBloc>()
+          .add(StudentActionsEvent(index: index, name: name)),
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadiusDirectional.all(Radius.circular(15))),
@@ -34,11 +35,12 @@ class StudentActionWidget extends StatelessWidget {
             children: [
               Container(
                 height: 60,
-                width: 70,  
+                width: 70,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(assetPath),
-                    fit: BoxFit.contain,filterQuality: FilterQuality.high,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
                   ),
                   color: appbarColor,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),

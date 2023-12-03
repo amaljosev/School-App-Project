@@ -13,7 +13,8 @@ final class StudentBottomNavigationState extends StudentActionState {
 
 final class StudentActionsState extends StudentActionState {
   final int index;
-  StudentActionsState({required this.index});
+  final String name;
+  StudentActionsState({required this.index, required this.name});
 }
 
 final class FetchStudentDatasSuccessState extends StudentActionState {
@@ -34,3 +35,9 @@ final class FetchEventsDatasSuccessDatas extends StudentActionState {
 final class FetchEventsDatasLoadingState extends StudentActionState {}
 
 final class FetchEventsDatasErrorState extends StudentActionState {}
+
+final class SubmitWorkSuccessState extends StudentActionState {}
+
+final class SubmitWorkLoadingState extends StudentActionState {}
+
+final class SubmitWorkErrorState extends StudentActionState {}

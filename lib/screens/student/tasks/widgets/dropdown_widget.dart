@@ -7,22 +7,15 @@ import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_secon
 class DropDownStudentWidget extends StatelessWidget {
   DropDownStudentWidget({
     super.key,
+    required this.subjectList,
     required this.index,
   });
 
+  final List<String> subjectList;
   int index;
 
   @override
   Widget build(BuildContext context) {
-    const List<String> subjectList = <String>[
-      'English',
-      'Physics',
-      'Maths',
-      'Chemistry',
-      'Hindi',
-      'Social Science',
-      'Science'
-    ];
     return DropdownMenu<String>(
       initialSelection: subjectList.first,
       onSelected: (String? value) {

@@ -147,12 +147,20 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(FetchTaskLoadingDatas());
     try {
       final bool isHw = event.isHw;
-      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final studentId = await DbFunctionsTeacher().getStudentIdFromPrefs();
+      final teacherId = await DbFunctionsTeacher().getTeacherIdFromPrefs();
       Stream<QuerySnapshot<Object?>> tasksStream = isHw
-          ? DbFunctionsTeacherHomeWork().getHomeWorksDatas(id as String)
-          : DbFunctionsTeacherHomeWork().getAssignmentDatas(id as String);
+          ? DbFunctionsTeacherHomeWork().getHomeWorksDatas(teacherId as String) 
+          : DbFunctionsTeacherHomeWork()
+              .getAssignmentDatas(teacherId as String);
+      Stream<QuerySnapshot<Object?>> submittedTaskStream = isHw
+          ? TasksDbFunctionsStudent().getSubmittedHomeWorks(
+              studentId: studentId as String, teacherId: teacherId)
+          : TasksDbFunctionsStudent().getSubmittedAssignments(
+              studentId: studentId as String, teacherId: teacherId);
 
-      emit(FetchTaskSuccessDatas(taskData: tasksStream));
+      emit(FetchTaskSuccessDatas(
+          taskData: tasksStream, submittedTasks: submittedTaskStream));
     } catch (e) {
       emit(FetchTaskErrorDatas());
     }
@@ -201,7 +209,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
           : TasksDbFunctionsStudent().getStudentLeaveDatas(
               teacherId: teacherId as String, studentId: studentId as String);
 
-      emit(FetchFormDatasSuccessDatas(formData: formsStream));  
+      emit(FetchFormDatasSuccessDatas(formData: formsStream));
     } catch (e) {
       emit(FetchFormDatasErrorState());
     }

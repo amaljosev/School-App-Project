@@ -11,13 +11,19 @@ final class StudentBottomNavigationEvent extends StudentActionEvent {
 
 final class StudentActionsEvent extends StudentActionEvent {
   final int index;
-  StudentActionsEvent({required this.index});
+  final String name;
+  StudentActionsEvent({required this.index, required this.name});
 }
 
 final class FetchStudentDataEvent extends StudentActionEvent {}
 
 final class FetchEventsDataEvent extends StudentActionEvent {}
 
-
-
-
+final class SubmitWorkEvent extends StudentActionEvent {
+  final String subject;
+  final String note;
+  final String name;
+  final bool isHw; 
+  SubmitWorkEvent(
+      {required this.subject, required this.note, required this.name,required this.isHw}); 
+}

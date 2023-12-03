@@ -7,25 +7,26 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
-import 'package:schoolapp/screens/student/tasks/widgets/dropdown_widget.dart';
 import 'package:schoolapp/screens/student/tasks/widgets/students_taskslist_widget.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
 
 class ScreenStudentTasks extends StatefulWidget {
-  const ScreenStudentTasks({super.key, required this.taskName});
+  const ScreenStudentTasks(
+      {super.key, required this.taskName, required this.studentName});
   final String taskName;
+  final String studentName;
 
   @override
   State<ScreenStudentTasks> createState() => _ScreenStudentTasksState();
 }
 
 bool isHw = false;
-String? dropDownValue;
+
 int index = 0;
 
 class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
   Stream<QuerySnapshot<Object?>> taskListStream = const Stream.empty();
+  Stream<QuerySnapshot<Object?>> submittedTaskListStream = const Stream.empty();
 
   @override
   void initState() {
@@ -38,15 +39,11 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
       listener: (context, state) {
-        if (state is HomeWorkDropDownState) {
-          index = state.index;
-          dropDownValue = state.value;
-          log('$dropDownValue');
-        }
         if (state is FetchTaskLoadingDatas) {
           const CircularProgressIndicator();
         } else if (state is FetchTaskSuccessDatas) {
           taskListStream = state.taskData;
+          submittedTaskListStream = state.submittedTasks;
         } else if (state is FetchTaskErrorDatas) {
           AlertMessages()
               .alertMessageSnakebar(context, 'Please try again', Colors.red);
@@ -56,125 +53,75 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
         return StreamBuilder<QuerySnapshot<Object?>>(
             stream: taskListStream,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox(
-                    child: Center(child: CircularProgressIndicator()));
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                List<DocumentSnapshot> tasks = snapshot.data!.docs;
-                tasks.sort((a, b) {
-                  DateTime dateA = (a['date'] as Timestamp).toDate();
-                  DateTime dateB = (b['date'] as Timestamp).toDate();
-                  return dateB.compareTo(dateA);
-                });
-                return DefaultTabController(
-                  initialIndex: 0,
-                  length: 2,
-                  child: WillPopScope(
-                    onWillPop: () => tostudentHome(context),
-                    child: Scaffold(
-                      appBar: AppBar(
-                        backgroundColor: appbarColor,
-                        title: Text(widget.taskName, style: appbarTextStyle),
-                        bottom: TabBar(
-                          tabs: <Widget>[
-                            Tab(
-                              text: widget.taskName,
+              return StreamBuilder<QuerySnapshot<Object?>>(
+                stream: submittedTaskListStream,
+                builder: (context, submittedSnapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      submittedSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                    return const SizedBox(
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasError || submittedSnapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData && submittedSnapshot.hasData) {
+                    List<DocumentSnapshot> tasks = snapshot.data!.docs;
+                    List<DocumentSnapshot> submittedTasks =
+                        submittedSnapshot.data!.docs;
+                 
+                    tasks.sort((a, b) {
+                      DateTime dateA = (a['date'] as Timestamp).toDate();
+                      DateTime dateB = (b['date'] as Timestamp).toDate();
+                      return dateB.compareTo(dateA);
+                    });
+                    submittedTasks.sort((a, b) {
+                      DateTime dateA = (a['date'] as Timestamp).toDate();
+                      DateTime dateB = (b['date'] as Timestamp).toDate();
+                      return dateB.compareTo(dateA);
+                    });
+                    return DefaultTabController(
+                      initialIndex: 0,
+                      length: 2,
+                      child: WillPopScope(
+                        onWillPop: () => tostudentHome(context),
+                        child: Scaffold(
+                          appBar: AppBar(
+                            backgroundColor: appbarColor,
+                            title:
+                                Text(widget.taskName, style: appbarTextStyle),
+                            bottom: TabBar(
+                              tabs: <Widget>[
+                                Tab(
+                                  text: 'Given ${widget.taskName}s',
+                                ),
+                                Tab(
+                                  text: 'Submitted ${widget.taskName}s',
+                                ),
+                              ],
                             ),
-                            Tab(
-                              text: 'Submit ${widget.taskName}',
-                            ),
-                          ],
-                        ),
-                      ),
-                      body: TabBarView(
-                        children: <Widget>[
-                          TaskListWidget(tasks: tasks, widget: widget),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Select Subject',
-                                    style: contentTextStyle,
-                                  ),
-                                  DropDownStudentWidget(index: index),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: TextFormField(
-                                      decoration: const InputDecoration(
-                                          labelText: 'Task',
-                                          hintText: 'eg: Complete Activity 5'),
-                                      maxLines: 5,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    OutlinedButton(
-                                        onPressed: () {},
-                                        style: ButtonStyle(
-                                          side: MaterialStateProperty.all(
-                                            const BorderSide(
-                                                width: 2.0, color: titleColor),
-                                          ),
-                                        ),
-                                        child:
-                                            Text('Upload ${widget.taskName}')),
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text('No file selected !!'),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              ButtonSubmissionWidget(
-                                label: 'send',
-                                icon: Icons.send,
-                                onTap: () {},
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  height: 500,
-                                  child: ListView.builder(
-                                    itemBuilder: (context, index) =>
-                                        const ListTile(title: Text('data')),
-                                    itemCount: 10,
-                                  ),
-                                ),
-                              ),
+                          ),
+                          body: TabBarView(
+                            children: <Widget>[
+                              TaskListWidget(
+                                isSubmitted: false,  
+                                  tasks: tasks,
+                                  widget: widget,
+                                  name: widget.studentName),
+                              TaskListWidget(
+                                isSubmitted: true,
+                                  tasks: submittedTasks,
+                                  widget: widget,
+                                  name: widget.studentName),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              } else {
-                return const SizedBox(
-                    child: Center(child: Text('Something went wrong')));
-              }
+                    );
+                  } else {
+                    return const SizedBox(
+                        child: Center(child: Text('Something went wrong')));
+                  }
+                },
+              );
             });
       },
     );

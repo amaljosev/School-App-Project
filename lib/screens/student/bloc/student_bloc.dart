@@ -15,6 +15,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<StudentActionsEvent>(studentActionsEvent);
     on<FetchStudentDataEvent>(fetchStudentDataEvent);
     on<FetchEventsDataEvent>(fetchEventsDataEvent);
+    on<SubmitWorkEvent>(submitWorkEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -25,7 +26,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   FutureOr<void> studentActionsEvent(
       StudentActionsEvent event, Emitter<StudentState> emit) {
-    emit(StudentActionsState(index: event.index));
+    emit(StudentActionsState(index: event.index, name: event.name));
   }
 
   FutureOr<void> fetchStudentDataEvent(
@@ -59,6 +60,38 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       emit(FetchEventsDatasSuccessDatas(eventsData: eventsStream));
     } catch (e) {
       emit(FetchEventsDatasErrorState());
+    }
+  }
+
+  FutureOr<void> submitWorkEvent(
+      SubmitWorkEvent event, Emitter<StudentState> emit) async {
+    emit(SubmitWorkLoadingState());
+    try {
+      final studentId =
+          await DbFunctionsTeacher().getStudentIdFromPrefs() as String;
+      final teacherId =
+          await DbFunctionsTeacher().getTeacherIdFromPrefs() as String;
+      final bool isHw = event.isHw;
+      final bool resopnse = isHw
+          ? await TasksDbFunctionsStudent().submitHomeWork(
+              teacherId: teacherId,
+              note: event.note,
+              subject: event.subject,
+              name: event.name,
+              studentId: studentId)
+          : await TasksDbFunctionsStudent().submitAssignment( 
+              teacherId: teacherId,
+              note: event.note,
+              subject: event.subject,
+              name: event.name,
+              studentId: studentId);
+      if (resopnse) {
+        emit(SubmitWorkSuccessState());
+      } else {
+        emit(SubmitWorkErrorState());
+      }
+    } catch (e) {
+      emit(SubmitWorkErrorState());
     }
   }
 }

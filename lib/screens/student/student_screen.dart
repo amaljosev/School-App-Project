@@ -50,13 +50,13 @@ class _ScreenStudentState extends State<ScreenStudent> {
             feePopupMessage(context: context);
           } else if (state.index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  const ScreenStudentTasks(taskName: 'Home Work'),
+              builder: (context) => ScreenStudentTasks(
+                  taskName: 'Home Work', studentName: state.name),
             ));
           } else if (state.index == 2) {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  const ScreenStudentTasks(taskName: 'Assignment'),
+              builder: (context) => ScreenStudentTasks(
+                  taskName: 'Assignment', studentName: state.name),
             ));
           } else if (state.index == 3) {
             Navigator.of(context).push(MaterialPageRoute(
@@ -79,7 +79,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                 } else if (snapshot.hasData) {
                   Map<String, dynamic> studentData =
                       snapshot.data!.data() as Map<String, dynamic>;
-                      final String name=studentData['first_name']; 
+                  final String name = studentData['first_name'];
                   return Scaffold(
                     appBar: AppBar(
                       title: Text(
@@ -99,7 +99,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                       index: currentPageIndex,
                       children: <Widget>[
                         StudentHomeWidget(studentId: id, students: studentData),
-                         ScreenSchoolEvents(isTeacher: false,name: name),   
+                        ScreenSchoolEvents(isTeacher: false, name: name),
                         StudentAttendenceDetailsWidget(
                             size: size,
                             studentsMap: studentData,

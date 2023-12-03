@@ -69,7 +69,8 @@ final class FetchTaskErrorDatas extends TeacherSecondActionState {}
 
 final class FetchTaskSuccessDatas extends TeacherSecondActionState {
   final Stream<QuerySnapshot<Object?>> taskData;
-  FetchTaskSuccessDatas({required this.taskData});
+  final Stream<QuerySnapshot<Object?>> submittedTasks;
+  FetchTaskSuccessDatas({required this.taskData, required this.submittedTasks});
 }
 
 final class FetchTaskLoadingDatas extends TeacherSecondActionState {}
