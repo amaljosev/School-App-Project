@@ -62,6 +62,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                           : 0.40 * MediaQuery.of(context).size.height,
                   child: ListView(scrollDirection: Axis.horizontal, children: [
                     StudentAttendenceDetailsWidget(
+                      isTeacher: true, 
                       totalWorkingDaysCompleted: totalWorkingDays,
                       size: size,
                       studentsMap: studentsMap,

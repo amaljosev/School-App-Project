@@ -10,16 +10,20 @@ class StudentActionWidget extends StatelessWidget {
     required this.name,
     required this.index,
     required this.assetPath,
+   required this.studentsMap,
   });
   final int index;
   final String name;
   final String assetPath;
+  final Map<String, dynamic>? studentsMap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context
-          .read<StudentBloc>()
-          .add(StudentActionsEvent(index: index, name: name)),
+      onTap: () => context.read<StudentBloc>().add(StudentActionsEvent(
+          index: index,
+          name: name,
+          studentsMap: studentsMap,
+         )),
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadiusDirectional.all(Radius.circular(15))),

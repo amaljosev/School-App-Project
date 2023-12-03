@@ -11,7 +11,8 @@ class TaskListWidget extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.widget,
-    required this.name, required this.isSubmitted,
+    required this.name,
+    required this.isSubmitted,
   });
 
   final List<DocumentSnapshot<Object?>> tasks;
@@ -36,12 +37,14 @@ class TaskListWidget extends StatelessWidget {
               DocumentSnapshot work = tasks[index];
               DateTime date = (work['date'] as Timestamp).toDate();
               String formattedDate = DateFormat('dd MMM yyyy').format(date);
-              String topic =isSubmitted? '${work['note']}': '${work['task']}'; 
+
+              String topic =
+                  isSubmitted ? '${work['note']}' : '${work['task']}';
               String subject = '${work['subject']}';
-              String assignmentDeadline = ''; 
-              if (isHw == false&&isSubmitted==false) {
+              String assignmentDeadline = '';
+              if (isHw == false && isSubmitted == false) {
                 DateTime date = (work['deadline'] as Timestamp).toDate();
-                assignmentDeadline = DateFormat('dd MMM yyyy').format(date); 
+                assignmentDeadline = DateFormat('dd MMM yyyy').format(date);
               }
 
               return Card(
@@ -50,11 +53,22 @@ class TaskListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(isHw ? formattedDate :isSubmitted?'': "Started on : $formattedDate",
+                      Text(
+                          isHw
+                              ? formattedDate
+                              : isSubmitted
+                                  ? ''
+                                  : "Started on : $formattedDate",
                           style: const TextStyle(color: contentColor)),
-                      Text(isHw ? "" :isSubmitted?"subimtted on : $formattedDate": "Deadline : $assignmentDeadline",
-                          style:  TextStyle(color:isSubmitted?Colors.green: Colors.red)), 
-                       Text(isSubmitted?'':"Tap to Submit > ",  
+                      Text(
+                          isHw
+                              ? ""
+                              : isSubmitted
+                                  ? "subimtted on : $formattedDate"
+                                  : "Deadline : $assignmentDeadline",
+                          style: TextStyle(
+                              color: isSubmitted ? Colors.green : Colors.red)),
+                      Text(isSubmitted ? '' : "Tap to Submit > ",
                           style: const TextStyle(
                               color: Colors.green, fontSize: 15)),
                     ],

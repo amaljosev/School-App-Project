@@ -1,15 +1,13 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/tasks/widgets/students_taskslist_widget.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 
-class ScreenStudentTasks extends StatefulWidget {
+class ScreenStudentTasks extends StatefulWidget { 
   const ScreenStudentTasks(
       {super.key, required this.taskName, required this.studentName});
   final String taskName;
@@ -66,7 +64,7 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
                     List<DocumentSnapshot> tasks = snapshot.data!.docs;
                     List<DocumentSnapshot> submittedTasks =
                         submittedSnapshot.data!.docs;
-                 
+
                     tasks.sort((a, b) {
                       DateTime dateA = (a['date'] as Timestamp).toDate();
                       DateTime dateB = (b['date'] as Timestamp).toDate();
@@ -80,38 +78,35 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
                     return DefaultTabController(
                       initialIndex: 0,
                       length: 2,
-                      child: WillPopScope(
-                        onWillPop: () => tostudentHome(context),
-                        child: Scaffold(
-                          appBar: AppBar(
-                            backgroundColor: appbarColor,
-                            title:
-                                Text(widget.taskName, style: appbarTextStyle),
-                            bottom: TabBar(
-                              tabs: <Widget>[
-                                Tab(
-                                  text: 'Given ${widget.taskName}s',
-                                ),
-                                Tab(
-                                  text: 'Submitted ${widget.taskName}s',
-                                ),
-                              ],
-                            ),
-                          ),
-                          body: TabBarView(
-                            children: <Widget>[
-                              TaskListWidget(
-                                isSubmitted: false,  
-                                  tasks: tasks,
-                                  widget: widget,
-                                  name: widget.studentName),
-                              TaskListWidget(
-                                isSubmitted: true,
-                                  tasks: submittedTasks,
-                                  widget: widget,
-                                  name: widget.studentName),
+                      child: Scaffold(
+                        appBar: AppBar(
+                          backgroundColor: appbarColor,
+                          title:
+                              Text(widget.taskName, style: appbarTextStyle),
+                          bottom: TabBar(
+                            tabs: <Widget>[
+                              Tab(
+                                text: 'Given ${widget.taskName}s',
+                              ),
+                              Tab(
+                                text: 'Submitted ${widget.taskName}s',
+                              ),
                             ],
                           ),
+                        ),
+                        body: TabBarView(
+                          children: <Widget>[
+                            TaskListWidget(
+                                isSubmitted: false,
+                                tasks: tasks,
+                                widget: widget,
+                                name: widget.studentName),
+                            TaskListWidget(
+                                isSubmitted: true,
+                                tasks: submittedTasks,
+                                widget: widget,
+                                name: widget.studentName),
+                          ],
                         ),
                       ),
                     );

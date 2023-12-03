@@ -34,7 +34,7 @@ class StudentHomeWidget extends StatelessWidget {
           studentId: studentId,
           students: students,
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
@@ -42,14 +42,16 @@ class StudentHomeWidget extends StatelessWidget {
                 StudentActionWidget(
                     name: 'Home Works',
                     index: 0,
-                    assetPath: "lib/assets/images/hw.png"),
-                SizedBox(
+                    assetPath: "lib/assets/images/hw.png",
+                    studentsMap: students),
+                const SizedBox(
                   height: 20,
                 ),
                 StudentActionWidget(
                     name: 'Fee Details',
                     index: 1,
-                    assetPath: "lib/assets/images/fee.webp"),
+                    assetPath: "lib/assets/images/fee.webp",
+                    studentsMap: students),
               ],
             ),
             Column(
@@ -57,14 +59,16 @@ class StudentHomeWidget extends StatelessWidget {
                 StudentActionWidget(
                     name: 'Assignments',
                     index: 2,
-                    assetPath: "lib/assets/images/assgnment.webp"),
-                SizedBox(
+                    assetPath: "lib/assets/images/assgnment.webp",
+                    studentsMap: students),
+                const SizedBox(
                   height: 20,
                 ),
                 StudentActionWidget(
-                    name: 'Notice Board',
+                    name: 'Attendance',
                     index: 3,
-                    assetPath: "lib/assets/images/notice.webp"),
+                    assetPath: "lib/assets/images/notice.webp",
+                    studentsMap: students),
               ],
             ),
           ],

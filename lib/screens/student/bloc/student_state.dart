@@ -14,7 +14,13 @@ final class StudentBottomNavigationState extends StudentActionState {
 final class StudentActionsState extends StudentActionState {
   final int index;
   final String name;
-  StudentActionsState({required this.index, required this.name});
+  final int totalWorkingDaysCompleted;
+  final Map<String, dynamic>? studentsMap;
+  StudentActionsState(
+      {required this.index,
+      required this.name, 
+      required this.totalWorkingDaysCompleted,
+      required this.studentsMap});
 }
 
 final class FetchStudentDatasSuccessState extends StudentActionState {

@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenEventsStudent extends StatefulWidget {
   const ScreenEventsStudent({super.key});
@@ -38,56 +36,52 @@ class _ScreenEventsStudentState extends State<ScreenEventsStudent> {
         }
       },
       builder: (context, state) {
-        return WillPopScope(
-          onWillPop: () => tostudentHome(context),
-          child: Scaffold(
-            appBar: myAppbar('Upcoming Events'),
-            body: StreamBuilder<QuerySnapshot<Object?>>(
-                stream: eventsListStream,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox(
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    List<DocumentSnapshot> events = snapshot.data!.docs;
-                    events.sort((a, b) {
-                      DateTime dateA = (a['date'] as Timestamp).toDate();
-                      DateTime dateB = (b['date'] as Timestamp).toDate();
-                      return dateB.compareTo(dateA);
-                    });
-                    return ListView.builder(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 5, right: 5),
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot data = events[index];
-                          DateTime date = (data['date'] as Timestamp).toDate();
-                          String formattedDate =
-                              DateFormat('dd MMM yyyy').format(date);
-                          String title = '${data['title']}';
-                          String topic = '${data['topic']}';
-                          return Card(
-                            color: appbarColor,
-                            child: ListTile(
-                              title: Text(title, style: listViewTextStyle),
-                              subtitle: Text(
-                                topic,
-                                style: const TextStyle(color: contentColor),
-                              ),
-                              trailing: Text(
-                                formattedDate,
-                                style: const TextStyle(color: contentColor),
-                              ),
+        return Scaffold(
+          body: StreamBuilder<QuerySnapshot<Object?>>(
+              stream: eventsListStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  List<DocumentSnapshot> events = snapshot.data!.docs;
+                  events.sort((a, b) {
+                    DateTime dateA = (a['date'] as Timestamp).toDate();
+                    DateTime dateB = (b['date'] as Timestamp).toDate();
+                    return dateB.compareTo(dateA);
+                  });
+                  return ListView.builder(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 5, right: 5),
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot data = events[index];
+                        DateTime date = (data['date'] as Timestamp).toDate();
+                        String formattedDate =
+                            DateFormat('dd MMM yyyy').format(date);
+                        String title = '${data['title']}';
+                        String topic = '${data['topic']}';
+                        return Card(
+                          color: appbarColor,
+                          child: ListTile(
+                            title: Text(title, style: listViewTextStyle),
+                            subtitle: Text(
+                              topic,
+                              style: const TextStyle(color: contentColor),
                             ),
-                          );
-                        },
-                        itemCount: events.length);
-                  } else {
-                    return const Text('Something went wrong Try again');
-                  }
-                }),
-          ),
+                            trailing: Text(
+                              formattedDate,
+                              style: const TextStyle(color: contentColor),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: events.length);
+                } else {
+                  return const Text('Something went wrong Try again');
+                }
+              }),
         );
       },
     );

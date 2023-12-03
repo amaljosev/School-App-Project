@@ -12,7 +12,9 @@ final class StudentBottomNavigationEvent extends StudentActionEvent {
 final class StudentActionsEvent extends StudentActionEvent {
   final int index;
   final String name;
-  StudentActionsEvent({required this.index, required this.name});
+  final Map<String, dynamic>? studentsMap;
+  StudentActionsEvent(
+      {required this.index, required this.name, required this.studentsMap});
 }
 
 final class FetchStudentDataEvent extends StudentActionEvent {}
