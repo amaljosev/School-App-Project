@@ -63,12 +63,14 @@ class TasksDbFunctionsStudent {
       required String note,
       required String subject,
       required String name,
+      required String imageUrl,
       required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
         'subject': subject,
         'note': note,
         'name': name,
+        'image_url': imageUrl,
         'date': DateTime.now()
       };
 
@@ -95,12 +97,14 @@ class TasksDbFunctionsStudent {
       required String note,
       required String subject,
       required String name,
+      required String imageUrl,
       required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
         'subject': subject,
         'note': note,
         'name': name,
+        'image_url': imageUrl,
         'date': DateTime.now()
       };
 
@@ -123,8 +127,7 @@ class TasksDbFunctionsStudent {
   }
 
   Stream<QuerySnapshot<Object?>> getSubmittedHomeWorks(
-      {required String teacherId,
-      required String studentId}) {
+      {required String teacherId, required String studentId}) {
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)
@@ -135,9 +138,9 @@ class TasksDbFunctionsStudent {
 
     return studentsStream;
   }
+
   Stream<QuerySnapshot<Object?>> getSubmittedAssignments(
-      {required String teacherId,
-      required String studentId}) {
+      {required String teacherId, required String studentId}) {
     final CollectionReference studentCollection = FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherId)

@@ -16,6 +16,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<FetchStudentDataEvent>(fetchStudentDataEvent);
     on<FetchEventsDataEvent>(fetchEventsDataEvent);
     on<SubmitWorkEvent>(submitWorkEvent);
+    on<LoadingEvent>(loadingEvent);
+    on<FileUploadedEvent>(fileUploadedEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -78,12 +80,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               note: event.note,
               subject: event.subject,
               name: event.name,
+              imageUrl: event.imageUrl,
               studentId: studentId)
-          : await TasksDbFunctionsStudent().submitAssignment( 
+          : await TasksDbFunctionsStudent().submitAssignment(
               teacherId: teacherId,
               note: event.note,
               subject: event.subject,
               name: event.name,
+              imageUrl: event.imageUrl,
               studentId: studentId);
       if (resopnse) {
         emit(SubmitWorkSuccessState());
@@ -93,5 +97,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     } catch (e) {
       emit(SubmitWorkErrorState());
     }
+  }
+
+  FutureOr<void> loadingEvent(LoadingEvent event, Emitter<StudentState> emit) {
+    emit(LoadingState(isCompleted: event.isCompleted));
+  }
+
+  FutureOr<void> fileUploadedEvent(
+      FileUploadedEvent event, Emitter<StudentState> emit) {
+    emit(FileUploadedState(imageUrl: event.imageUrl));
   }
 }

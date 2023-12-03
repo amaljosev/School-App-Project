@@ -51,7 +51,7 @@ class TitleCardWidget extends StatelessWidget {
         isUpdate
             ? const SizedBox()
             : const Center(
-                child: Text('Sign Up for continue',
+                child: Text('Sign Up to continue', 
                     style: TextStyle(
                         color: headingColor,
                         fontSize: 20,

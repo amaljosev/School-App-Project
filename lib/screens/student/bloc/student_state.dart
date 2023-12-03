@@ -41,3 +41,13 @@ final class SubmitWorkSuccessState extends StudentActionState {}
 final class SubmitWorkLoadingState extends StudentActionState {}
 
 final class SubmitWorkErrorState extends StudentActionState {}
+
+final class LoadingState extends StudentActionState {
+  final bool isCompleted;
+  LoadingState({required this.isCompleted});
+}
+
+final class FileUploadedState extends StudentActionState {
+  final String imageUrl;
+  FileUploadedState({required this.imageUrl});
+}
