@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
 
 class StudentDetailsWidget extends StatelessWidget {
   const StudentDetailsWidget({
@@ -16,7 +16,7 @@ class StudentDetailsWidget extends StatelessWidget {
   final String studentId;
   @override
   Widget build(BuildContext context) {
-    final studentName="${students['first_name']} ${students['second_name']}";
+    final studentName = "${students['first_name']} ${students['second_name']}";
     return Padding(
       padding: isTeacher
           ? const EdgeInsets.all(8)
@@ -29,60 +29,17 @@ class StudentDetailsWidget extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                  isTeacher
-                      ? ""
-                      : studentName.toUpperCase(), 
-                  style: appbarTextStyle),
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment:
+                  isTeacher ? MainAxisAlignment.end : MainAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("RollNo ", style: studentProfileTextStyle),
-                    Text('Class Teacher ', style: studentProfileTextStyle),
-                    Text('Age ', style: studentProfileTextStyle),
-                    Text('Class ', style: studentProfileTextStyle),
-                    Text('RegisterNo ', style: studentProfileTextStyle),
-                    Text('ContactNo ', style: studentProfileTextStyle),
-                    Text('Guardian Name ', style: studentProfileTextStyle),
-                    Text('Email ', style: studentProfileTextStyle),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(": ${students['roll_no']}",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['class_Teacher']}",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['age']} ",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['standard']}-${students['division']}",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['register_no']} ",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['contact_no']} ",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['guardian_name']} ",
-                        style: studentProfileTextStyle),
-                    Text(": ${students['email']} ",
-                        style: studentProfileTextStyle),
-                  ],
-                ),
-              ],
-            ),
-            isTeacher
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ButtonSubmissionWidget(
-                        label: 'Edit',
-                        icon: Icons.edit,
-                        onTap: () => Navigator.push(
+                Text(isTeacher ? "" : studentName.toUpperCase(),
+                    style: appbarTextStyle),
+                isTeacher
+                    ? TextButton.icon(
+                        label: const Text('Edit'),
+                        icon: const Icon(Icons.settings_suggest_outlined),
+                        onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ScreenStudentForm(
@@ -90,9 +47,59 @@ class StudentDetailsWidget extends StatelessWidget {
                                   students: students,
                                   studentId: studentId,
                                   isTeacher: isTeacher),
-                            ))),
-                  )
-                : const SizedBox(),
+                            )),
+                      )
+                    : const SizedBox()
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  
+                  children: [
+                    Text("RollNo ", style: studentProfileTextStyle),
+                    kHeight, 
+                    Text('Class Teacher ', style: studentProfileTextStyle),
+                     kHeight, 
+                    Text('Age ', style: studentProfileTextStyle),
+
+                     kHeight, 
+                    Text('Class ', style: studentProfileTextStyle),
+                     kHeight, 
+                    Text('RegisterNo ', style: studentProfileTextStyle),
+                     kHeight, 
+                    Text('ContactNo ', style: studentProfileTextStyle),
+                     kHeight, 
+                    Text('Guardian Name ', style: studentProfileTextStyle),
+                     kHeight, 
+                    Text('Email ', style: studentProfileTextStyle),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(": ${students['roll_no']}",
+                        style: studentProfileTextStyle), kHeight,  
+                    Text(": ${students['class_Teacher']}",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['age']} ",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['standard']}-${students['division']}",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['register_no']} ",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['contact_no']} ",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['guardian_name']} ",
+                        style: studentProfileTextStyle), kHeight, 
+                    Text(": ${students['email']} ",
+                        style: studentProfileTextStyle),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),

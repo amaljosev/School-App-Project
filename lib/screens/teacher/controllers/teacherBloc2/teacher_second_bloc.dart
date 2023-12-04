@@ -146,18 +146,24 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       FetchTaskDatasEvent event, Emitter<TeacherSecondState> emit) async {
     emit(FetchTaskLoadingDatas());
     try {
+      final bool isTeacher = event.isTeacher;
       final bool isHw = event.isHw;
       final studentId = await DbFunctionsTeacher().getStudentIdFromPrefs();
       final teacherId = await DbFunctionsTeacher().getTeacherIdFromPrefs();
       Stream<QuerySnapshot<Object?>> tasksStream = isHw
-          ? DbFunctionsTeacherHomeWork().getHomeWorksDatas(teacherId as String) 
-          : DbFunctionsTeacherHomeWork()
-              .getAssignmentDatas(teacherId as String);
+          ? DbFunctionsTeacherWork().getHomeWorksDatas(teacherId as String)
+          : DbFunctionsTeacherWork().getAssignmentDatas(teacherId as String);
       Stream<QuerySnapshot<Object?>> submittedTaskStream = isHw
-          ? TasksDbFunctionsStudent().getSubmittedHomeWorks(
-              studentId: studentId as String, teacherId: teacherId)
-          : TasksDbFunctionsStudent().getSubmittedAssignments(
-              studentId: studentId as String, teacherId: teacherId);
+          ? isTeacher
+              ? DbFunctionsTeacherWork().getSubmittedWorks(
+                  teacherId: teacherId, subcollection: 'submitted_homeworks')
+              : TasksDbFunctionsStudent().getSubmittedHomeWorks(
+                  studentId: studentId as String, teacherId: teacherId)
+          : isTeacher
+              ? DbFunctionsTeacherWork().getSubmittedWorks(
+                  teacherId: teacherId, subcollection: 'submitted_assignments')
+              : TasksDbFunctionsStudent().getSubmittedAssignments(
+                  studentId: studentId as String, teacherId: teacherId);
 
       emit(FetchTaskSuccessDatas(
           taskData: tasksStream, submittedTasks: submittedTaskStream));
@@ -204,7 +210,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       final String? studentId =
           await DbFunctionsTeacher().getStudentIdFromPrefs();
       Stream<QuerySnapshot<Object?>> formsStream = isTeacher
-          ? DbFunctionsTeacherHomeWork().getDatasFromTeacherSubCollection(
+          ? DbFunctionsTeacherWork().getDatasFromTeacherSubCollection(
               teacherId: id as String, collection: 'events')
           : TasksDbFunctionsStudent().getStudentLeaveDatas(
               teacherId: teacherId as String, studentId: studentId as String);
@@ -220,7 +226,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(FetchLeaveApplicationsLoadingState());
     try {
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      Stream<QuerySnapshot<Object?>> leavesStream = DbFunctionsTeacherHomeWork()
+      Stream<QuerySnapshot<Object?>> leavesStream = DbFunctionsTeacherWork()
           .getDatasFromTeacherSubCollection(
               teacherId: id as String, collection: 'leave_applications');
 

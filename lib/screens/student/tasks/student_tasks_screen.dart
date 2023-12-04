@@ -29,7 +29,7 @@ class _ScreenStudentTasksState extends State<ScreenStudentTasks> {
   void initState() {
     super.initState();
     isHw = widget.taskName == 'Home Work';
-    context.read<TeacherSecondBloc>().add(FetchTaskDatasEvent(isHw: isHw));
+    context.read<TeacherSecondBloc>().add(FetchTaskDatasEvent(isHw: isHw,isTeacher: false));
   }
 
   @override

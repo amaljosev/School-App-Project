@@ -58,7 +58,11 @@ final class EditTeacherEvent extends TeacherSecondActionEvent {
 
 final class FetchTaskDatasEvent extends TeacherSecondActionEvent {
   final bool isHw;
-  FetchTaskDatasEvent({required this.isHw});
+  final bool isTeacher;
+  FetchTaskDatasEvent({
+    required this.isHw,
+    required this.isTeacher,
+  });
 }
 
 final class TeacherNoticeEvent extends TeacherSecondActionEvent {
@@ -75,9 +79,8 @@ final class TeacherNoticeEvent extends TeacherSecondActionEvent {
 }
 
 final class FetchFormDatasEvent extends TeacherSecondActionEvent {
-    final bool isTeacher;
-  FetchFormDatasEvent({required this.isTeacher}); 
+  final bool isTeacher;
+  FetchFormDatasEvent({required this.isTeacher});
 }
-
 
 final class FetchLeaveApplicationsEvent extends TeacherSecondActionEvent {}

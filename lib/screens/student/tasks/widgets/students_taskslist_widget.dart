@@ -51,7 +51,7 @@ class TaskListWidget extends StatelessWidget {
                 child: ListTile(
                   trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start, 
                     children: [
                       Text(
                           isHw

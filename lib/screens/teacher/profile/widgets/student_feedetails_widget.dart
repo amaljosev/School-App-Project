@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/fee_edit_screen.dart';
@@ -71,7 +72,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                       child: Column(
                         children: [
                           const SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
                           Text(
                             'Fee Details',
@@ -89,10 +90,12 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                                       'Total Amount :',
                                       style: contentTextStyle,
                                     ),
+                                    kHeight,
                                     Text(
                                       'Amount Paid :',
                                       style: contentTextStyle,
                                     ),
+                                    kHeight,
                                     Text(
                                       'Amount Pending :',
                                       style: contentTextStyle,
@@ -106,10 +109,12 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                                       ' ₹${feeData['total_amount']}',
                                       style: contentTextStyle,
                                     ),
+                                    kHeight,
                                     Text(
                                       ' ₹${feeData['amount_paid']}',
                                       style: contentTextStyle,
                                     ),
+                                    kHeight,
                                     Text(
                                       ' ₹${feeData['amount_pending']}',
                                       style: contentTextStyle,

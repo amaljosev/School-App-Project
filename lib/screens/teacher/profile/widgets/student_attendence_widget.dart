@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 
 class StudentAttendenceDetailsWidget extends StatelessWidget {
@@ -77,11 +78,11 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                       Text(
                         'Total working Days Completed ',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ),
+                      ), kHeight,  
                       Text(
                         'Total Present Days',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ),
+                      ), kHeight,  
                       Text(
                         'Total Missed Days',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
@@ -94,11 +95,11 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                       Text(
                         ': $totalWorkingDaysCompleted',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ),
+                      ), kHeight, 
                       Text(
                         ': ${studentsMap?['total_present_days']}',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ),
+                      ), kHeight, 
                       Text(
                         ': ${studentsMap?['total_missed_days']}',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
