@@ -7,7 +7,7 @@ class StudentHomeWidget extends StatelessWidget {
   const StudentHomeWidget({
     super.key,
     required this.studentId,
-    required this.students,
+    required this.students, 
   });
   final String studentId;
   final Map<String, dynamic> students;
@@ -64,7 +64,7 @@ class StudentHomeWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                StudentActionWidget(
+                StudentActionWidget( 
                     name: 'Attendance',
                     index: 3,
                     assetPath: "lib/assets/images/notice.webp",

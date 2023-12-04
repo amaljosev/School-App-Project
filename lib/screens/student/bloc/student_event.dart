@@ -26,13 +26,15 @@ final class SubmitWorkEvent extends StudentActionEvent {
   final String note;
   final String name;
   final bool isHw;
+  final String topic;
   final String imageUrl;
   SubmitWorkEvent(
       {required this.subject,
       required this.note,
       required this.name,
       required this.isHw,
-      required this.imageUrl});
+      required this.imageUrl,
+      required this.topic});
 }
 
 final class LoadingEvent extends StudentActionEvent {

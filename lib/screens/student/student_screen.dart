@@ -146,12 +146,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                 ),
               );
             } else {
-              return const SizedBox(
-                child: Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.amber,
-                )),
-              );
+               return LoadingWidget().studentHomeLoading(size); 
             }
           });
     });

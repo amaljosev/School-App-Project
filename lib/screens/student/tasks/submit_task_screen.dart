@@ -13,13 +13,11 @@ import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
-import 'package:schoolapp/screens/student/tasks/widgets/dropdown_widget.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 final studentnoteController = TextEditingController();
-String? dropDownValue;
 bool isLoading = false;
 
 class ScreenSubmitTask extends StatelessWidget {
@@ -27,24 +25,20 @@ class ScreenSubmitTask extends StatelessWidget {
     super.key,
     required this.widget,
     required this.name,
+    required this.subject,
+    required this.topic,
   });
 
   final ScreenStudentTasks widget;
   final String name;
+  final String subject;
+  final String topic;
 
   @override
   Widget build(BuildContext context) {
     String imageUrl = '';
     bool isFileSelected = false;
-    const List<String> subjectList = <String>[
-      'English',
-      'Physics',
-      'Maths',
-      'Chemistry',
-      'Hindi',
-      'Social Science',
-      'Science'
-    ];
+
     return Scaffold(
       appBar: myAppbar('Submit ${widget.taskName}'),
       body: BlocConsumer<StudentBloc, StudentState>(
@@ -88,32 +82,33 @@ class ScreenSubmitTask extends StatelessWidget {
         },
         builder: (context, state) {
           return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
-            listener: (context, state) {
-              if (state is HomeWorkDropDownState) {
-                index = state.index;
-                dropDownValue = state.value;
-              }
-            },
+            listener: (context, state) {},
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        'Select Subject',
-                        style: contentTextStyle,
-                      ),
-                      DropDownStudentWidget(
-                          index: index, subjectList: subjectList),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Subject : $subject',
+                              style: listViewTextStyle,
+                            ),
+                            Text(
+                              'Topic : $topic',
+                              style: listViewTextStyle,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -158,7 +153,8 @@ class ScreenSubmitTask extends StatelessWidget {
                       onTap: () {
                         isLoading
                             ? context.read<StudentBloc>().add(SubmitWorkEvent(
-                                subject: dropDownValue ?? subjectList.first,
+                                topic: topic,
+                                subject: subject,
                                 note: studentnoteController.text,
                                 name: name,
                                 imageUrl: imageUrl,

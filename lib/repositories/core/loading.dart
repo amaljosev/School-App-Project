@@ -43,19 +43,15 @@ class LoadingWidget {
     return Scaffold(
       body: Column(
         children: [
-          Shimmer.fromColors(
-              baseColor: appbarColor,
-              highlightColor: Colors.white,
-              child: Container(
-                color: Colors.black,
-                height: 100,
-                width: double.infinity,
-              )),
+          const SizedBox(
+            height: 100,
+            width: double.infinity,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Shimmer.fromColors(
-                baseColor: appbarColor,
-                highlightColor: Colors.white,
+                baseColor: Colors.indigo.shade100,
+                highlightColor: Colors.indigo.shade50,
                 child: const CircleAvatar(
                   radius: 60,
                 )),
@@ -75,8 +71,8 @@ class LoadingWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Shimmer.fromColors(
-                          baseColor: appbarColor,
-                          highlightColor: Colors.white,
+                          baseColor: Colors.indigo.shade100,
+                          highlightColor: Colors.indigo.shade50,
                           child: Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -86,8 +82,8 @@ class LoadingWidget {
                             width: 120,
                           )),
                       Shimmer.fromColors(
-                          baseColor: appbarColor,
-                          highlightColor: Colors.white,
+                          baseColor: Colors.indigo.shade100,
+                          highlightColor: Colors.indigo.shade50,
                           child: Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -102,8 +98,8 @@ class LoadingWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Shimmer.fromColors(
-                          baseColor: appbarColor,
-                          highlightColor: Colors.white,
+                          baseColor: Colors.indigo.shade100,
+                          highlightColor: Colors.indigo.shade50,
                           child: Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -113,8 +109,8 @@ class LoadingWidget {
                             width: 120,
                           )),
                       Shimmer.fromColors(
-                          baseColor: appbarColor,
-                          highlightColor: Colors.white,
+                          baseColor: Colors.indigo.shade100,
+                          highlightColor: Colors.indigo.shade50,
                           child: Container(
                             decoration: const BoxDecoration(
                                 color: Colors.white,

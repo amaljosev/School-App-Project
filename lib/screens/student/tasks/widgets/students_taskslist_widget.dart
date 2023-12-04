@@ -86,14 +86,18 @@ class TaskListWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ScreenSubmitTask(
-                          widget: widget,
-                          name: name,
-                        ),
-                      )),
+                  onTap: () => isSubmitted
+                      ? null
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ScreenSubmitTask(
+                              topic: topic,
+                              subject: subject,
+                              widget: widget,
+                              name: name,
+                            ),
+                          )),
                 ),
               );
             }

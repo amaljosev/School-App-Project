@@ -88,6 +88,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       final bool isHw = event.isHw;
       final bool resopnse = isHw
           ? await TasksDbFunctionsStudent().submitHomeWork(
+              topic: event.topic,
               teacherId: teacherId,
               note: event.note,
               subject: event.subject,
@@ -95,6 +96,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               imageUrl: event.imageUrl,
               studentId: studentId)
           : await TasksDbFunctionsStudent().submitAssignment(
+              topic: event.topic,
               teacherId: teacherId,
               note: event.note,
               subject: event.subject,

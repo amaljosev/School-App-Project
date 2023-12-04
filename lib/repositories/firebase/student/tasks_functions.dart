@@ -64,10 +64,12 @@ class TasksDbFunctionsStudent {
       required String subject,
       required String name,
       required String imageUrl,
+      required String topic,
       required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
         'subject': subject,
+        'topic': topic,
         'note': note,
         'name': name,
         'image_url': imageUrl,
@@ -96,12 +98,14 @@ class TasksDbFunctionsStudent {
       {required String teacherId,
       required String note,
       required String subject,
+      required String topic,
       required String name,
       required String imageUrl,
       required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
         'subject': subject,
+        'topic': topic,
         'note': note,
         'name': name,
         'image_url': imageUrl,
