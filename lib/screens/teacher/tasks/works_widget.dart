@@ -81,10 +81,10 @@ class _ScreenWorksState extends State<ScreenWorks> {
                       bottom: TabBar(
                         tabs: <Widget>[
                           Tab(
-                            text: 'Given ${widget.workName}s',
+                            text: 'Given ${widget.workName}',
                           ),
                           Tab(
-                            text: 'Submitted ${widget.workName}s',
+                            text: 'Submitted ${widget.workName}', 
                           ),
                         ],
                       ),

@@ -101,3 +101,4 @@ final class DeleteStudentEvent extends TeacherSecondActionEvent {
       required this.password,
       required this.gender});
 }
+

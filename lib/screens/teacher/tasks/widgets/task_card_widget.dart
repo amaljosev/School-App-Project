@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/screens/teacher/tasks/submitted_tasks/submitted_task_screen.dart';
 import '../../../../repositories/core/textstyle.dart';
 
 class TaskCardWidget extends StatelessWidget {
@@ -41,6 +42,15 @@ class TaskCardWidget extends StatelessWidget {
                         : "Started on : $formattedDate",
                 style: TextStyle(
                     color: isSubmitted ? Colors.green : contentColor)),
+            Text(
+                isHw
+                    ? isSubmitted
+                        ? 'Check Now >'
+                        : ""
+                    : isSubmitted
+                        ? "Check Now >"
+                        : "",
+                style: const TextStyle(color: contentColor)),
             isSubmitted
                 ? const SizedBox()
                 : Text(isHw ? "" : "Deadline : $deadline",
@@ -48,13 +58,29 @@ class TaskCardWidget extends StatelessWidget {
           ],
         ),
         title: Text(
-         isSubmitted?name: task, 
+          isSubmitted ? name : task,
           style: listViewTextStyle,
         ),
         subtitle: Text(
           subject,
           style: const TextStyle(color: contentColor),
         ),
+        onTap: () => isSubmitted
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScreenSubmittedTasksView(
+                      formattedDate: formattedDate,
+                      task: task,
+                      subject: subject,
+                      deadline: deadline,
+                      isHw: isHw,
+                      name: name,
+                      image: image,
+                      note: note,
+                      isSubmitted: isSubmitted),
+                ))
+            : null,
       ),
     );
   }
