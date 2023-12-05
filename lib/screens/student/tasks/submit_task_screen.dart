@@ -94,18 +94,20 @@ class ScreenSubmitTask extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Row(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Subject : $subject',
-                              style: listViewTextStyle,
-                            ),
-                            Text(
-                              'Topic : $topic',
-                              style: listViewTextStyle,
-                            ),
-                          ],
+                        Expanded( 
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Subject : $subject',
+                                style: listViewTextStyle,
+                              ),
+                              Text(
+                                'Topic : $topic',
+                                style: listViewTextStyle,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -162,16 +164,6 @@ class ScreenSubmitTask extends StatelessWidget {
                             : null;
                         isLoading = true;
                       }),
-                  Expanded(
-                    child: SizedBox(
-                      height: 500,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) =>
-                            const ListTile(title: Text('data')),
-                        itemCount: 10,
-                      ),
-                    ),
-                  ),
                 ],
               );
             },

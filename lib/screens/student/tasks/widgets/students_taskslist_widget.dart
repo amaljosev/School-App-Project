@@ -42,64 +42,97 @@ class TaskListWidget extends StatelessWidget {
                   isSubmitted ? '${work['note']}' : '${work['task']}';
               String subject = '${work['subject']}';
               String assignmentDeadline = '';
+              DateTime deadLineDate = DateTime.now();
               if (isHw == false && isSubmitted == false) {
-                DateTime date = (work['deadline'] as Timestamp).toDate();
+                deadLineDate = (work['deadline'] as Timestamp).toDate();
                 assignmentDeadline = DateFormat('dd MMM yyyy').format(date);
               }
 
               return Card(
-                child: ListTile(
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start, 
-                    children: [
-                      Text(
-                          isHw
-                              ? formattedDate
-                              : isSubmitted
-                                  ? ''
-                                  : "Started on : $formattedDate",
-                          style: const TextStyle(color: contentColor)),
-                      Text(
-                          isHw
-                              ? ""
-                              : isSubmitted
-                                  ? "subimtted on : $formattedDate"
-                                  : "Deadline : $assignmentDeadline",
-                          style: TextStyle(
-                              color: isSubmitted ? Colors.green : Colors.red)),
-                      Text(isSubmitted ? '' : "Tap to Submit > ",
-                          style: const TextStyle(
-                              color: Colors.green, fontSize: 15)),
-                    ],
-                  ),
-                  title: Text(
-                    topic,
-                    style: listViewTextStyle,
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subject,
-                        style: const TextStyle(color: contentColor),
+                  child: ListTile(
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              isHw
+                                  ? formattedDate
+                                  : isSubmitted
+                                      ? ''
+                                      : "Started on : $formattedDate",
+                              style: const TextStyle(color: contentColor)),
+                          Text(
+                              isHw
+                                  ? ""
+                                  : isSubmitted
+                                      ? "subimtted on : $formattedDate"
+                                      : "Deadline : $assignmentDeadline",
+                              style: TextStyle(
+                                  color:
+                                      isSubmitted ? Colors.green : Colors.red)),
+                          Text(
+                            isSubmitted
+                                ? ''
+                                : isHw
+                                    ? "Tap to Submit"
+                                    : DateTime.now().isBefore(deadLineDate)
+                                        ? "Tap to Submit >"
+                                        : DateTime.now().day ==
+                                                    deadLineDate.day &&
+                                                DateTime.now().month ==
+                                                    deadLineDate.month &&
+                                                DateTime.now().year ==
+                                                    deadLineDate.year
+                                            ? "Tap to Submit"
+                                            : '',
+                            style: TextStyle(
+                                color: Colors.green.shade900, fontSize: 15),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  onTap: () => isSubmitted
-                      ? null
-                      : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ScreenSubmitTask(
-                              topic: topic,
-                              subject: subject,
-                              widget: widget,
-                              name: name,
-                            ),
-                          )),
-                ),
-              );
+                      title: Text(
+                        topic,
+                        style: listViewTextStyle,
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            subject,
+                            style: const TextStyle(color: contentColor),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        isHw
+                            ? !isSubmitted
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ScreenSubmitTask(
+                                        topic: topic,
+                                        subject: subject,
+                                        widget: widget,
+                                        name: name,
+                                      ),
+                                    ),
+                                  )
+                                : null
+                            : null;
+                        !isSubmitted && DateTime.now().isBefore(deadLineDate)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ScreenSubmitTask(
+                                    topic: topic,
+                                    subject: subject,
+                                    widget: widget,
+                                    name: name,
+                                  ),
+                                ),
+                              )
+                            : null;
+                      }));
             }
           }),
         ),
