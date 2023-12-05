@@ -84,3 +84,20 @@ final class FetchFormDatasEvent extends TeacherSecondActionEvent {
 }
 
 final class FetchLeaveApplicationsEvent extends TeacherSecondActionEvent {}
+
+final class PopupMenuButtonEvent extends TeacherSecondActionEvent {
+  final Options item;
+  PopupMenuButtonEvent({required this.item});
+}
+
+final class DeleteStudentEvent extends TeacherSecondActionEvent {
+  final String studentId;
+  final String email;
+  final String password;
+  final String gender;
+  DeleteStudentEvent(
+      {required this.studentId,
+      required this.email,
+      required this.password,
+      required this.gender});
+}

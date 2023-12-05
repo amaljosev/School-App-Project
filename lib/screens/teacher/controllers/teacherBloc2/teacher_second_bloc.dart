@@ -7,6 +7,7 @@ import 'package:schoolapp/repositories/firebase/teacher/attendance_functions.dar
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
 import 'package:schoolapp/repositories/firebase/teacher/teacher_actions_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/task_db_functions.dart';
+import 'package:schoolapp/screens/teacher/profile/widgets/student_details_widget.dart';
 
 part 'teacher_second_event.dart';
 part 'teacher_second_state.dart';
@@ -28,6 +29,8 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<TeacherNoticeEvent>(teacherNoticeEvent);
     on<FetchFormDatasEvent>(fetchFormDatasEvent);
     on<FetchLeaveApplicationsEvent>(fetchLeaveApplicationsEvent);
+    on<PopupMenuButtonEvent>(popupMenuButtonEvent);
+    on<DeleteStudentEvent>(deleteStudentEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -233,6 +236,37 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       emit(FetchLeaveApplicationsSuccessDatas(leaveData: leavesStream));
     } catch (e) {
       emit(FetchLeaveApplicationsErrorState());
+    }
+  }
+
+  FutureOr<void> popupMenuButtonEvent(
+      PopupMenuButtonEvent event, Emitter<TeacherSecondState> emit) {
+    final Options option = event.item;
+    if (option == Options.edit) {
+      emit(PopupMenuButtonEditState());
+    } else {
+      emit(PopupMenuButtonDeleteState());
+    }
+  }
+
+  FutureOr<void> deleteStudentEvent(
+      DeleteStudentEvent event, Emitter<TeacherSecondState> emit) async {
+    emit(DeleteStudentLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final bool responce = await DbFunctionsTeacher().deleteSubCollection(
+          gender: event.gender,
+          email: event.email,
+          password: event.password,
+          teacherId: id as String,
+          studentId: event.studentId);
+      if (responce) {
+        emit(DeleteStudentSuccessState());
+      } else {
+        emit(DeleteStudentErrorState());
+      }
+    } catch (e) {
+      emit(DeleteStudentSuccessState());
     }
   }
 }

@@ -127,4 +127,69 @@ class DbFunctionsTeacher {
       return false;
     }
   }
+
+  Future<bool> deleteSubCollection(
+      {required String teacherId,
+      required String studentId,
+      required String email,
+      required String password,
+      required String gender}) async {
+    try {
+      final CollectionReference studentsCollection = FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('students');
+
+      final QuerySnapshot allUsersQuerySnapshot = await FirebaseFirestore
+          .instance
+          .collection('all_users')
+          .where('email', isEqualTo: email)
+          .get();
+      if (allUsersQuerySnapshot.docs.isNotEmpty) {
+        final DocumentSnapshot studentDoc = allUsersQuerySnapshot.docs.first;
+        final String storedPassword = studentDoc.get('password');
+        if (storedPassword == password) {
+          final String userId = studentDoc.id;
+          final CollectionReference usersCollection =
+              FirebaseFirestore.instance.collection('all_users');
+          await usersCollection.doc(userId).delete();
+        }
+      }
+
+      final QuerySnapshot classQuerySnapshot = await FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('class')
+          .get();
+
+      if (classQuerySnapshot.docs.isNotEmpty) {
+        final String classId = classQuerySnapshot.docs.first.id;
+
+        final CollectionReference classCollection = FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('class');
+
+        await classCollection.doc(classId).update({
+          'total_students': FieldValue.increment(-1),
+        });
+
+        if (gender == 'Gender.male') {
+          await classCollection.doc(classId).update({
+            'total_boys': FieldValue.increment(-1),
+          });
+        } else {
+          await classCollection.doc(classId).update({
+            'total_girls': FieldValue.increment(-1),
+          });
+        }
+
+        await studentsCollection.doc(studentId).delete();
+      }
+      return true;
+    } catch (e) {
+      log("Error deleting subcollection: $e");
+      return false;
+    }
+  }
 }

@@ -34,7 +34,7 @@ class StudentDbFunctions {
         'division': studentData.division,
         'total_present_days': 0,
         'total_missed_days': 0,
-        'last_attendance':false
+        'last_attendance': false
       };
       final bool response = await DbFunctions().addSubCollection(
         map: studentMap,
@@ -194,12 +194,29 @@ class StudentDbFunctions {
             teacherId: teacherId,
             subCollectionName: 'students',
             classId: studentId);
+
+        final QuerySnapshot allUsersQuerySnapshot =
+            await FirebaseFirestore.instance
+                .collection('all_users')
+                .where(
+                  'email',
+                  isEqualTo: studentData.email,
+                )
+                .get();
+        if (allUsersQuerySnapshot.docs.isNotEmpty) {
+          final DocumentSnapshot studentDoc = allUsersQuerySnapshot.docs.first;
+          final String storedPassword = studentDoc.get('password');
+          if (storedPassword == studentData.password) {
+            final String userId = studentDoc.id;
+            final CollectionReference usersCollection =
+                FirebaseFirestore.instance.collection('all_users');
+            await usersCollection.doc(userId).update(studentMap);
+          }
+        }
       }
       return responce;
     } catch (e) {
       return false;
     }
   }
-
-  
 }

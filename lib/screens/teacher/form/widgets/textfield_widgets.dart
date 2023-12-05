@@ -134,7 +134,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                 length: 6,
                 obscureText: false)
             : const Row(),
-        widget.isUpdate  
+        widget.isUpdate
             ? const Row()
             : SignUpTextFieldWidget(
                 icon:
@@ -145,9 +145,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 length: null,
                 obscureText: false),
-         SizedBox( 
-          height:widget.isUpdate  
-            ?0: 20,
+        SizedBox(
+          height: widget.isUpdate ? 0 : 20,
         ),
         SignUpTextFieldWidget(
             icon: const Icon(Icons.phone_iphone_rounded, color: headingColor),
@@ -168,17 +167,20 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
             keyboardType: TextInputType.name,
             length: null,
             obscureText: false),
-        const SizedBox(
-          height: 20,
+        SizedBox(
+          height: widget.isUpdate ? 0 : 20,
         ),
-        SignUpTextFieldWidget(
-            icon: const Icon(Icons.lock_outline_rounded, color: headingColor),
-            fillColor: appbarColor,
-            hintText: 'Password',
-            controller: passwordController,
-            keyboardType: TextInputType.emailAddress,
-            length: null,
-            obscureText: true),
+        widget.isUpdate
+            ? const SizedBox()
+            : SignUpTextFieldWidget(
+                icon:
+                    const Icon(Icons.lock_outline_rounded, color: headingColor),
+                fillColor: appbarColor,
+                hintText: 'Password',
+                controller: passwordController,
+                keyboardType: TextInputType.emailAddress,
+                length: null,
+                obscureText: true),
         const SizedBox(
           height: 20,
         ),
@@ -228,7 +230,8 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
                   teacher: teacher,
                   standard: standard,
                   gender: gender,
-                  isTeacher: widget.isTeacher,division: division);
+                  isTeacher: widget.isTeacher,
+                  division: division);
             }
           },
           style: ElevatedButton.styleFrom(

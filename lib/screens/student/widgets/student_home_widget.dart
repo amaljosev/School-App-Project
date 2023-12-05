@@ -67,7 +67,7 @@ class StudentHomeWidget extends StatelessWidget {
                 StudentActionWidget( 
                     name: 'Attendance',
                     index: 3,
-                    assetPath: "lib/assets/images/notice.webp",
+                    assetPath: "lib/assets/images/s_attendace.webp",
                     studentsMap: students),
               ],
             ),

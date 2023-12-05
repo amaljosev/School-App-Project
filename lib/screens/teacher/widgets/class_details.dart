@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
@@ -104,7 +105,6 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                top: 18.0,
                                 right: 8.0,
                                 left: 20.0,
                               ),
@@ -114,6 +114,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      kHeight,
                                       Text(
                                         "class  ${data['standard']}",
                                         style: appbarTextStyle,
@@ -122,10 +123,12 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         'Class Strength ',
                                         style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         'Boys ',
                                         style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         'Girls ',
                                         style: contentTextStyle,
@@ -134,6 +137,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                         'Today Presents ',
                                         style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         'Today Absents ',
                                         style: contentTextStyle,
@@ -144,28 +148,37 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: Text(''),
+                                      kHeight,
+                                      Text(
+                                        '',
+                                        style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         ': ${data['total_students']}',
                                         style: contentTextStyle,
                                       ),
-                                      Text(
-                                        ': ${data['total_boys']}',
-                                        style: contentTextStyle,
+                                      kHeight,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 3.0),
+                                        child: Text(
+                                          ': ${data['total_boys']}',
+                                          style: contentTextStyle,
+                                        ),
                                       ),
                                       Text(
                                         ': ${data['total_girls']}',
                                         style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         isVisitedToday
                                             ? ': ${attendanceData['total_presents']}'
                                             : ': 0',
                                         style: contentTextStyle,
                                       ),
+                                      kHeight,
                                       Text(
                                         isVisitedToday
                                             ? ': ${attendanceData['total_absents']}'

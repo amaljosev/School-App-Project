@@ -100,3 +100,13 @@ final class FetchLeaveApplicationsLoadingState
     extends TeacherSecondActionState {}
 
 final class FetchLeaveApplicationsErrorState extends TeacherSecondActionState {}
+
+final class PopupMenuButtonEditState extends TeacherSecondActionState {}
+
+final class PopupMenuButtonDeleteState extends TeacherSecondActionState {}
+
+final class DeleteStudentSuccessState extends TeacherSecondActionState {}
+
+final class DeleteStudentLoadingState extends TeacherSecondActionState {}
+
+final class DeleteStudentErrorState extends TeacherSecondActionState {}

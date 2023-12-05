@@ -11,6 +11,7 @@ import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_secon
 class ScreenAttendence extends StatefulWidget {
   const ScreenAttendence({super.key, required this.isVisited});
   final bool isVisited;
+
   @override
   State<ScreenAttendence> createState() => _ScreenAttendenceState();
 }
@@ -31,7 +32,6 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
       listener: (context, state) {
         if (state is FetchAllStudentsSuccessState) {
           studentListStream = state.studentDatas;
-          checkMarks.clear();
         } else if (state is FetchAllStudentsLoadingState) {
           const CircularProgressIndicator();
         } else if (state is FetchAllStudentsErrorState) {
@@ -69,9 +69,9 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                   context, 'Attendance Updated Successfully', Colors.green);
               context.read<TeacherBloc>().add(FetchClassDetailsEvent());
               Navigator.pop(context);
-            } else if (state is UpdateAttendanceSuccessState) { 
+            } else if (state is UpdateAttendanceSuccessState) {
               AlertMessages().alertMessageSnakebar(context,
-                  'Attendance not Updated Please try again', Colors.red); 
+                  'Attendance not Updated Please try again', Colors.red);
             }
           },
           builder: (context, state) {
@@ -85,6 +85,7 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
                     List<DocumentSnapshot> students = snapshot.data!.docs;
+
                     students.sort((a, b) {
                       String nameA = "${a['first_name']} ${a['second_name']}";
                       String nameB = "${b['first_name']} ${b['second_name']}";
@@ -198,6 +199,4 @@ class _ScreenAttendenceState extends State<ScreenAttendence> {
       },
     );
   }
-
- 
 }
