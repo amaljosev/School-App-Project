@@ -43,6 +43,14 @@ class _ScreenWorksState extends State<ScreenWorks> {
         AlertMessages()
             .alertMessageSnakebar(context, 'Please try again', Colors.red);
       }
+      if (state is DeleteEventLoadingState) {
+        const CircularProgressIndicator();
+      } else if (state is DeleteEventSuccessState) {
+        AlertMessages().alertMessageSnakebar(context, 'Deleted', Colors.green);
+      } else if (state is DeleteEventErrorState) {
+        AlertMessages()
+            .alertMessageSnakebar(context, 'Please try again', Colors.red);
+      }
     }, builder: (context, state) {
       return StreamBuilder<QuerySnapshot<Object?>>(
         stream: taskListStream,
@@ -84,7 +92,7 @@ class _ScreenWorksState extends State<ScreenWorks> {
                             text: 'Given ${widget.workName}',
                           ),
                           Tab(
-                            text: 'Submitted ${widget.workName}', 
+                            text: 'Submitted ${widget.workName}',
                           ),
                         ],
                       ),

@@ -48,6 +48,7 @@ dependencies:
   intl: ^0.18.1  
   firebase_storage: ^11.2.8
   image_picker: ^1.0.4
+  flutter_slidable: ^3.0.1
  
 
 

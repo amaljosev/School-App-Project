@@ -106,3 +106,9 @@ final class EventDeleteEvent extends TeacherSecondActionEvent {
   String eventId;
   EventDeleteEvent({required this.eventId});
 }
+
+final class TaskDeleteEvent extends TeacherSecondActionEvent {
+ final String taskId;
+ final bool isHw;
+  TaskDeleteEvent({required this.taskId,required this.isHw});
+}

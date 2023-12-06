@@ -26,6 +26,7 @@ class TaskListWidgetTeacher extends StatelessWidget {
             return Center(child: Text('${widget.workName} are list here'));  
           } else {
             DocumentSnapshot work = tasks[index];
+            final String taskId=work.id;
             DateTime date = (work['date'] as Timestamp).toDate();
             String formattedDate = DateFormat('dd MMM yyyy').format(date);
             String topic = isSubmitted ? '${work['topic']}' : '${work['task']}';
@@ -44,7 +45,7 @@ class TaskListWidgetTeacher extends StatelessWidget {
               assignmentDeadline = DateFormat('dd MMM yyyy').format(date);
             }
 
-            return TaskCardWidget(
+            return TaskCardWidget( 
               isSubmitted: isSubmitted,
               formattedDate: formattedDate,
               task: topic,
@@ -53,7 +54,7 @@ class TaskListWidgetTeacher extends StatelessWidget {
               isHw: isHw,
               image: image,
               name: name,
-              note: note,
+              note: note,taskId: taskId, 
             );
           }
         }),
