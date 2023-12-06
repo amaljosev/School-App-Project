@@ -22,8 +22,8 @@ class TaskListWidgetTeacher extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ListView(
         children: List.generate(tasks.length, (index) {
-          if (tasks.isEmpty) {
-            return Text('Given ${widget.workName} are list here');
+          if (tasks.isEmpty) {  
+            return Center(child: Text('${widget.workName} are list here'));  
           } else {
             DocumentSnapshot work = tasks[index];
             DateTime date = (work['date'] as Timestamp).toDate();

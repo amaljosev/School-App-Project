@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
@@ -35,7 +37,7 @@ class SignUpRequest {
   Future<bool> checkClass(String value, String email) async {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('teachers')
-        .where('class_name', isEqualTo: value) 
+        .where('class_name', isEqualTo: value)
         .get();
     final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
         .collection('teacher_requests')
@@ -53,5 +55,22 @@ class SignUpRequest {
         querySnapshot2.docs.isNotEmpty ||
         teacherMailSnapshot.docs.isNotEmpty ||
         teacherMailSnapshot2.docs.isNotEmpty;
+  }
+
+  Future<bool> checkClassAlradyExist(String standard) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('teachers')
+        .where('class_name', isEqualTo: standard)
+        .get();
+
+    log('${querySnapshot.docs.isNotEmpty}');
+    final QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('teacher_requests')
+        .where('class_name', isEqualTo: standard)
+        .get();
+
+    log('${querySnapshot2.docs.isNotEmpty}');
+
+    return querySnapshot.docs.isNotEmpty || querySnapshot2.docs.isNotEmpty;
   }
 }

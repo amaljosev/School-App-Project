@@ -116,7 +116,7 @@ class _ClassDetailsWidgetState extends State<ClassDetailsWidget> {
                                     children: [
                                       kHeight,
                                       Text(
-                                        "class  ${data['standard']}",
+                                        "class  ${data['standard']}:${data['division']}",
                                         style: appbarTextStyle,
                                       ),
                                       Text(

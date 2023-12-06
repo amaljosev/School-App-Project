@@ -46,17 +46,29 @@ class _ScreenStudentFormState extends State<ScreenStudentForm> {
   void initState() {
     super.initState();
     context.read<TeacherBloc>().add(FetchTeacherDatasEvent());
-    firstNameController.text = widget.students?['first_name'] ?? '';
-    secondNameController.text = widget.students?['second_name'] ?? '';
-    rollNoController.text = widget.students?['roll_no'] ?? '';
-    guardianNameController.text = widget.students?['guardian_name'] ?? '';
-    ageController.text = widget.students?['age'] ?? '';
-    registrationNumberController.text = widget.students?['register_no'] ?? '';
-    emailController.text = widget.students?['email'] ?? '';
-    contactController.text = widget.students?['contact_no'] ?? '';
-    passwordController.text = widget.students?['password'] ?? '';
-    final sex = widget.students?['gender'] ?? '';
-    sex == 'Gender.male' ? gender = Gender.male : Gender.female;
+    if (widget.isUpdate) {
+      firstNameController.text = widget.students?['first_name'] ?? '';
+      secondNameController.text = widget.students?['second_name'] ?? '';
+      rollNoController.text = widget.students?['roll_no'] ?? '';
+      guardianNameController.text = widget.students?['guardian_name'] ?? '';
+      ageController.text = widget.students?['age'] ?? '';
+      registrationNumberController.text = widget.students?['register_no'] ?? '';
+      emailController.text = widget.students?['email'] ?? '';
+      contactController.text = widget.students?['contact_no'] ?? '';
+      passwordController.text = widget.students?['password'] ?? '';
+      final sex = widget.students?['gender'] ?? '';
+      sex == 'Gender.male' ? gender = Gender.male : Gender.female;
+    } else {
+      firstNameController.text = '';
+      secondNameController.text = '';
+      rollNoController.text = '';
+      guardianNameController.text = '';
+      ageController.text = '';
+      registrationNumberController.text = '';
+      emailController.text = '';
+      contactController.text = '';
+      passwordController.text = '';
+    }
   }
 
   @override

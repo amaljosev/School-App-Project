@@ -38,6 +38,12 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
       passwordController.text = widget.teacherData!.password;
       divisionController.text = widget.teacherData!.division;
       value = widget.teacherData!.className;
+    } else {
+      nameController.text = "";
+      emailController.text = "";
+      contactController.text = "";
+      passwordController.text = "";
+      divisionController.text = "";
     }
   }
 
@@ -84,10 +90,11 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                     context, 'Successfully Updated', Colors.green);
                 isLoading = false;
                 Navigator.pop(context);
-              } else if (state is TeacherUpdatedErrorState) {
-                AlertMessages().alertMessageSnakebar(context,
-                    'Something went wrong, Please try again', Colors.red);
+              } else if (state is TeacherUpdatedClassExistState) {  
+                AlertMessages().alertMessageSnakebar(
+                    context, 'Class already exist', Colors.red);
                 isLoading = false;
+                 Navigator.pop(context); 
               }
             },
             builder: (context, state) {
@@ -155,7 +162,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       hintText: 'Division',
                       controller: divisionController,
                       keyboardType: TextInputType.name,
-                      length: 1, 
+                      length: 1,
                       obscureText: false,
                     ),
                     const SizedBox(

@@ -122,6 +122,41 @@ class DbFunctionsTeacher {
       };
       final resopnse = await DbFunctions().updateSingleCollection(
           map: teacherMap, collectionName: 'teachers', teacherId: teacherId);
+      final QuerySnapshot classQuerySnapshot = await FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('class')
+          .get();
+      if (classQuerySnapshot.docs.isNotEmpty) {
+        final String classId = classQuerySnapshot.docs.first.id;
+
+        final CollectionReference classCollection = FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(teacherId)
+            .collection('class');
+
+        await classCollection.doc(classId).update({
+          'standard': teacherObject.className,
+          'division': teacherObject.division,
+        });
+      }
+      final QuerySnapshot studentsQuerySnapshot = await FirebaseFirestore
+          .instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('students')
+          .get();
+      final CollectionReference studentsCollection = FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('students');
+
+      for (QueryDocumentSnapshot studentDoc in studentsQuerySnapshot.docs) {
+        await studentsCollection.doc(studentDoc.id).update({
+          'standard': teacherObject.className,
+          'division': teacherObject.division,
+        }); 
+      }
       return resopnse;
     } catch (e) {
       return false;

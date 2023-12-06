@@ -61,3 +61,5 @@ final class TeacherUpdatedSuccessState extends WelcomeActionState {}
 final class TeacherUpdatedLoadingState extends WelcomeActionState {}
 
 final class TeacherUpdatedErrorState extends WelcomeActionState {}
+
+final class TeacherUpdatedClassExistState extends WelcomeActionState {} 

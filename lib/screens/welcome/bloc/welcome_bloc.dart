@@ -108,12 +108,20 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
     emit(TeacherUpdatedLoadingState());
     try {
       final String? id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      final bool response = await DbFunctionsTeacher()
-          .updateTeacherData(event.teacherData, id as String);
-      if (response) {
-        emit(TeacherUpdatedSuccessState());
+      final className =
+          event.teacherData.className + event.teacherData.division;
+      final classExist = await SignUpRequest().checkClassAlradyExist(
+          className);
+      if (classExist) {
+        emit(TeacherUpdatedClassExistState());
       } else {
-        emit(TeacherUpdatedErrorState());
+        final bool response = await DbFunctionsTeacher()
+            .updateTeacherData(event.teacherData, id as String);
+        if (response) {
+          emit(TeacherUpdatedSuccessState());
+        } else {
+          emit(TeacherUpdatedErrorState());
+        }
       }
     } catch (e) {
       emit(TeacherUpdatedErrorState());
