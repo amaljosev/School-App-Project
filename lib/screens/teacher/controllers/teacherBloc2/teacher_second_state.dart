@@ -111,3 +111,8 @@ final class DeleteStudentLoadingState extends TeacherSecondActionState {}
 
 final class DeleteStudentErrorState extends TeacherSecondActionState {}
 
+final class DeleteEventSuccessState extends TeacherSecondActionState {}
+
+final class DeleteEventLoadingState extends TeacherSecondActionState {}
+
+final class DeleteEventErrorState extends TeacherSecondActionState {}

@@ -102,3 +102,7 @@ final class DeleteStudentEvent extends TeacherSecondActionEvent {
       required this.gender});
 }
 
+final class EventDeleteEvent extends TeacherSecondActionEvent {
+  String eventId;
+  EventDeleteEvent({required this.eventId});
+}

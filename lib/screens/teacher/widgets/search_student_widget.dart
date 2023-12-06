@@ -15,6 +15,7 @@ class ScreenSearchStudent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    searchController.text=''; 
     return BlocConsumer<TeacherBloc, TeacherState>(
       listener: (context, state) {
         if (state is SearchStudentScreenState) {
@@ -81,21 +82,26 @@ class ScreenSearchStudent extends StatelessWidget {
                 Expanded(
                   child: SizedBox(
                     child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        var studentMap =
-                            students[index].data() as Map<String, dynamic>;
-                        final studentFee =
-                            students[index].reference.collection('student_fee');
-                        final String studentId = students[index].id;
+                      itemBuilder: (context, index) { 
+                        var studentMap = filteredStudents[index].data()
+                            as Map<String, dynamic>;
+                        final studentFee = filteredStudents[index]
+                            .reference
+                            .collection('student_fee');
+                        final String studentId = filteredStudents[index].id;
+
                         return ListTile(
                           title: Text(
-                              "${filteredStudents[index]['first_name']} ${filteredStudents[index]['second_name']}",
-                              style: contentTextStyle),
+                            "${filteredStudents[index]['first_name']} ${filteredStudents[index]['second_name']}",
+                            style: contentTextStyle,
+                          ),
                           onTap: () => context.read<TeacherBloc>().add(
-                              StudentProfileEvent(
+                                StudentProfileEvent(
                                   studentId: studentId,
                                   students: studentMap,
-                                  studentFee: studentFee)),
+                                  studentFee: studentFee,
+                                ),
+                              ),
                         );
                       },
                       separatorBuilder: (context, index) => const Divider(),

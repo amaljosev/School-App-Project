@@ -31,6 +31,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     on<FetchLeaveApplicationsEvent>(fetchLeaveApplicationsEvent);
     on<PopupMenuButtonEvent>(popupMenuButtonEvent);
     on<DeleteStudentEvent>(deleteStudentEvent);
+    on<EventDeleteEvent>(eventDeleteEvent);
   }
 
   FutureOr<void> checkBoxTapEvent(
@@ -267,6 +268,26 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
       }
     } catch (e) {
       emit(DeleteStudentSuccessState());
+    }
+  }
+
+  FutureOr<void> eventDeleteEvent(
+      EventDeleteEvent event, Emitter<TeacherSecondState> emit) async {
+    emit(DeleteEventLoadingState());
+    try {
+      id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+      final bool resopnse = await TaskTeacherDbFunctions().deleteSubCollection(
+          collection: 'teachers',
+          collectionId: id as String,
+          subCollection: 'events', 
+          subCollectionId: event.eventId); 
+      if (resopnse) {
+        emit(DeleteEventSuccessState());
+      } else {
+        emit(DeleteEventErrorState());
+      }
+    } catch (e) {
+      emit(DeleteEventErrorState());
     }
   }
 }
