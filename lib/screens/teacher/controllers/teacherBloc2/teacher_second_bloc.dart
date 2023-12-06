@@ -277,7 +277,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(DeleteEventLoadingState());
     try {
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      final bool resopnse = await TaskTeacherDbFunctions().deleteSubCollection(
+      final bool resopnse = await TaskTeacherDbFunctions().deleteSubCollection( 
           collection: 'teachers',
           collectionId: id as String,
           subCollection: 'events',

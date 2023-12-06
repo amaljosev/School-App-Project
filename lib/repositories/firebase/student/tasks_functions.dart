@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/repositories/firebase/database_functions.dart';
 
@@ -154,5 +156,28 @@ class TasksDbFunctionsStudent {
     final studentsStream = studentCollection.snapshots();
 
     return studentsStream;
+  }
+
+  Future<bool> deleteStudentTask({ 
+    required String teacherId,
+    required String studentId,
+    required String collection,
+    required String taskId,
+  }) async {
+    try {
+      final CollectionReference eventCollection = FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection('students')
+          .doc(studentId)
+          .collection(collection);
+
+      await eventCollection.doc(taskId).delete();
+
+      return true;
+    } catch (e) {
+      log("Error deleting subcollection: $e");
+      return false;
+    }
   }
 }

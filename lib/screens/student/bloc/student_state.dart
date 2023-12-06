@@ -18,7 +18,7 @@ final class StudentActionsState extends StudentActionState {
   final Map<String, dynamic>? studentsMap;
   StudentActionsState(
       {required this.index,
-      required this.name, 
+      required this.name,
       required this.totalWorkingDaysCompleted,
       required this.studentsMap});
 }
@@ -57,3 +57,11 @@ final class FileUploadedState extends StudentActionState {
   final String imageUrl;
   FileUploadedState({required this.imageUrl});
 }
+
+final class LogOutState extends StudentActionState {}
+
+final class DeleteTaskSucessState extends StudentActionState {}
+
+final class DeleteTaskErrorState extends StudentActionState {}
+
+final class DeleteTaskLoadingState extends StudentActionState {}

@@ -46,3 +46,11 @@ final class FileUploadedEvent extends StudentActionEvent {
   final String imageUrl;
   FileUploadedEvent({required this.imageUrl});
 }
+
+final class LogOutEvent extends StudentActionEvent {}
+
+final class DeleteTaskEvent extends StudentActionEvent {
+  final String taskId;
+  final bool isHw;
+  DeleteTaskEvent({required this.taskId, required this.isHw});
+}

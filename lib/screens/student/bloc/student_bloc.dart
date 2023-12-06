@@ -18,6 +18,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<SubmitWorkEvent>(submitWorkEvent);
     on<LoadingEvent>(loadingEvent);
     on<FileUploadedEvent>(fileUploadedEvent);
+    on<LogOutEvent>(logOutEvent);
+    on<DeleteTaskEvent>(deleteTaskEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -120,5 +122,36 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   FutureOr<void> fileUploadedEvent(
       FileUploadedEvent event, Emitter<StudentState> emit) {
     emit(FileUploadedState(imageUrl: event.imageUrl));
+  }
+
+  FutureOr<void> logOutEvent(LogOutEvent event, Emitter<StudentState> emit) {
+    emit(LogOutState());
+  }
+
+  FutureOr<void> deleteTaskEvent(
+      DeleteTaskEvent event, Emitter<StudentState> emit) async {
+    emit(DeleteTaskLoadingState());
+    final studentId =
+        await DbFunctionsTeacher().getStudentIdFromPrefs() as String;
+    final teacherId =
+        await DbFunctionsTeacher().getTeacherIdFromPrefs() as String;
+    final bool isHw = event.isHw;
+    final bool resopnse = isHw
+        ? await TasksDbFunctionsStudent().deleteStudentTask(
+            teacherId: teacherId,
+            studentId: studentId,
+            collection: 'submitted_homeworks',
+            taskId: event.taskId)
+        : await TasksDbFunctionsStudent().deleteStudentTask(
+            teacherId: teacherId,
+            studentId: studentId,
+            collection: 'submitted_assignments',
+            taskId: event.taskId);
+    
+    if (resopnse) {
+      emit(DeleteTaskSucessState());
+    } else {
+      emit(DeleteTaskErrorState());
+    }
   }
 }

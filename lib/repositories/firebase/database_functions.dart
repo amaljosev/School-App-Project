@@ -161,5 +161,4 @@ class DbFunctions {
       return false;
     }
   }
-  
 }

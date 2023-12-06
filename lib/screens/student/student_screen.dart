@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
+import 'package:schoolapp/screens/student/settings/settings_widget.dart';
 import 'package:schoolapp/screens/student/widgets/attendance_popup.dart';
 import 'package:schoolapp/screens/student/widgets/fee_popup.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
@@ -42,6 +44,9 @@ class _ScreenStudentState extends State<ScreenStudent> {
         id = state.studentId;
         totalWorkingDays = state.totalWorkingDaysCompleted;
         studentstream = state.studentstream;
+      }
+      if (state is LogOutState) {
+        logOut(context);
       }
 
       if (state is StudentActionsState) {
@@ -99,6 +104,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                     StudentHomeWidget(studentId: id, students: studentData),
                     ScreenSchoolEvents(isTeacher: false, name: name),
                     const ScreenEventsStudent(),
+                    const SettingsWidgetStudent(),
                   ],
                 ),
                 bottomNavigationBar: NavigationBar(
@@ -142,11 +148,22 @@ class _ScreenStudentState extends State<ScreenStudent> {
                       ),
                       label: 'Notice',
                     ),
+                    NavigationDestination(
+                      icon: Icon(
+                        Icons.settings_outlined,
+                        color: headingColor,
+                      ),
+                      selectedIcon: Icon(
+                        Icons.settings,
+                        color: headingColor,
+                      ),
+                      label: 'Notice',
+                    ),
                   ],
                 ),
               );
             } else {
-               return LoadingWidget().studentHomeLoading(size); 
+              return LoadingWidget().studentHomeLoading(size);
             }
           });
     });
