@@ -23,15 +23,15 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
     final String totalpresentDays = "${studentsMap?['total_present_days']}";
     final int totalPresentDays = int.parse(totalpresentDays);
     return SingleChildScrollView(
-      child: Container(
+      child: Container( 
         height: isTeacher
             ? MediaQuery.of(context).orientation == Orientation.landscape
                 ? 0.9 * MediaQuery.of(context).size.height
-                : 0.4 * MediaQuery.of(context).size.height
+                : 0.5 * MediaQuery.of(context).size.height
             : 0.4 * MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).orientation == Orientation.landscape
             ? 0.5 * MediaQuery.of(context).size.width
-            : 0.4 * MediaQuery.of(context).size.height,
+            : 0.8 * MediaQuery.of(context).size.width,   
         decoration: BoxDecoration(
             color:isTeacher? appbarColor:null, 
             borderRadius: const BorderRadius.all(Radius.circular(5))),

@@ -59,7 +59,7 @@ class ScreenStudentProfileTeacher extends StatelessWidget {
                   height:
                       MediaQuery.of(context).orientation == Orientation.landscape
                           ? 0.9 * MediaQuery.of(context).size.height
-                          : 0.40 * MediaQuery.of(context).size.height,
+                          : 0.50 * MediaQuery.of(context).size.height, 
                   child: ListView(scrollDirection: Axis.horizontal, children: [
                     StudentAttendenceDetailsWidget(
                       isTeacher: true, 

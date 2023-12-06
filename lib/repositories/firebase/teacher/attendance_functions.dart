@@ -47,14 +47,13 @@ class AttendenceFunctions {
               totalPresentDays += 1;
               totalAbsentDays -= 1;
               totalPresentDaysCounter += 1;
-              totalAbsentDaysCounter != 0 ? totalAbsentDaysCounter -= 1 : 0;
-            
+              totalAbsentDaysCounter >= 0 ? totalAbsentDaysCounter -= 1 : 0;
             }
           } else {
             if (isPresent == false) {
               totalPresentDays -= 1;
               totalAbsentDays += 1;
-              totalPresentDaysCounter != 0 ? totalPresentDaysCounter -= 1 : 0;
+              totalPresentDaysCounter >= 0 ? totalPresentDaysCounter -= 1 : 0;
               totalAbsentDaysCounter += 1;
             }
           }
