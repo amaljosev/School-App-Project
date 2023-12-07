@@ -12,8 +12,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<TeacherCardTapEvent>(teacherCardTapEvent);
     on<RequestTapEvent>(requestTapEvent);
     on<FloatingActionButtonTapEvent>(floatingActionButtonTapEvent);
-    on<ShowAlertEvent>(showAlertEvent);
-    on<CheckBoxTapEvent>(checkBoxTapEvent);
     on<LogOutEvent>(logOutEvent);
   }
 
@@ -40,16 +38,6 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   FutureOr<void> floatingActionButtonTapEvent(
       FloatingActionButtonTapEvent event, Emitter<AdminState> emit) {
     emit(SettingsState());
-  }
-
-  FutureOr<void> checkBoxTapEvent(
-      CheckBoxTapEvent event, Emitter<AdminState> emit) {
-    emit(CheckboxSelectedState(isSelected: event.isSelected));
-  }
-
-  FutureOr<void> showAlertEvent(
-      ShowAlertEvent event, Emitter<AdminState> emit) {
-    emit(ShowWarningPopUpState());
   }
 
   FutureOr<void> logOutEvent(LogOutEvent event, Emitter<AdminState> emit) {

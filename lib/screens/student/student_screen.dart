@@ -157,7 +157,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                         Icons.settings,
                         color: headingColor,
                       ),
-                      label: 'Notice',
+                      label: 'Settings', 
                     ),
                   ],
                 ),

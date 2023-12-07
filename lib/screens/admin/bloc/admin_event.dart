@@ -25,11 +25,6 @@ final class LogOutEvent extends AdminActionEvent {}
 
 final class FloatingActionButtonTapEvent extends AdminActionEvent {}
 
-final class ShowAlertEvent extends AdminActionEvent {}
 
-final class CheckBoxTapEvent extends AdminActionEvent {
-  final bool? isSelected;
-  CheckBoxTapEvent({required this.isSelected});
-}
 
 final class AcadamicYearCompleteEvent extends AdminActionEvent {}

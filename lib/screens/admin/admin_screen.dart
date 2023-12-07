@@ -6,6 +6,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/firebase/admin/signup_admin_functions.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/admin/settings/settings_admin.dart';
+import 'package:schoolapp/screens/admin/widgets/all_teacherslist.dart';
 import 'package:schoolapp/screens/admin/widgets/classcard_widget.dart';
 import 'package:schoolapp/screens/admin/widgets/teachercard_widget.dart';
 import 'package:schoolapp/screens/requests/admin_requests.dart';
@@ -76,37 +77,57 @@ class ScreenAdmin extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Teachers',
-                    style: GoogleFonts.tiltNeon(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: headingColor)),
-              ),
-              StreamBuilder(
-                stream: AdminActions().getTeacherDatas(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox(
-                        height: 250,
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (snapshot.hasData) {
-                    List teachersList = snapshot.data!.docs;
-                    if (teachersList.isNotEmpty) {
-                      return TeacherCardWidget(teachersList: teachersList);
-                    } else {
-                      return const SizedBox(
-                        height: 250,
-                        child: Center(
-                            child: Text('No Teachers has Registered yet')),
-                      );
-                    }
-                  } else {
-                    return const SizedBox(
-                      height: 250,
-                      child: Text('Empty'),
-                    );
-                  }
-                },
+                child: StreamBuilder(
+                    stream: AdminActions().getTeacherDatas(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                            height: 250,
+                            child: Center(child: CircularProgressIndicator()));
+                      } else if (snapshot.hasData) {
+                        List teachersList = snapshot.data!.docs;
+                        if (teachersList.isNotEmpty) {
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Teachers',
+                                      style: GoogleFonts.tiltNeon(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: headingColor)),
+                                  GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScreenAllTeachers(
+                                                  teachersList: teachersList),
+                                        )),
+                                    child: const Text('All Teachers >',
+                                        style: TextStyle(color: contentColor)),
+                                  ),
+                                ],
+                              ),
+                              TeacherCardWidget(teachersList: teachersList),
+                            ],
+                          );
+                        } else {
+                          return const SizedBox(
+                            height: 250,
+                            child: Center(
+                                child: Text('No Teachers has Registered yet')),
+                          );
+                        }
+                      } else {
+                        return const SizedBox(
+                          height: 250,
+                          child: Text('Empty'),
+                        );
+                      }
+                    }),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
