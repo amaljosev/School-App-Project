@@ -51,6 +51,12 @@ final class LogOutEvent extends StudentActionEvent {}
 
 final class DeleteTaskEvent extends StudentActionEvent {
   final String taskId;
+  final String note;
+  final String studentName;
   final bool isHw;
-  DeleteTaskEvent({required this.taskId, required this.isHw});
+  DeleteTaskEvent(
+      {required this.taskId,
+      required this.isHw,
+      required this.note,
+      required this.studentName});
 }

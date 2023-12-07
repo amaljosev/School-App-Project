@@ -138,16 +138,20 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     final bool isHw = event.isHw;
     final bool resopnse = isHw
         ? await TasksDbFunctionsStudent().deleteStudentTask(
+            note: event.note,
+            studentName: event.studentName,
             teacherId: teacherId,
             studentId: studentId,
             collection: 'submitted_homeworks',
             taskId: event.taskId)
         : await TasksDbFunctionsStudent().deleteStudentTask(
+            note: event.note,
+            studentName: event.studentName,
             teacherId: teacherId,
             studentId: studentId,
             collection: 'submitted_assignments',
             taskId: event.taskId);
-    
+
     if (resopnse) {
       emit(DeleteTaskSucessState());
     } else {

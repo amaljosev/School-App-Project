@@ -38,6 +38,7 @@ class TaskListWidget extends StatelessWidget {
               return Text('Given ${widget.taskName} are list here');
             } else {
               DocumentSnapshot work = tasks[index];
+              final String note =isSubmitted? "${work['note']}":'';
               final String taskId = work.id;
               DateTime date = (work['date'] as Timestamp).toDate();
               String formattedDate = DateFormat('dd MMM yyyy').format(date);
@@ -59,7 +60,10 @@ class TaskListWidget extends StatelessWidget {
                             onPressed: (context) => context
                                 .read<StudentBloc>()
                                 .add(DeleteTaskEvent(
-                                    taskId: taskId, isHw: isHw)),
+                                    taskId: taskId,
+                                    isHw: isHw,
+                                    note: note,
+                                    studentName: name)),
                             backgroundColor: Colors.red,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),

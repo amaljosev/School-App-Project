@@ -158,21 +158,46 @@ class TasksDbFunctionsStudent {
     return studentsStream;
   }
 
-  Future<bool> deleteStudentTask({ 
+  Future<bool> deleteStudentTask({
     required String teacherId,
     required String studentId,
     required String collection,
     required String taskId,
+    required String studentName,
+    required String note,
   }) async {
     try {
-      final CollectionReference eventCollection = FirebaseFirestore.instance
+      final CollectionReference taskCollection = FirebaseFirestore.instance
           .collection('teachers')
           .doc(teacherId)
           .collection('students')
           .doc(studentId)
           .collection(collection);
+      final CollectionReference teacherTaskCollection = FirebaseFirestore
+          .instance
+          .collection('teachers')
+          .doc(teacherId)
+          .collection(collection);
 
-      await eventCollection.doc(taskId).delete();
+      final QuerySnapshot teacherTaskQuerySnapshot =
+          await FirebaseFirestore.instance
+              .collection('teachers')
+              .doc(teacherId)
+              .collection(collection)
+              .where(
+                'name',
+                isEqualTo: studentName,
+              )
+              .get();
+      if (teacherTaskQuerySnapshot.docs.isNotEmpty) {
+        final DocumentSnapshot studentDoc = teacherTaskQuerySnapshot.docs.first;
+        final String storedNote = studentDoc.get('note');
+        if (storedNote == note) {
+          final String teacherTaskId = studentDoc.id;
+          await teacherTaskCollection.doc(teacherTaskId).delete();
+          await taskCollection.doc(taskId).delete();
+        }
+      }
 
       return true;
     } catch (e) {
