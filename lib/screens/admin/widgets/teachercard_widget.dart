@@ -63,25 +63,54 @@ class TeacherCardWidget extends StatelessWidget {
                               color: scaffoldColor,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(5))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  'Name : $teacherName',
-                                  style: const TextStyle(
-                                      color: headingColor,
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top:10.0), 
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                     
+                                    Flexible(
+                                      child: Text( 
+                                        'Name',
+                                        style: TextStyle(
+                                            color: headingColor,
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Class",
+                                      style: TextStyle(
+                                          color: headingColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                "Class : ${data['class']}-${data['division']}",
-                                style: const TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        ' : $teacherName',
+                                        style: const TextStyle(
+                                            color: headingColor,
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      " : ${data['class']}-${data['division']}",
+                                      style: const TextStyle(
+                                          color: headingColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       )),
