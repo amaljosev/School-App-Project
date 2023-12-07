@@ -41,6 +41,7 @@ class ScreenAllTeachers extends StatelessWidget {
                 itemCount: teachersList.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot document = teachersList[index];
+                  final String teacherId = document.id;
                   Map<String, dynamic> data =
                       document.data() as Map<String, dynamic>;
                   final standard = data["class"];
@@ -64,9 +65,9 @@ class ScreenAllTeachers extends StatelessWidget {
                           child:
                               Text('${data["name"]}', style: contentTextStyle),
                         ),
-                        onTap: () => context
-                            .read<AdminBloc>()
-                            .add(TeacherCardTapEvent(teacherData: data)), 
+                        onTap: () => context.read<AdminBloc>().add(
+                            TeacherCardTapEvent(
+                                teacherData: data, teacherId: teacherId)),
                       ),
                     ),
                   );

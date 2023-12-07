@@ -161,4 +161,21 @@ class DbFunctions {
       return false;
     }
   }
+
+  Future<bool> deleteCollection({
+    required String collection,
+    required String collectionId,
+  }) async {
+    try {
+      final CollectionReference eventCollection =
+          FirebaseFirestore.instance.collection(collection);
+
+      await eventCollection.doc(collectionId).delete();
+
+      return true;
+    } catch (e) {
+      log("Error deleting subcollection: $e");
+      return false;
+    }
+  }
 }

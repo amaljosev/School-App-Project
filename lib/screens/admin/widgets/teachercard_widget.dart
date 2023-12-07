@@ -23,10 +23,10 @@ class TeacherCardWidget extends StatelessWidget {
           DocumentSnapshot document = teachersList[index];
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
           String teacherName = data['name'];
+          final String teacherId = document.id;
           return GestureDetector(
-            onTap: () => context
-                .read<AdminBloc>()
-                .add(TeacherCardTapEvent(teacherData: data)),
+            onTap: () => context.read<AdminBloc>().add(
+                TeacherCardTapEvent(teacherData: data, teacherId: teacherId)),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Stack(

@@ -14,7 +14,7 @@ class ScreenAdminResquest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Requests'),  
+      appBar: myAppbar('Requests'),
       body: BlocConsumer<AdminRequestBloc, AdminRequestState>(
         listenWhen: (previous, current) => current is AdminRequestActionState,
         buildWhen: (previous, current) => current is! AdminRequestActionState,
@@ -24,6 +24,8 @@ class ScreenAdminResquest extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScreenTeacherProfileAdmin(
+                    isRequest: true,
+                    teacherId: null,
                     teacherData: state.teacherData,
                   ),
                 ));

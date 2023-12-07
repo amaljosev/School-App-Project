@@ -24,6 +24,8 @@ class ScreenAdminResquest extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScreenTeacherProfileAdmin(
+                    isRequest: true,
+                    teacherId: null,
                     teacherData: state.teacherData,
                   ),
                 ));

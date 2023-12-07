@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/firebase/admin/admin_db_functions.dart';
+import 'package:schoolapp/repositories/firebase/database_functions.dart';
 
 part 'admin_event.dart';
 part 'admin_state.dart';
@@ -13,6 +14,8 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<RequestTapEvent>(requestTapEvent);
     on<FloatingActionButtonTapEvent>(floatingActionButtonTapEvent);
     on<LogOutEvent>(logOutEvent);
+    on<ShowDeleteAlertEvent>(showDeleteAlertEvent);
+    on<DeleteTeacherEvent>(deleteTeacherEvent);
   }
 
   FutureOr<void> studentCardTapEvent(
@@ -27,7 +30,8 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   FutureOr<void> teacherCardTapEvent(
       TeacherCardTapEvent event, Emitter<AdminState> emit) {
-    emit(TeacherCardTapState(teacherData: event.teacherData));
+    emit(TeacherCardTapState(
+        teacherData: event.teacherData, teacherId: event.teacherId));
   }
 
   FutureOr<void> requestTapEvent(
@@ -42,5 +46,22 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   FutureOr<void> logOutEvent(LogOutEvent event, Emitter<AdminState> emit) {
     emit(LogOutState());
+  }
+
+  FutureOr<void> showDeleteAlertEvent(
+      ShowDeleteAlertEvent event, Emitter<AdminState> emit) {
+    emit(ShowDialogState());
+  }
+
+  FutureOr<void> deleteTeacherEvent(
+      DeleteTeacherEvent event, Emitter<AdminState> emit) async {
+    emit(DeleteTeacherLoadingState());
+    final bool response = await DbFunctions().deleteCollection(
+        collection: 'teachers', collectionId: event.teacherId);
+    if (response) {
+      emit(DeleteTeacherSuccessState());
+    } else {
+      emit(DeleteTeacherErrorState());
+    }
   }
 }

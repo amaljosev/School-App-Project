@@ -17,7 +17,7 @@ class ScreenSettingsAdmin extends StatelessWidget {
           listener: (context, state) {
             
             if (state is LogOutState) {
-              logOut(context);
+              adminLogOut(context); 
             }
           },
           builder: (context, state) {
@@ -38,5 +38,4 @@ class ScreenSettingsAdmin extends StatelessWidget {
         ));
   }
 }
-
 

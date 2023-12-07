@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:schoolapp/screens/admin/admin_screen.dart';
 import 'package:schoolapp/screens/student/student_screen.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
@@ -96,32 +97,37 @@ class _ScreenSplashState extends State<ScreenSplash> {
   Future<void> checkUserSignedUp() async {
     final sharedPrefsForLogin = await SharedPreferences.getInstance();
     final userSignedUp = sharedPrefsForLogin.getBool('user_login');
-    log('$userSignedUp');
-        log('$userSignedUp');
+    final sharedPrefsIsTeacher = await SharedPreferences.getInstance();
+    final isTeacher = sharedPrefsIsTeacher.getBool('is_teacher');
+    final sharedPrefsAdmin = await SharedPreferences.getInstance();
+    final isAdmin = sharedPrefsAdmin.getBool('admin_login');
 
-    log('$userSignedUp');
-
-    if (userSignedUp == null || userSignedUp == false) { 
-       
+    if (userSignedUp == null || userSignedUp == false) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const ScreenFirst()),
       );
     } else {
-      final sharedPrefsIsTeacher = await SharedPreferences.getInstance();
-      final isTeacher = sharedPrefsIsTeacher.getBool('is_teacher');
-log('$isTeacher');
-        log('$isTeacher'); 
-      if (isTeacher != null && isTeacher) {
+      if (isAdmin != null && isAdmin) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ScreenAdmin()),
+        );
+      } else if (isTeacher != null && isTeacher) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const ScreenTeacher()),
         );
-      } else {
+      } else if(isTeacher==false){
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const ScreenStudent()),
         );
+      }else{
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ScreenFirst()), 
+      );
       }
     }
   }

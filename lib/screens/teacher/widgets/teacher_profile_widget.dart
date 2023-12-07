@@ -45,7 +45,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
         return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
           listener: (context, state) {
             if (state is LogoutState) {
-              logOut(context);
+              teacherLogOut(context); 
             }
             if (state is EditTeacherSuccessState) {
               Navigator.push(

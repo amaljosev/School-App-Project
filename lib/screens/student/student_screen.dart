@@ -46,7 +46,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
         studentstream = state.studentstream;
       }
       if (state is LogOutState) {
-        logOut(context);
+        studentLogOut(context);
       }
 
       if (state is StudentActionsState) {
@@ -157,7 +157,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                         Icons.settings,
                         color: headingColor,
                       ),
-                      label: 'Settings', 
+                      label: 'Settings',
                     ),
                   ],
                 ),

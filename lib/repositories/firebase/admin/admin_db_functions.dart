@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminDb {
@@ -10,4 +11,5 @@ class AdminDb {
     final studentsStream = studentCollection.snapshots(); 
     return studentsStream;   
   }
+  
 }

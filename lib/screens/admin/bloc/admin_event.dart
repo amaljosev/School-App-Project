@@ -15,8 +15,9 @@ final class StudentCardTapEvent extends AdminActionEvent {
 }
 
 final class TeacherCardTapEvent extends AdminActionEvent {
+  final String teacherId;
   final Map<String, dynamic> teacherData;
-  TeacherCardTapEvent({required this.teacherData});
+  TeacherCardTapEvent({required this.teacherData, required this.teacherId});
 }
 
 final class RequestTapEvent extends AdminActionEvent {}
@@ -25,6 +26,11 @@ final class LogOutEvent extends AdminActionEvent {}
 
 final class FloatingActionButtonTapEvent extends AdminActionEvent {}
 
-
-
 final class AcadamicYearCompleteEvent extends AdminActionEvent {}
+
+final class ShowDeleteAlertEvent extends AdminActionEvent {}
+
+final class DeleteTeacherEvent extends AdminActionEvent {
+  final String teacherId;
+  DeleteTeacherEvent({required this.teacherId});
+}

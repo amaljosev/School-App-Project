@@ -10,6 +10,7 @@ import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/signup_screen.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
@@ -206,13 +207,16 @@ class ScreenLogin extends StatelessWidget {
   }
 }
 
-void onSignIn(bool isTeacher, BuildContext context) {
+Future<void> onSignIn(bool isTeacher, BuildContext context) async {
   if (emailController.text == 'admin' && passwordController.text == 'eduplan') {
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const ScreenAdmin(),
         ));
+    final sharedPrefs = await SharedPreferences.getInstance();
+    await sharedPrefs.setBool('admin_login', true);
+    await sharedPrefs.setBool('user_login', true);
   } else {
     context.read<WelcomeBloc>().add(isTeacher
         ? TeacherSignInEvent(

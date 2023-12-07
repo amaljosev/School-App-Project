@@ -18,24 +18,7 @@ class ScreenAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Principal',
-          style: appbarTextStyle,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => context.read<AdminBloc>().add(RequestTapEvent()),
-            icon: const Icon(
-              Icons.notifications_none,
-              color: contentColor,
-            ),
-          ),
-        ],
-        backgroundColor: appbarColor,
-      ),
-      body: BlocConsumer<AdminBloc, AdminState>(
+    return BlocConsumer<AdminBloc, AdminState>(
         listenWhen: (previous, current) => current is AdminActionState,
         buildWhen: (previous, current) => current is! AdminActionState,
         listener: (context, state) {
@@ -53,6 +36,8 @@ class ScreenAdmin extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScreenTeacherProfileAdmin(
+                    isRequest: false,
+                    teacherId: state.teacherId,
                     teacherData: state.teacherData,
                   ),
                 ));
@@ -72,12 +57,94 @@ class ScreenAdmin extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: StreamBuilder(
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Principal',
+                style: appbarTextStyle,
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () =>
+                      context.read<AdminBloc>().add(RequestTapEvent()),
+                  icon: const Icon(
+                    Icons.notifications_none,
+                    color: contentColor,
+                  ),
+                ),
+              ],
+              backgroundColor: appbarColor,
+            ),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: StreamBuilder(
+                      stream: AdminActions().getTeacherDatas(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox(
+                              height: 250,
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        } else if (snapshot.hasData) {
+                          List teachersList = snapshot.data!.docs;
+                          if (teachersList.isNotEmpty) {
+                            return Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Teachers',
+                                        style: GoogleFonts.tiltNeon(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: headingColor)),
+                                    GestureDetector(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ScreenAllTeachers(
+                                                    teachersList: teachersList),
+                                          )),
+                                      child: const Text('All Teachers >',
+                                          style:
+                                              TextStyle(color: contentColor)),
+                                    ),
+                                  ],
+                                ),
+                                TeacherCardWidget(teachersList: teachersList),
+                              ],
+                            );
+                          } else {
+                            return const SizedBox(
+                              height: 250,
+                              child: Center(
+                                  child:
+                                      Text('No Teachers has Registered yet')),
+                            );
+                          }
+                        } else {
+                          return const SizedBox(
+                            height: 250,
+                            child: Text('Empty'),
+                          );
+                        }
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text('Students',
+                      style: GoogleFonts.tiltNeon(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: headingColor)),
+                ),
+                StreamBuilder(
                     stream: AdminActions().getTeacherDatas(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,91 +154,31 @@ class ScreenAdmin extends StatelessWidget {
                       } else if (snapshot.hasData) {
                         List teachersList = snapshot.data!.docs;
                         if (teachersList.isNotEmpty) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Teachers',
-                                      style: GoogleFonts.tiltNeon(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: headingColor)),
-                                  GestureDetector(
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ScreenAllTeachers(
-                                                  teachersList: teachersList),
-                                        )),
-                                    child: const Text('All Teachers >',
-                                        style: TextStyle(color: contentColor)),
-                                  ),
-                                ],
-                              ),
-                              TeacherCardWidget(teachersList: teachersList),
-                            ],
-                          );
+                          return ClassCardWidget(teachersList: teachersList);
                         } else {
                           return const SizedBox(
                             height: 250,
-                            child: Center(
-                                child: Text('No Teachers has Registered yet')),
+                            child: Center(child: Text('Classes not added')),
                           );
                         }
                       } else {
                         return const SizedBox(
                           height: 250,
-                          child: Text('Empty'),
+                          child: Center(child: Text('error')),
                         );
                       }
-                    }),
+                    })
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () =>
+                  context.read<AdminBloc>().add(FloatingActionButtonTapEvent()),
+              child: Icon(
+                Icons.settings,
+                color: buttonColor,
               ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text('Students',
-                    style: GoogleFonts.tiltNeon(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: headingColor)),
-              ),
-              StreamBuilder(
-                  stream: AdminActions().getTeacherDatas(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                          height: 250,
-                          child: Center(child: CircularProgressIndicator()));
-                    } else if (snapshot.hasData) {
-                      List teachersList = snapshot.data!.docs;
-                      if (teachersList.isNotEmpty) {
-                        return ClassCardWidget(teachersList: teachersList);
-                      } else {
-                        return const SizedBox(
-                          height: 250,
-                          child: Center(child: Text('Classes not added')),
-                        );
-                      }
-                    } else {
-                      return const SizedBox(
-                        height: 250,
-                        child: Center(child: Text('error')),
-                      );
-                    }
-                  })
-            ],
+            ),
           );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-              context.read<AdminBloc>().add(FloatingActionButtonTapEvent()),
-          child: Icon(
-            Icons.settings,
-            color: buttonColor,
-          )),
-    );
+        });
   }
 }
