@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/teacher_model.dart';
+import 'package:schoolapp/repositories/firebase/student/leave_db_functions.dart';
 import 'package:schoolapp/repositories/firebase/student/tasks_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/attendance_functions.dart';
 import 'package:schoolapp/repositories/firebase/teacher/db_functions_teacher.dart';
@@ -256,6 +257,7 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(DeleteStudentLoadingState());
     try {
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
+
       final bool responce = await DbFunctionsTeacher().deleteSubCollection(
           gender: event.gender,
           email: event.email,
@@ -277,11 +279,21 @@ class TeacherSecondBloc extends Bloc<TeacherSecondEvent, TeacherSecondState> {
     emit(DeleteEventLoadingState());
     try {
       id = await DbFunctionsTeacher().getTeacherIdFromPrefs();
-      final bool resopnse = await TaskTeacherDbFunctions().deleteSubCollection( 
-          collection: 'teachers',
-          collectionId: id as String,
-          subCollection: 'events',
-          subCollectionId: event.eventId);
+      final String? studentId =
+          await DbFunctionsTeacher().getStudentIdFromPrefs();
+      final bool isTeacher = event.isTeacher;
+      final bool resopnse = isTeacher
+          ? await TaskTeacherDbFunctions().deleteSubCollection(
+              collection: 'teachers',
+              collectionId: id as String,
+              subCollection: 'events',
+              subCollectionId: event.eventId)
+          : await StudentLeaveDbFunctions().deleteLeaveApplication(
+              teacherId: id as String,
+              studntId: studentId as String,
+              applicationId: event.eventId,
+              studentName: event.studentName as String,
+              reason: event.reason as String);
       if (resopnse) {
         emit(DeleteEventSuccessState());
       } else {

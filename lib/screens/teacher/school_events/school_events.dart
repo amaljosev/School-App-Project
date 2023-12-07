@@ -86,6 +86,7 @@ class _ScreenSchoolEventsState extends State<ScreenSchoolEvents> {
                                 if (widget.isTeacher == false) {
                                   name = '${data['name']}';
                                 }
+
                                 DateTime date =
                                     (data['date'] as Timestamp).toDate();
                                 String formattedDate =
@@ -130,7 +131,14 @@ class _ScreenSchoolEventsState extends State<ScreenSchoolEvents> {
                                           onTap: () => context
                                               .read<TeacherSecondBloc>()
                                               .add(EventDeleteEvent(
-                                                  eventId: eventId)),
+                                                  reason: widget.isTeacher
+                                                      ? ''
+                                                      : topic,
+                                                  studentName: widget.isTeacher
+                                                      ? ''
+                                                      : name,
+                                                  eventId: eventId,
+                                                  isTeacher: widget.isTeacher)),
                                           child: Icon(
                                             Icons.close,
                                             color: buttonColor,
