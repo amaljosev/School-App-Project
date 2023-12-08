@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
+import 'package:schoolapp/screens/student/settings/privacy_screen.dart';
 
 class SettingsWidgetStudent extends StatelessWidget {
   const SettingsWidgetStudent({
@@ -26,22 +27,16 @@ class SettingsWidgetStudent extends StatelessWidget {
       )),
       const Divider(),
       ListTile(
-          title: Text(
-        'Privacy Policy',
-        style: contentTextStyle,
-      )),
-      const Divider(),
-      ListTile(
-          title: Text(
-        'Terms and  conditions',
-        style: contentTextStyle,
-      )),
-      const Divider(),
-      ListTile(
-          title: Text(
-        'About app',
-        style: contentTextStyle,
-      )),
+        title: Text(
+          'Privacy Policy',
+          style: contentTextStyle,
+        ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ScreenPrivacyPolicyStudent(),
+            )),
+      ),
     ]);
   }
 }

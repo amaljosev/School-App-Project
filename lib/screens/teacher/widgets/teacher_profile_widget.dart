@@ -6,10 +6,10 @@ import 'package:schoolapp/models/teacher_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/screens/student/settings/privacy_screen.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 import 'package:schoolapp/screens/welcome/signup_screen.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
 
 class TeacherProfileWidget extends StatefulWidget {
   const TeacherProfileWidget({super.key, required this.size});
@@ -45,7 +45,7 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
         return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
           listener: (context, state) {
             if (state is LogoutState) {
-              teacherLogOut(context); 
+              teacherLogOut(context);
             }
             if (state is EditTeacherSuccessState) {
               Navigator.push(
@@ -108,60 +108,97 @@ class _TeacherPrfileWidgetState extends State<TeacherProfileWidget> {
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(5)),
                                 color: appbarColor),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                    "Class Teacher of : ${data["class"]}-${data["division"]}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: contentTextStyle),
-                                Text('Email : ${data["email"]}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: contentTextStyle),
-                                Text('Mobile No : ${data["contact"]}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: contentTextStyle),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Class Teacher of",
+                                          style: contentTextStyle),
+                                      Text('Mobile No',
+                                          style: contentTextStyle),
+                                      Text('Email', style: contentTextStyle),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                                " : ${data["class"]}-${data["division"]}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: contentTextStyle),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  final teacherData =
+                                                      TeacherModel(
+                                                          name: data["name"],
+                                                          className:
+                                                              data["class"],
+                                                          email: data["email"],
+                                                          contact:
+                                                              data["contact"],
+                                                          password:
+                                                              data["password"],
+                                                          division:
+                                                              data["division"]);
+                                                  context
+                                                      .read<TeacherSecondBloc>() 
+                                                      .add(EditTeacherEvent(
+                                                          teacherData:
+                                                              teacherData));
+                                                },
+                                                  child:
+                                                      const Icon(Icons.edit)),
+                                            )
+                                          ],
+                                        ),
+                                        Text(' : ${data["contact"]}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: contentTextStyle),
+                                        Text(' : ${data["email"]}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: contentTextStyle),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ButtonSubmissionWidget(
-                              label: 'Edit',
-                              icon: Icons.edit,
-                              onTap: () {
-                                final teacherData = TeacherModel(
-                                    name: data["name"],
-                                    className: data["class"],
-                                    email: data["email"],
-                                    contact: data["contact"],
-                                    password: data["password"],
-                                    division: data["division"]);
-                                context.read<TeacherSecondBloc>().add(
-                                    EditTeacherEvent(teacherData: teacherData));
-                              },
-                            ),
-                            ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: buttonColor,
-                                    shape: const ContinuousRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                    ),
-                                    fixedSize: const Size(140, 30),
-                                    elevation: 10),
-                                onPressed: () => context
-                                    .read<TeacherSecondBloc>()
-                                    .add(LogoutEvent()),
-                                icon: const Icon(Icons.logout,
-                                    color: whiteTextColor),
-                                label: const Text(
-                                  'Log out',
-                                  style: TextStyle(color: whiteTextColor),
-                                )),
-                          ],
+                        
+                        ListTile(
+                          title: Text(
+                            'Privacy Policy',
+                            style: contentTextStyle,
+                          ),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ScreenPrivacyPolicyStudent(),
+                              )),
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Sign Out',
+                            style: contentTextStyle,
+                          ),
+                          onTap: () => context
+                              .read<TeacherSecondBloc>()
+                              .add(LogoutEvent()),
                         ),
                       ],
                     );
