@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
+import 'package:schoolapp/screens/teacher/tasks/submitted_tasks/full_screen.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenSubmittedTasksView extends StatelessWidget {
@@ -53,26 +54,34 @@ class ScreenSubmittedTasksView extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           if (image.isNotEmpty)
-            SizedBox(
-              height: 400,
-              width: 400,
-              child: Image.network(
-                image,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                (loadingProgress.expectedTotalBytes ?? 1)
-                            : null,
-                      ),
-                    );
-                  }
-                },
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScreenFullScreenImage(imageUrl: image),
+                ),
+              ),
+              child: SizedBox(
+                height: 400,
+                width: 400,
+                child: Image.network(
+                  image,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
             )
           else
