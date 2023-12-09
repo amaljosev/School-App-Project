@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/firebase/student/db_functions_student.dart';
 import 'package:schoolapp/repositories/firebase/student/tasks_functions.dart';
@@ -20,6 +22,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<FileUploadedEvent>(fileUploadedEvent);
     on<LogOutEvent>(logOutEvent);
     on<DeleteTaskEvent>(deleteTaskEvent);
+    on<SelectFileEvent>(selectFileEvent);
+    on<UploadFileEvent>(uploadFileEvent);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -95,7 +99,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               note: event.note,
               subject: event.subject,
               name: event.name,
-              imageUrl: event.imageUrl,
+              imageUrlsList: event.imageUrlList,
               studentId: studentId)
           : await TasksDbFunctionsStudent().submitAssignment(
               topic: event.topic,
@@ -103,7 +107,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
               note: event.note,
               subject: event.subject,
               name: event.name,
-              imageUrl: event.imageUrl,
+              imageUrlsLiist: event.imageUrlList,
               studentId: studentId);
       if (resopnse) {
         emit(SubmitWorkSuccessState());
@@ -157,5 +161,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     } else {
       emit(DeleteTaskErrorState());
     }
+  }
+
+  FutureOr<void> selectFileEvent(
+      SelectFileEvent event, Emitter<StudentState> emit) {
+    emit(SelectFileState(platformFiles: event.platformFiles));
+  }
+
+  FutureOr<void> uploadFileEvent(
+      UploadFileEvent event, Emitter<StudentState> emit) {
+    emit(UploadFileSuccessState(
+        isComplete: event.isComplete, uploadTask: event.uploadTask));
   }
 }

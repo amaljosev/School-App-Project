@@ -65,7 +65,7 @@ class TasksDbFunctionsStudent {
       required String note,
       required String subject,
       required String name,
-      required String imageUrl,
+      required List<String> imageUrlsList,
       required String topic,
       required String studentId}) async {
     try {
@@ -74,7 +74,7 @@ class TasksDbFunctionsStudent {
         'topic': topic,
         'note': note,
         'name': name,
-        'image_url': imageUrl,
+        'image_url': imageUrlsList, 
         'date': DateTime.now()
       };
 
@@ -102,7 +102,7 @@ class TasksDbFunctionsStudent {
       required String subject,
       required String topic,
       required String name,
-      required String imageUrl,
+      required List<String> imageUrlsLiist,
       required String studentId}) async {
     try {
       Map<String, dynamic> homeWorkMap = {
@@ -110,7 +110,7 @@ class TasksDbFunctionsStudent {
         'topic': topic,
         'note': note,
         'name': name,
-        'image_url': imageUrl,
+        'image_url': imageUrlsLiist,  
         'date': DateTime.now()
       };
 

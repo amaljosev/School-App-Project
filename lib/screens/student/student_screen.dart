@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
-import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
 import 'package:schoolapp/screens/student/settings/settings_widget.dart';
 import 'package:schoolapp/screens/student/widgets/attendance_popup.dart';
@@ -13,6 +12,7 @@ import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
+import 'package:schoolapp/widgets/my_appbar.dart';
 
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});
@@ -84,20 +84,7 @@ class _ScreenStudentState extends State<ScreenStudent> {
                   snapshot.data!.data() as Map<String, dynamic>;
               final String name = studentData['first_name'];
               return Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    "Student",
-                    style: appbarTextStyle,
-                  ),
-                  backgroundColor: appbarColor,
-                  actions: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none_outlined,
-                        ))
-                  ],
-                ),
+                appBar: myAppbar('Student'), 
                 body: IndexedStack(
                   index: currentPageIndex,
                   children: <Widget>[

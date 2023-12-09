@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,17 +33,18 @@ class TaskListWidgetTeacher extends StatelessWidget {
             String topic = isSubmitted ? '${work['topic']}' : '${work['task']}';
             String subject = '${work['subject']}';
             String name = '';
-            String image = '';
+            List imageList = [];
             String note = '';
             if (isSubmitted) {
               name = '${work['name']}';
-              image = '${work['image_url']}';
+              imageList.addAll(work['image_url']);  
               note = '${work['note']}';
             }
             String assignmentDeadline = '';
             if (isHw == false && isSubmitted == false) {
               DateTime date = (work['deadline'] as Timestamp).toDate();
               assignmentDeadline = DateFormat('dd MMM yyyy').format(date);
+             
             }
 
             return TaskCardWidget( 
@@ -52,7 +54,7 @@ class TaskListWidgetTeacher extends StatelessWidget {
               subject: subject,
               deadline: assignmentDeadline,
               isHw: isHw,
-              image: image,
+              imageList: imageList,
               name: name,
               note: note,taskId: taskId, 
             );

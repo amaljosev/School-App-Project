@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/tasks/submit_task_screen.dart';
+import 'package:schoolapp/screens/student/tasks/widgets/submitted_tast_screen.dart';
 
 class TaskListWidget extends StatelessWidget {
   const TaskListWidget({
@@ -38,7 +40,7 @@ class TaskListWidget extends StatelessWidget {
               return Text('Given ${widget.taskName} are list here');
             } else {
               DocumentSnapshot work = tasks[index];
-              final String note =isSubmitted? "${work['note']}":'';
+              final String note = isSubmitted ? "${work['note']}" : '';
               final String taskId = work.id;
               DateTime date = (work['date'] as Timestamp).toDate();
               String formattedDate = DateFormat('dd MMM yyyy').format(date);
@@ -50,7 +52,8 @@ class TaskListWidget extends StatelessWidget {
               DateTime deadLineDate = DateTime.now();
               if (isHw == false && isSubmitted == false) {
                 deadLineDate = (work['deadline'] as Timestamp).toDate();
-                assignmentDeadline = DateFormat('dd MMM yyyy').format(date);
+                assignmentDeadline = DateFormat('dd MMM yyyy').format(deadLineDate); 
+               
               }
 
               return Slidable(
@@ -142,7 +145,20 @@ class TaskListWidget extends StatelessWidget {
                                           ),
                                         ),
                                       )
-                                    : null
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScreenSubmittedTaskStudent(
+                                                  isTeacher: false,
+                                                  name: note,
+                                                  subject: subject,
+                                                  taskName: widget.taskName,
+                                                  note: work['note'],
+                                                  files: work['image_url'],
+                                                  task: widget.taskName),
+                                        ),
+                                      )
                                 : null;
                             !isSubmitted &&
                                     DateTime.now().isBefore(deadLineDate)
@@ -157,7 +173,22 @@ class TaskListWidget extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : null;
+                                : !isHw
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScreenSubmittedTaskStudent( 
+                                                  isTeacher: false,
+                                                  name: name,
+                                                  subject: subject,
+                                                  taskName: widget.taskName,
+                                                  note: work['note'],
+                                                  files: work['image_url'],
+                                                  task: widget.taskName),
+                                        ),
+                                      )
+                                    : null;
                           })));
             }
           }),

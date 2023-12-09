@@ -1,13 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
@@ -18,7 +18,6 @@ import 'package:schoolapp/widgets/button_widget.dart';
 import 'package:schoolapp/widgets/my_appbar.dart';
 
 final studentnoteController = TextEditingController();
-bool isLoading = false;
 
 class ScreenSubmitTask extends StatelessWidget {
   const ScreenSubmitTask({
@@ -36,8 +35,8 @@ class ScreenSubmitTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = '';
-    bool isFileSelected = false;
+    List<PlatformFile> pickedFiles = [];
+    List<UploadTask?> uploadTasks = [];
 
     return Scaffold(
       appBar: myAppbar('Submit ${widget.taskName}'),
@@ -47,37 +46,42 @@ class ScreenSubmitTask extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               loadingSnakebarWidget(),
             );
-            isLoading = true;
           } else if (state is SubmitWorkSuccessState) {
             AlertMessages()
                 .alertMessageSnakebar(context, 'Submitted', Colors.green);
-            isLoading = false;
-            isFileSelected = false;
-            imageUrl = '';
             studentnoteController.text = '';
+            Navigator.pop(context);
           } else if (state is SubmitWorkErrorState) {
             AlertMessages()
                 .alertMessageSnakebar(context, 'Please try again', Colors.red);
-            isLoading = false;
-            isFileSelected = false;
-            imageUrl = '';
           }
           if (state is LoadingState) {
-            isFileSelected = state.isCompleted;
-            state.isCompleted
-                ? null
-                : showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext dialogContext) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+            if (state.isCompleted) {
+              Navigator.pop(context);
+            } else {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext dialogContext) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
+                },
+              );
+            }
           }
-          if (state is FileUploadedState) {
-            imageUrl = state.imageUrl;
+
+          if (state is SelectFileState) {
+            pickedFiles = state.platformFiles;
+          }
+          if (state is UploadFileSuccessState) {
+            final bool isUpload = state.isComplete;
+            if (isUpload) {
+              uploadTasks.remove(state.uploadTask);
+              pickedFiles = [];
+            } else {
+              uploadTasks.add(state.uploadTask);
+            }
           }
         },
         builder: (context, state) {
@@ -85,7 +89,6 @@ class ScreenSubmitTask extends StatelessWidget {
             listener: (context, state) {},
             builder: (context, state) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(
                     height: 40,
@@ -94,7 +97,7 @@ class ScreenSubmitTask extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Row(
                       children: [
-                        Expanded( 
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -127,43 +130,50 @@ class ScreenSubmitTask extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        OutlinedButton(
-                            onPressed: () =>
-                                onChooseFile(imageUrl, context, isFileSelected),
-                            style: ButtonStyle(
-                              side: MaterialStateProperty.all(
-                                const BorderSide(width: 2.0, color: titleColor),
-                              ),
-                            ),
-                            child: Text('Upload ${widget.taskName}')),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(isFileSelected == true
-                              ? 'file selected'
-                              : 'No file selected !!'),
-                        )
-                      ],
-                    ),
-                  ),
-                  ButtonSubmissionWidget(
-                      label: 'send',
-                      icon: Icons.send,
-                      onTap: () {
-                        isLoading
-                            ? context.read<StudentBloc>().add(SubmitWorkEvent(
-                                topic: topic,
-                                subject: subject,
-                                note: studentnoteController.text,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      pickedFiles.isEmpty
+                          ? TextButton.icon(
+                              label: const Text('Select Files'),
+                              onPressed: () => selectedFiles(context),
+                              icon: const Icon(Icons.add),
+                            )
+                          : const SizedBox(),
+                      ButtonSubmissionWidget(
+                          label: 'send',
+                          icon: Icons.send,
+                          onTap: () {
+                            uploadFiles(
+                                context: context,
+                                pickedFiles: pickedFiles,
                                 name: name,
-                                imageUrl: imageUrl,
-                                isHw: isHw))
-                            : null;
-                        isLoading = true;
-                      }),
+                                subject: subject,
+                                topic: topic);
+                          }),
+                    ],
+                  ),
+                  kHeight,
+                  buildProgress(uploadTasks),
+                  kHeight,
+                  kHeight,
+                  Expanded(
+                    child: pickedFiles.isNotEmpty
+                        ? GridView.builder(
+                            padding: const EdgeInsets.all(5),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 5,
+                                    mainAxisSpacing: 5),
+                            itemCount: pickedFiles.length,
+                            itemBuilder: (context, index) {
+                              final file = pickedFiles[index];
+                              return buildFileWidget(file);
+                            },
+                          )
+                        : const Center(child: Text('No file selected')),
+                  ),
                 ],
               );
             },
@@ -172,35 +182,110 @@ class ScreenSubmitTask extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildFileWidget(PlatformFile file) {
+    if (file.extension == 'jpg' ||
+        file.extension == 'jpeg' ||
+        file.extension == 'png') {
+      return Image.file(
+        File(file.path!),
+        width: double.infinity,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return const Text(
+        'Unsupported file format. You can only upload PDF or image files.',
+      );
+    }
+  }
+
+  Future selectedFiles(
+    BuildContext context,
+  ) async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+    );
+    if (result == null) return;
+
+    final platformFiles = result.files;
+    context.read<StudentBloc>().add(SelectFileEvent(
+        platformFiles: platformFiles
+            .where((file) =>
+                file.extension == 'jpg' ||
+                file.extension == 'jpeg' ||
+                file.extension == 'png')
+            .toList()));
+  }
+
+  Widget buildProgress(List<UploadTask?> uploadTasks) => Column(
+        children: uploadTasks.map((uploadTask) {
+          return StreamBuilder<TaskSnapshot>(
+            stream: uploadTask?.snapshotEvents,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!;
+                double progress = data.bytesTransferred / data.totalBytes;
+                return Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: Colors.white,
+                  ),
+                );
+              } else {
+                return const SizedBox(
+                  height: 50,
+                );
+              }
+            },
+          );
+        }).toList(),
+      );
 }
 
-Future<void> onChooseFile(
-    String imageUrl, BuildContext context, bool isFileSelected) async {
-  String imageUrl = '';
-  final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+Future uploadFiles(
+    {required BuildContext context,
+    required List<PlatformFile> pickedFiles,
+    required String topic,
+    required String subject,
+    required String name}) async {
+  context.read<StudentBloc>().add(LoadingEvent(isCompleted: false));
+  final List<String> urlList = [];
+  for (var pickedFile in pickedFiles) {
+    if (pickedFile == null) {
+      continue;
+    }
 
-  if (file == null) {
-    AlertMessages()
-        .alertMessageSnakebar(context, 'No file selected!', Colors.red);
-    isFileSelected = false;
-    return;
-  }
+    final path = 'files/${pickedFile.name}';
+    final file = File(pickedFile.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    final uploadTask = ref.putFile(file);
 
-  String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-  Reference referenceRoot = FirebaseStorage.instance.ref();
-  Reference referenceDireImage = referenceRoot.child('images');
-  Reference referenceImageToUpload = referenceDireImage.child(fileName);
-  context.read<StudentBloc>().add(LoadingEvent(isCompleted: isFileSelected));
-  try {
-    await referenceImageToUpload.putFile(File(file.path));
-    imageUrl = await referenceImageToUpload.getDownloadURL();
-    if (imageUrl != '') isFileSelected = true;
-    context.read<StudentBloc>().add(LoadingEvent(isCompleted: isFileSelected));
-  } catch (e) {
-    log('$e');
-    isFileSelected = false;
-  } finally {
-    context.read<StudentBloc>().add(FileUploadedEvent(imageUrl: imageUrl));
-    Navigator.pop(context);
+    context
+        .read<StudentBloc>()
+        .add(UploadFileEvent(uploadTask: uploadTask, isComplete: false));
+
+    try {
+      await uploadTask.whenComplete(() {});
+      final urlDownload = await ref.getDownloadURL();
+
+      urlList.add(urlDownload);
+      log('Download Link : $urlDownload');
+    } catch (error) {
+      log('Error uploading file: $error');
+    } finally {
+      context
+          .read<StudentBloc>()
+          .add(UploadFileEvent(uploadTask: uploadTask, isComplete: true));
+    }
   }
+  context.read<StudentBloc>().add(SubmitWorkEvent(
+      topic: topic,
+      subject: subject,
+      note: studentnoteController.text,
+      name: name,
+      imageUrlList: urlList,
+      isHw: isHw));
+  context.read<StudentBloc>().add(LoadingEvent(isCompleted: true));
 }

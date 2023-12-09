@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/screens/student/tasks/widgets/submitted_tast_screen.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
-import 'package:schoolapp/screens/teacher/tasks/submitted_tasks/submitted_task_screen.dart';
 import '../../../../repositories/core/textstyle.dart';
 
 class TaskCardWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class TaskCardWidget extends StatelessWidget {
       required this.deadline,
       required this.isHw,
       required this.name,
-      required this.image,
+      required this.imageList,
       required this.note,
       required this.isSubmitted,
       required this.taskId});
@@ -27,7 +27,7 @@ class TaskCardWidget extends StatelessWidget {
   final bool isHw;
   final bool isSubmitted;
   final String name;
-  final String image;
+  final List imageList;
   final String note;
   final String taskId;
 
@@ -86,16 +86,13 @@ class TaskCardWidget extends StatelessWidget {
               ? Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ScreenSubmittedTasksView(
-                        formattedDate: formattedDate,
-                        task: task,
-                        subject: subject,
-                        deadline: deadline,
-                        isHw: isHw,
+                    builder: (context) => ScreenSubmittedTaskStudent(
                         name: name,
-                        image: image,
+                        subject: subject,
+                        taskName: task,
                         note: note,
-                        isSubmitted: isSubmitted),
+                        files: imageList,
+                        isTeacher: true,task: task),
                   ))
               : null,
         ),

@@ -27,13 +27,13 @@ final class SubmitWorkEvent extends StudentActionEvent {
   final String name;
   final bool isHw;
   final String topic;
-  final String imageUrl;
+  final List<String> imageUrlList;
   SubmitWorkEvent(
       {required this.subject,
       required this.note,
       required this.name,
       required this.isHw,
-      required this.imageUrl,
+      required this.imageUrlList,
       required this.topic});
 }
 
@@ -59,4 +59,15 @@ final class DeleteTaskEvent extends StudentActionEvent {
       required this.isHw,
       required this.note,
       required this.studentName});
+}
+
+final class SelectFileEvent extends StudentActionEvent {
+  final List<PlatformFile> platformFiles;
+  SelectFileEvent({required this.platformFiles});
+}
+
+final class UploadFileEvent extends StudentActionEvent {
+  final UploadTask uploadTask;
+  final bool isComplete;
+  UploadFileEvent({required this.isComplete, required this.uploadTask});
 }
