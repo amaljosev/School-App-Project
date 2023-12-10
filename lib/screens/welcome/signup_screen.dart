@@ -90,11 +90,11 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                     context, 'Successfully Updated', Colors.green);
                 isLoading = false;
                 Navigator.pop(context);
-              } else if (state is TeacherUpdatedClassExistState) {  
+              } else if (state is TeacherUpdatedClassExistState) {
                 AlertMessages().alertMessageSnakebar(
                     context, 'Class already exist', Colors.red);
                 isLoading = false;
-                 Navigator.pop(context); 
+                Navigator.pop(context);
               }
             },
             builder: (context, state) {
@@ -109,7 +109,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                     TitleCardWidget(isUpdate: widget.isUpdate),
                     SignUpTextFieldWidget(
                       icon: const Icon(Icons.person),
-                      fillColor: loginTextfieldColor,
+                      fillColor: loginTextfieldColor, 
                       hintText: 'Teacher Name',
                       controller: nameController,
                       keyboardType: TextInputType.name,
@@ -174,12 +174,34 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                           null;
                         } else {
                           if (formKey.currentState!.validate()) {
+                            if (!isValidEmail(emailController.text)) {
+                              AlertMessages().alertMessageSnakebar(
+                                  context,
+                                  'Please check your email is correct', 
+                                  Colors.red);    
+                              return;
+                            }
+                            if (contactController.text.length < 10) {
+                              AlertMessages().alertMessageSnakebar(
+                                  context,
+                                  'Enter minimum 10 numbers in contact',
+                                  Colors.red);
+                              return;
+                            }
+                            if (passwordController.text.length < 8) {
+                              AlertMessages().alertMessageSnakebar(
+                                  context,
+                                  'Enter minimum 8 charecters in passaword',
+                                  Colors.red);
+                              return;
+                            }
                             if (!RegExp(r'^[a-zA-Z]+$')
                                 .hasMatch(divisionController.text)) {
                               AlertMessages().alertMessageSnakebar(
                                   context,
                                   'Division can only contain letters',
                                   Colors.red);
+                              return;
                             } else {
                               onSignUp(context, widget.isUpdate);
                             }
@@ -252,4 +274,12 @@ onSignUp(BuildContext context, bool isUpdate) async {
   contactController.text = "";
   passwordController.text = "";
   divisionController.text = "";
+}
+
+bool isValidEmail(String email) {
+  // Define a regular expression for basic email validation
+  // This is a simple example and may not cover all edge cases
+  RegExp emailRegExp =
+      RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  return emailRegExp.hasMatch(email);
 }

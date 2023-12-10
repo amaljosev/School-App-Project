@@ -39,7 +39,7 @@ class SignUpTextFieldWidget extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       validator: (value) =>
-          controller.text.isEmpty ? 'Please enter $hintText' : null, 
+          controller.text.isEmpty ? 'Please enter $hintText' : null,  
     );
   }
 }

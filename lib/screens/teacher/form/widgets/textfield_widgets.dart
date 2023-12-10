@@ -4,6 +4,7 @@ import 'package:schoolapp/models/class_model.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/models/student_model.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
+import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
 import 'package:schoolapp/widgets/text_field_widget.dart';
@@ -223,15 +224,31 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (studentFormKey.currentState!.validate()) {
-              onButtonTap(
-                  id: id,
-                  isUpdate: widget.isUpdate,
-                  context: context,
-                  teacher: teacher,
-                  standard: standard,
-                  gender: gender,
-                  isTeacher: widget.isTeacher,
-                  division: division);
+              if (!isValidEmail(emailController.text)) {
+                AlertMessages().alertMessageSnakebar(
+                    context, 'Please check your email is correct', Colors.red);
+                return;
+              }
+              if (contactController.text.length < 10) {
+                AlertMessages().alertMessageSnakebar(
+                    context, 'Enter minimum 10 numbers in contact', Colors.red);
+                return;
+              }
+              if (passwordController.text.length < 8) {
+                AlertMessages().alertMessageSnakebar(context,
+                    'Enter minimum 8 charecters in passaword', Colors.red);
+                return;
+              } else {
+                onButtonTap(
+                    id: id,
+                    isUpdate: widget.isUpdate,
+                    context: context,
+                    teacher: teacher,
+                    standard: standard,
+                    gender: gender,
+                    isTeacher: widget.isTeacher,
+                    division: division);
+              }
             }
           },
           style: ElevatedButton.styleFrom(
@@ -313,4 +330,12 @@ void onButtonTap(
   emailController.text = '';
   contactController.text = '';
   passwordController.text = '';
+}
+
+bool isValidEmail(String email) {
+  // Define a regular expression for basic email validation
+  // This is a simple example and may not cover all edge cases
+  RegExp emailRegExp =
+      RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  return emailRegExp.hasMatch(email);
 }

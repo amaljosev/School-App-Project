@@ -1,4 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -98,7 +100,9 @@ class _ScreenSplashState extends State<ScreenSplash> {
     final isTeacher = sharedPrefsIsTeacher.getBool('is_teacher');
     final sharedPrefsAdmin = await SharedPreferences.getInstance();
     final isAdmin = sharedPrefsAdmin.getBool('admin_login');
-
+    log('$userSignedUp');
+     log('$isTeacher');
+      log('$isTeacher'); 
     if (userSignedUp == null || userSignedUp == false) {
       Navigator.pushReplacement(
         context,
