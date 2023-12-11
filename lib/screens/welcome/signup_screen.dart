@@ -191,7 +191,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                             if (passwordController.text.length < 8) {
                               AlertMessages().alertMessageSnakebar(
                                   context,
-                                  'Enter minimum 8 charecters in passaword',
+                                  'Enter minimum 8 charecters in password',
                                   Colors.red);
                               return;
                             }
@@ -255,11 +255,11 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
 
 onSignUp(BuildContext context, bool isUpdate) async {
   final teacherObject = TeacherModel(
-      name: nameController.text,
+      name: nameController.text.trim(),
       className: value as String,
-      email: emailController.text,
-      contact: int.parse(contactController.text),
-      password: passwordController.text.toString(),
+      email: emailController.text.trim(),
+      contact: int.parse(contactController.text.trim()),
+      password: passwordController.text.trim().toString(),
       division: divisionController.text.toUpperCase());
   isUpdate
       ? context.read<WelcomeBloc>().add(
@@ -277,8 +277,6 @@ onSignUp(BuildContext context, bool isUpdate) async {
 }
 
 bool isValidEmail(String email) {
-  // Define a regular expression for basic email validation
-  // This is a simple example and may not cover all edge cases
   RegExp emailRegExp =
       RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   return emailRegExp.hasMatch(email);

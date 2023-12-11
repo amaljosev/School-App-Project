@@ -173,7 +173,7 @@ class TaskListWidget extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : !isHw
+                                : !isHw&&isSubmitted 
                                     ? Navigator.push(
                                         context,
                                         MaterialPageRoute(

@@ -89,7 +89,7 @@ class TaskCardWidget extends StatelessWidget {
                     builder: (context) => ScreenSubmittedTaskStudent(
                         name: name,
                         subject: subject,
-                        taskName: task,
+                        taskName: isHw?'Home Works':'Assignments',   
                         note: note,
                         files: imageList,
                         isTeacher: true,task: task),

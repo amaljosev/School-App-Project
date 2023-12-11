@@ -25,7 +25,7 @@ class ScreenSubmittedTaskStudent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppbar('Submitted  $task'),
+      appBar: myAppbar('Submitted  $taskName'), 
       body: Column(
         children: [
           Padding(

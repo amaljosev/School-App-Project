@@ -236,7 +236,7 @@ class TextFieldTilesWidgetAddStudent extends StatelessWidget {
               }
               if (passwordController.text.length < 8) {
                 AlertMessages().alertMessageSnakebar(context,
-                    'Enter minimum 8 charecters in passaword', Colors.red);
+                    'Enter minimum 8 charecters in password', Colors.red);
                 return;
               } else {
                 onButtonTap(
@@ -281,16 +281,16 @@ void onButtonTap(
     required Gender? gender,
     required isTeacher}) {
   final studentObject = StudentModel(
-    firstName: firstNameController.text,
-    secondName: secondNameController.text,
-    classTeacher: teacher,
-    rollNo: rollNoController.text,
-    age: ageController.text,
-    registerNo: registrationNumberController.text,
-    email: emailController.text,
-    contactNo: contactController.text,
-    guardianName: guardianNameController.text,
-    password: passwordController.text,
+    firstName: firstNameController.text.trim(),
+    secondName: secondNameController.text.trim(),
+    classTeacher: teacher.trim(),
+    rollNo: rollNoController.text.trim(),
+    age: ageController.text.trim(),
+    registerNo: registrationNumberController.text.trim(),
+    email: emailController.text.trim(),
+    contactNo: contactController.text.trim(),
+    guardianName: guardianNameController.text.trim(),
+    password: passwordController.text.trim(),
     gender: gender.toString(),
     standard: standard,
     division: division,

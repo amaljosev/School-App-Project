@@ -29,12 +29,15 @@ class AddTaskWidget extends StatelessWidget {
       'Physics',
       'Maths',
       'Chemistry',
-      'Hindi',
+      'Biology',
+      'Language 1',
+      'Language 2',
       'Social Science',
-      'Science'
+      'Science',
+      'IT',
+      'Hindi',
     ];
     int index = 0;
-
     bool isLoading = false;
 
     return BlocConsumer<TeacherSecondBloc, TeacherSecondState>(
@@ -206,7 +209,7 @@ class AddTaskWidget extends StatelessWidget {
                                           value: value, label: value);
                                     }).toList(),
                                   ),
-                                ], 
+                                ],
                               ),
                               const SizedBox(
                                 height: 20,
