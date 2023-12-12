@@ -80,3 +80,7 @@ final class SelectFileState extends StudentActionState {
    final List<PlatformFile> platformFiles;
   SelectFileState({required this.platformFiles}); 
 }
+final class DeletePickedImageState extends StudentActionState {
+   final int index;
+  DeletePickedImageState({required this.index}); 
+}

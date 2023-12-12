@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class ScreenFullScreenImage extends StatelessWidget {
-  const ScreenFullScreenImage({Key? key, required this.imageUrl})
+  const ScreenFullScreenImage(
+      {Key? key, required this.imageUrl, required this.isChecking})
       : super(key: key);
 
   final String? imageUrl;
+  final bool isChecking;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +23,7 @@ class ScreenFullScreenImage extends StatelessWidget {
             scrollPhysics: const BouncingScrollPhysics(),
             pageOptions: [
               PhotoViewGalleryPageOptions(
-                imageProvider: imageUrl == ''
-                    ? const AssetImage('path_to_placeholder_image')
-                    : NetworkImage(imageUrl!) as ImageProvider,
+                imageProvider: getImageProvider(),
                 minScale: PhotoViewComputedScale.contained,
                 maxScale: PhotoViewComputedScale.covered * 2,
               ),
@@ -29,10 +31,19 @@ class ScreenFullScreenImage extends StatelessWidget {
             backgroundDecoration: const BoxDecoration(
               color: Colors.black,
             ),
-            // Add more customization options as needed
           ),
         ),
       ),
     );
+  }
+
+  ImageProvider<Object> getImageProvider() {
+    if (imageUrl == null || imageUrl!.isEmpty) {
+      return const AssetImage('path_to_placeholder_image');
+    } else if (isChecking) {
+      return Image.file(File(imageUrl!)).image;
+    } else {
+      return NetworkImage(imageUrl!);
+    }
   }
 }

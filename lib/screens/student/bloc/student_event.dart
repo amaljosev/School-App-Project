@@ -71,3 +71,8 @@ final class UploadFileEvent extends StudentActionEvent {
   final bool isComplete;
   UploadFileEvent({required this.isComplete, required this.uploadTask});
 }
+
+final class DeletePickedImage extends StudentActionEvent {
+  final int index;
+  DeletePickedImage({required this.index});
+}

@@ -95,7 +95,7 @@ class ScreenSubmittedTaskStudent extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ScreenFullScreenImage(imageUrl: file),
+                                ScreenFullScreenImage(imageUrl: file,isChecking: false),
                           ),
                         ),
                         child: SizedBox(

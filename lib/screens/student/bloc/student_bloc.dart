@@ -24,6 +24,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<DeleteTaskEvent>(deleteTaskEvent);
     on<SelectFileEvent>(selectFileEvent);
     on<UploadFileEvent>(uploadFileEvent);
+    on<DeletePickedImage>(deletePickedImage);
   }
 
   FutureOr<void> bottomNavigationEvent(
@@ -172,5 +173,10 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       UploadFileEvent event, Emitter<StudentState> emit) {
     emit(UploadFileSuccessState(
         isComplete: event.isComplete, uploadTask: event.uploadTask));
+  }
+
+  FutureOr<void> deletePickedImage(
+      DeletePickedImage event, Emitter<StudentState> emit) {
+    emit(DeletePickedImageState(index: event.index)); 
   }
 }

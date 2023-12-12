@@ -14,6 +14,7 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
+import 'package:schoolapp/screens/teacher/tasks/submitted_tasks/full_screen.dart';
 import 'package:schoolapp/screens/widgets/button_widget.dart';
 import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
@@ -82,6 +83,9 @@ class ScreenSubmitTask extends StatelessWidget {
             } else {
               uploadTasks.add(state.uploadTask);
             }
+          }
+          if (state is DeletePickedImageState) {
+            pickedFiles.removeAt(state.index);
           }
         },
         builder: (context, state) {
@@ -169,7 +173,16 @@ class ScreenSubmitTask extends StatelessWidget {
                             itemCount: pickedFiles.length,
                             itemBuilder: (context, index) {
                               final file = pickedFiles[index];
-                              return buildFileWidget(file);
+                              return GestureDetector(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ScreenFullScreenImage(
+                                                imageUrl: file.path!,
+                                                isChecking: true),
+                                      )),
+                                  child: buildFileWidget(file, context, index));
                             },
                           )
                         : const Center(child: Text('No file selected')),
@@ -183,14 +196,33 @@ class ScreenSubmitTask extends StatelessWidget {
     );
   }
 
-  Widget buildFileWidget(PlatformFile file) {
+  Widget buildFileWidget(PlatformFile file, BuildContext context, int index) {
     if (file.extension == 'jpg' ||
         file.extension == 'jpeg' ||
         file.extension == 'png') {
-      return Image.file(
-        File(file.path!),
-        width: double.infinity,
-        fit: BoxFit.cover,
+      return SizedBox(
+        child: Stack(
+          children: [
+            Image.file(
+              File(file.path!),
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () => context
+                        .read<StudentBloc>()
+                        .add(DeletePickedImage(index: index)),
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
+          ],
+        ),
       );
     } else {
       return const Text(

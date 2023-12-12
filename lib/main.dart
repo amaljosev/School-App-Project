@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           create: (context) => StudentBloc(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp( 
         title: 'School App',
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
