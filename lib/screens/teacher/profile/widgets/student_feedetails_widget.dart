@@ -58,7 +58,7 @@ class StudentFeeDetailsWidget extends StatelessWidget {
                                 Orientation.landscape
                             ? 0.9 * MediaQuery.of(context).size.height
                             : 0.5 * MediaQuery.of(context).size.height
-                        : 0.2 * MediaQuery.of(context).size.height,
+                        : 0.24 * MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).orientation ==
                             Orientation.landscape
                         ? 0.5 * MediaQuery.of(context).size.width

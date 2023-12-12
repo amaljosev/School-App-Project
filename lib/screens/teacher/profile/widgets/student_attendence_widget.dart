@@ -23,21 +23,23 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
     final String totalpresentDays = "${studentsMap?['total_present_days']}";
     final int totalPresentDays = int.parse(totalpresentDays);
     return SingleChildScrollView(
-      child: Container( 
+      child: Container(
         height: isTeacher
             ? MediaQuery.of(context).orientation == Orientation.landscape
                 ? 0.9 * MediaQuery.of(context).size.height
                 : 0.5 * MediaQuery.of(context).size.height
-            : 0.4 * MediaQuery.of(context).size.height,
+            : 0.45 * MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).orientation == Orientation.landscape
             ? 0.5 * MediaQuery.of(context).size.width
-            : 0.8 * MediaQuery.of(context).size.width,   
+            : 0.8 * MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            color:isTeacher? appbarColor:null, 
+            color: isTeacher ? appbarColor : null,
             borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment:
+                isTeacher ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 10,
@@ -78,11 +80,13 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                       Text(
                         'Total working Days Completed ',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ), kHeight,  
+                      ),
+                      kHeight,
                       Text(
                         'Total Present Days',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ), kHeight,  
+                      ),
+                      kHeight,
                       Text(
                         'Total Missed Days',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
@@ -95,11 +99,13 @@ class StudentAttendenceDetailsWidget extends StatelessWidget {
                       Text(
                         ': $totalWorkingDaysCompleted',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ), kHeight, 
+                      ),
+                      kHeight,
                       Text(
                         ': ${studentsMap?['total_present_days']}',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,
-                      ), kHeight, 
+                      ),
+                      kHeight,
                       Text(
                         ': ${studentsMap?['total_missed_days']}',
                         style: isTeacher ? contentTextStyle : listViewTextStyle,

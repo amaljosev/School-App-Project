@@ -46,7 +46,7 @@ class ApplicationWidget extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: appbarColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5))),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))), 
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
