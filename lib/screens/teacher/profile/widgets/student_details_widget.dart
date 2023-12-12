@@ -147,31 +147,43 @@ class StudentDetailsWidget extends StatelessWidget {
                         Text(": ${students['register_no']} ",
                             style: studentProfileTextStyle),
                         kHeight,
-                        GestureDetector(
-                          onTap: () async {
-                            final Uri url = Uri(
-                                scheme: 'tel',
-                                path: ": ${students['contact_no']}");
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            } else {
-                              log("can't call");
-                            }
-                          },
-                          child: Row(
-                            children: [
-                               Text(': ',style: listViewTextStyle,), 
-                              Text("${students['contact_no']} ", 
-                                  style: GoogleFonts.ubuntu(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: contentColor,
-                                      textStyle: const TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: contentColor))),
-                            ],
-                          ),
-                        ),
+                        isTeacher
+                            ? GestureDetector(
+                                onTap: () async {
+                                  final Uri url = Uri(
+                                      scheme: 'tel',
+                                      path: ": ${students['contact_no']}");
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                    log("can't call");
+                                  }
+                                },
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      ': ',
+                                      style: listViewTextStyle,
+                                    ),
+                                    Text("${students['contact_no']} ",
+                                        style: GoogleFonts.ubuntu(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: contentColor,
+                                            textStyle: const TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationColor:
+                                                    contentColor))),
+                                  ],
+                                ),
+                              )
+                            : Text(": ${students['contact_no']} ",
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: contentColor,
+                                )), 
                         kHeight,
                         Text(": ${students['guardian_name']} ",
                             style: studentProfileTextStyle),
@@ -188,40 +200,5 @@ class StudentDetailsWidget extends StatelessWidget {
         );
       },
     );
-  }
+  } 
 }
-// GestureDetector(
-//                                                   onTap: () async {
-//                                                     final Uri url = Uri(
-//                                                         scheme: 'tel',
-//                                                         path:
-//                                                             ": ${student['contact_no']}");
-//                                                     if (await canLaunchUrl(
-//                                                         url)) {
-//                                                       await launchUrl(url);
-//                                                     } else {
-//                                                       log("can't call");
-//                                                     }
-//                                                   },
-//                                                   child: Row(
-//                                                     children: [
-//                                                       Text(
-//                                                         ': ',
-//                                                         style: contentTextStyle,
-//                                                       ),
-//                                                       Text(
-//                                                         "${student['contact_no']}",
-//                                                         style: const TextStyle(
-//                                                             fontSize: 18,
-//                                                             fontWeight:
-//                                                                 FontWeight.bold,
-//                                                             color: contentColor,
-//                                                             decoration:
-//                                                                 TextDecoration
-//                                                                     .underline,
-//                                                             decorationColor:
-//                                                                 contentColor),
-//                                                       ),
-//                                                     ],
-//                                                   ),
-//                                                 )

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
@@ -30,6 +29,8 @@ class ApplicationWidget extends StatelessWidget {
           context
               .read<TeacherSecondBloc>()
               .add(FetchFormDatasEvent(isTeacher: isTeacher));
+          titileController.text = '';
+          topicController.text = ''; 
         } else if (state is TeacherNoticeErrorState) {
           AlertMessages()
               .alertMessageSnakebar(context, 'Try Again', Colors.red);
@@ -38,85 +39,66 @@ class ApplicationWidget extends StatelessWidget {
       builder: (context, state) {
         return Form(
           key: _formFormKey,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: appbarColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5))), 
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            isTeacher
-                                ? 'Create an Event or Notice'
-                                : 'Leave Application',
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            elevation: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      hintText:
-                                          isTeacher ? 'Title' : 'Date of Leave',
-                                    ),
-                                    controller: titileController,
-                                    validator: (value) =>
-                                        titileController.text.isEmpty
-                                            ? isTeacher
-                                                ? 'Please enter a title'
-                                                : 'Please enter date'
-                                            : null,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                        hintText:
-                                            isTeacher ? 'Topic' : 'Reason',
-                                        border: InputBorder.none,
-                                        hintStyle:
-                                            const TextStyle(fontSize: 20)),
-                                    controller: topicController,
-                                    validator: (value) =>
-                                        topicController.text.isEmpty
-                                            ? isTeacher
-                                                ? 'Please enter a topic'
-                                                : 'Please enter the reason'
-                                            : null,
-                                    maxLines: 5,
-                                  ),
-                                ],
-                              ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(
+                  isTeacher ? 'Create an Event or Notice' : 'Leave Application',
+                  style: titleTextStyle,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Card(
+                    elevation: 10,
+                    shadowColor: Colors.deepPurple,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintText: isTeacher ? 'Title' : 'Date of Leave',
                             ),
+                            controller: titileController,
+                            validator: (value) => titileController.text.isEmpty
+                                ? isTeacher
+                                    ? 'Please enter a title'
+                                    : 'Please enter date'
+                                : null,
                           ),
-                        ),
-                        ButtonSubmissionWidget(
-                          label: 'Share',
-                          icon: Icons.send,
-                          onTap: () {
-                            if (_formFormKey.currentState!.validate()) {
-                              onShare(context, isTeacher, name);
-                            }
-                          },
-                        ),
-                      ],
+                          TextFormField(
+                            decoration: InputDecoration(
+                                hintText: isTeacher ? 'Topic' : 'Reason',
+                                border: InputBorder.none,
+                                hintStyle: const TextStyle(fontSize: 20)),
+                            controller: topicController,
+                            validator: (value) => topicController.text.isEmpty
+                                ? isTeacher
+                                    ? 'Please enter a topic'
+                                    : 'Please enter the reason'
+                                : null,
+                            maxLines: 4,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ButtonSubmissionWidget(
+                    label: 'Share',
+                    icon: Icons.send,
+                    onTap: () {
+                      if (_formFormKey.currentState!.validate()) {
+                        onShare(context, isTeacher, name);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -129,7 +111,5 @@ class ApplicationWidget extends StatelessWidget {
         topicOrReason: topicController.text,
         studentName: name,
         isTeacher: isTeacher));
-    titileController.text = '';
-    topicController.text = '';
   }
 }
