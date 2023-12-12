@@ -20,12 +20,7 @@ class SettingsWidgetStudent extends StatelessWidget {
         onTap: () => context.read<StudentBloc>().add(LogOutEvent()),
       ),
       const Divider(),
-      ListTile(
-          title: Text(
-        'About School',
-        style: contentTextStyle,
-      )),
-      const Divider(),
+     
       ListTile(
         title: Text(
           'Privacy Policy',

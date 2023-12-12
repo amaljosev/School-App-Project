@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScreenStudentList extends StatelessWidget {

@@ -6,8 +6,8 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
-import 'package:schoolapp/widgets/application_form.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/application_form.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenSchoolEvents extends StatefulWidget {
   const ScreenSchoolEvents(

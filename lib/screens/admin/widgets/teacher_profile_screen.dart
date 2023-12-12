@@ -5,7 +5,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/loading_snakebar.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/profile_head_widget.dart';
 
 class ScreenTeacherProfileAdmin extends StatelessWidget {

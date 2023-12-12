@@ -12,7 +12,7 @@ import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/student/widgets/student_home_widget.dart';
 import 'package:schoolapp/screens/teacher/school_events/school_events.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenStudent extends StatefulWidget {
   const ScreenStudent({super.key});

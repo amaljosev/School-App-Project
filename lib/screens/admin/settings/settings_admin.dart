@@ -4,7 +4,7 @@ import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/student/settings/privacy_screen.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 bool? isSelected = false;
 

@@ -7,7 +7,7 @@ import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/fee_edit_screen.dart';
 import 'package:schoolapp/screens/teacher/profile/widgets/shimmerloading_student_fee.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
+import 'package:schoolapp/screens/widgets/button_widget.dart';
 
 class StudentFeeDetailsWidget extends StatelessWidget {
   const StudentFeeDetailsWidget({

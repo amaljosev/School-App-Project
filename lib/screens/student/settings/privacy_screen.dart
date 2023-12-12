@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenPrivacyPolicyStudent extends StatelessWidget {
   const ScreenPrivacyPolicyStudent({super.key});

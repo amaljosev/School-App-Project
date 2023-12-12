@@ -6,7 +6,7 @@ import 'package:schoolapp/screens/teacher/widgets/add_task_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/attendace_history_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/home_page_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/teacher_profile_widget.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenTeacher extends StatefulWidget {
   const ScreenTeacher({super.key});

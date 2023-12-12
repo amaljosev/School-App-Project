@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenAllTeachers extends StatelessWidget {
   const ScreenAllTeachers({super.key, required this.teachersList});

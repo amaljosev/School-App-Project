@@ -9,7 +9,7 @@ import 'package:schoolapp/screens/student/student_screen.dart';
 import 'package:schoolapp/screens/teacher/teacher_screen.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/signup_screen.dart';
-import 'package:schoolapp/widgets/text_field_widget.dart';
+import 'package:schoolapp/screens/widgets/text_field_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final emailController = TextEditingController();

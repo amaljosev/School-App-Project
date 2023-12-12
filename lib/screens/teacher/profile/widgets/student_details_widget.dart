@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/constants.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum Options { edit, delete }
 
@@ -143,8 +147,31 @@ class StudentDetailsWidget extends StatelessWidget {
                         Text(": ${students['register_no']} ",
                             style: studentProfileTextStyle),
                         kHeight,
-                        Text(": ${students['contact_no']} ",
-                            style: studentProfileTextStyle),
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri url = Uri(
+                                scheme: 'tel',
+                                path: ": ${students['contact_no']}");
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              log("can't call");
+                            }
+                          },
+                          child: Row(
+                            children: [
+                               Text(': ',style: listViewTextStyle,), 
+                              Text("${students['contact_no']} ", 
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: contentColor,
+                                      textStyle: const TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: contentColor))),
+                            ],
+                          ),
+                        ),
                         kHeight,
                         Text(": ${students['guardian_name']} ",
                             style: studentProfileTextStyle),
@@ -163,3 +190,38 @@ class StudentDetailsWidget extends StatelessWidget {
     );
   }
 }
+// GestureDetector(
+//                                                   onTap: () async {
+//                                                     final Uri url = Uri(
+//                                                         scheme: 'tel',
+//                                                         path:
+//                                                             ": ${student['contact_no']}");
+//                                                     if (await canLaunchUrl(
+//                                                         url)) {
+//                                                       await launchUrl(url);
+//                                                     } else {
+//                                                       log("can't call");
+//                                                     }
+//                                                   },
+//                                                   child: Row(
+//                                                     children: [
+//                                                       Text(
+//                                                         ': ',
+//                                                         style: contentTextStyle,
+//                                                       ),
+//                                                       Text(
+//                                                         "${student['contact_no']}",
+//                                                         style: const TextStyle(
+//                                                             fontSize: 18,
+//                                                             fontWeight:
+//                                                                 FontWeight.bold,
+//                                                             color: contentColor,
+//                                                             decoration:
+//                                                                 TextDecoration
+//                                                                     .underline,
+//                                                             decorationColor:
+//                                                                 contentColor),
+//                                                       ),
+//                                                     ],
+//                                                   ),
+//                                                 )

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/models/fee_model.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/button_widget.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 final totalAmountController = TextEditingController();
 final paidAmountController = TextEditingController();

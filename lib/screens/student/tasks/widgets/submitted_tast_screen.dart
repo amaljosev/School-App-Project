@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/screens/teacher/tasks/submitted_tasks/full_screen.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 class ScreenSubmittedTaskStudent extends StatelessWidget {
   const ScreenSubmittedTaskStudent({

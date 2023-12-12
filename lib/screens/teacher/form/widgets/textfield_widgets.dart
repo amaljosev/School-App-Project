@@ -7,7 +7,7 @@ import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/form/newstudent_form.dart';
-import 'package:schoolapp/widgets/text_field_widget.dart';
+import 'package:schoolapp/screens/widgets/text_field_widget.dart';
 import '../../../../repositories/core/textstyle.dart';
 
 class TextFieldTilesWidgetAddStudent extends StatelessWidget {

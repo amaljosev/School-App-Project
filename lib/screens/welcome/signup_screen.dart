@@ -8,7 +8,7 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/welcome/bloc/welcome_bloc.dart';
 import 'package:schoolapp/screens/welcome/widgets/dropdown_widget.dart';
 import 'package:schoolapp/screens/welcome/widgets/title_widget.dart';
-import 'package:schoolapp/widgets/text_field_widget.dart';
+import 'package:schoolapp/screens/widgets/text_field_widget.dart';
 
 final nameController = TextEditingController();
 final emailController = TextEditingController();

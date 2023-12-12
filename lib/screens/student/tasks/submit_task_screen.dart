@@ -14,8 +14,8 @@ import 'package:schoolapp/repositories/utils/snakebar_messages.dart';
 import 'package:schoolapp/screens/student/bloc/student_bloc.dart';
 import 'package:schoolapp/screens/student/tasks/student_tasks_screen.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc2/teacher_second_bloc.dart';
-import 'package:schoolapp/widgets/button_widget.dart';
-import 'package:schoolapp/widgets/my_appbar.dart';
+import 'package:schoolapp/screens/widgets/button_widget.dart';
+import 'package:schoolapp/screens/widgets/my_appbar.dart';
 
 final studentnoteController = TextEditingController();
 
