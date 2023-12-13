@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/functions.dart';
 import 'package:schoolapp/repositories/core/loading.dart';
+import 'package:schoolapp/repositories/utils/no_connection_widget.dart';
 import 'package:schoolapp/screens/student/events/event_screen_student.dart';
 import 'package:schoolapp/screens/student/settings/settings_widget.dart';
 import 'package:schoolapp/screens/student/widgets/attendance_popup.dart';
@@ -85,14 +87,23 @@ class _ScreenStudentState extends State<ScreenStudent> {
               final String name = studentData['first_name'];
               return Scaffold(
                 appBar: myAppbar('Student'), 
-                body: IndexedStack(
-                  index: currentPageIndex,
-                  children: <Widget>[
-                    StudentHomeWidget(studentId: id, students: studentData),
-                    ScreenSchoolEvents(isTeacher: false, name: name),
-                    const ScreenEventsStudent(),
-                    const SettingsWidgetStudent(),
-                  ],
+                body: StreamBuilder( 
+                  stream: Connectivity().onConnectivityChanged,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return IndexedStack(
+                      index: currentPageIndex,
+                      children: <Widget>[
+                        StudentHomeWidget(studentId: id, students: studentData),
+                        ScreenSchoolEvents(isTeacher: false, name: name),
+                        const ScreenEventsStudent(),
+                        const SettingsWidgetStudent(),
+                      ],
+                    );
+                    } else {
+                       return NoConnectionWidget(size:size);  
+                    }
+                  }
                 ),
                 bottomNavigationBar: NavigationBar(
                   onDestinationSelected: (int index) {

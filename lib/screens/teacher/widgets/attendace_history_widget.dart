@@ -63,14 +63,14 @@ class _AttendenceHistoryWidgetState extends State<AttendenceHistoryWidget> {
                       DateTime date =
                           (attendance['date'] as Timestamp).toDate();
                       String formattedDate =
-                          DateFormat('dd MMM yyyy').format(date);
+                          DateFormat('dd MMM yyyy, E').format(date);
                       return ListTile(
                         leading: Text(
                           "${index + 1}",
                           style: listViewTextStyle,
                         ),
                         title: Text(
-                          "Date : $formattedDate",
+                          "$formattedDate",
                           style: listViewTextStyle,
                         ),
                         trailing: Column(
