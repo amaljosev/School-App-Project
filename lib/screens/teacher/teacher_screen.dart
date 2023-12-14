@@ -1,8 +1,6 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
-import 'package:schoolapp/repositories/utils/no_connection_widget.dart';
 import 'package:schoolapp/screens/teacher/controllers/teacherBloc1/teacher_bloc.dart';
 import 'package:schoolapp/screens/teacher/widgets/add_task_widget.dart';
 import 'package:schoolapp/screens/teacher/widgets/attendace_history_widget.dart';
@@ -37,11 +35,7 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
       builder: (context, state) {
         return Scaffold(
           appBar:myAppbar('Teacher'), 
-          body: StreamBuilder(
-            stream: Connectivity().onConnectivityChanged,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return IndexedStack(
+          body: IndexedStack(
                 index: currentPageIndex,
                 children: <Widget>[
                   HomePageWidget(size: size),
@@ -51,12 +45,8 @@ class _ScreenTeacherState extends State<ScreenTeacher> {
                   const AttendenceHistoryWidget(),
                   TeacherProfileWidget(size: size),
                 ],
-              );
-              } else {
-                 return NoConnectionWidget(size:size);  
-              }
-            }
-          ),
+              ),
+             
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (int index) {
               context

@@ -1,11 +1,9 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:schoolapp/repositories/core/colors.dart';
 import 'package:schoolapp/repositories/core/textstyle.dart';
 import 'package:schoolapp/repositories/firebase/admin/signup_admin_functions.dart';
-import 'package:schoolapp/repositories/utils/no_connection_widget.dart';
 import 'package:schoolapp/screens/admin/bloc/admin_bloc.dart';
 import 'package:schoolapp/screens/admin/settings/settings_admin.dart';
 import 'package:schoolapp/screens/admin/widgets/all_teacherslist.dart';
@@ -20,12 +18,7 @@ class ScreenAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: Connectivity().onConnectivityChanged,
-        builder: (context, snapshot) {
-          final size=MediaQuery.of(context).size;
-          if (snapshot.hasData) {
-            return BlocConsumer<AdminBloc, AdminState>(
+    return  BlocConsumer<AdminBloc, AdminState>(
             listenWhen: (previous, current) => current is AdminActionState,
             buildWhen: (previous, current) => current is! AdminActionState,
             listener: (context, state) {
@@ -187,9 +180,6 @@ class ScreenAdmin extends StatelessWidget {
                 ),
               );
             });
-          } else {
-            return NoConnectionWidget(size:size); 
-          }
-        });
+          
   }
 }
